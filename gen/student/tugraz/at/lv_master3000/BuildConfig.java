@@ -1,0 +1,6 @@
+/** Automatically generated file. DO NOT MODIFY */
+package student.tugraz.at.lv_master3000;
+
+public final class BuildConfig {
+    public final static boolean DEBUG = true;
+}
