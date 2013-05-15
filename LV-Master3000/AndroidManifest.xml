@@ -7,10 +7,6 @@
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
-
-    <instrumentation android:name="android.test.InstrumentationTestRunner"
-    android:targetPackage="student.tugraz.at.lv_master3000"
-    android:label="LV-Master3000 Test" />    
     
     <application
         android:allowBackup="true"
@@ -26,9 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
-        <uses-library android:name="android.test.runner" />
-        <uses-library android:name="android.database.sqlite" />
+       <!-- <uses-library android:name="android.database.sqlite" /> --> 
     </application>  
 
 </manifest>
