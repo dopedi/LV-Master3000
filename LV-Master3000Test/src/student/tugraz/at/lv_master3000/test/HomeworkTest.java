@@ -2,8 +2,11 @@ package student.tugraz.at.lv_master3000.test;
 
 import java.util.Date;
 import junit.framework.TestCase;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import student.tugraz.at.lv_master3000.Homework;
 
+//@RunWith(JUnit4.class)
 public class HomeworkTest extends TestCase {
 
 	
