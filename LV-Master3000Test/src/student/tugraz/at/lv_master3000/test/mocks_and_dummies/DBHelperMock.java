@@ -18,16 +18,4 @@ public class DBHelperMock extends LVMaster3000DBHelper{
         super(context);
     }
 
-    public boolean isDatabaseOpen(){
-        db.isOpen();
-        return false;
-    }
-
-    public void closeDatabaseConnection() {
-        super.db.close();
-    }
-
-    public void openDatabaseConnection(Context context) {
-        db = context.openOrCreateDatabase("LVMaster3000", 0, null);
-    }
 }
