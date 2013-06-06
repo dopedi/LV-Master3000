@@ -3,6 +3,8 @@ package student.tugraz.at.lv_master3000.test;
 import android.test.AndroidTestCase;
 import student.tugraz.at.lv_master3000.Book;
 import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
+import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
 
@@ -15,10 +17,22 @@ import java.util.Date;
  */
 public class BookTest extends AndroidTestCase
 {
+    private Lecture lecture;
+    private LectureManager lectureManager;
+    private BookManager bookManager;
+
     @Override
     public void setUp() throws Exception
     {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp();
+        bookManager = new BookManager(this.getContext());
+        lectureManager = new LectureManager(this.getContext());
+        lecture = new Lecture("it-sec");
+        lecture.setDay("Montag");
+        lecture.setPlace("i9");
+        lecture.setMandatory(false);
+        lecture.setProfessorName("wenger");
+        lecture.setId(lectureManager.insertNewLecture(lecture));
     }
 
 
@@ -46,6 +60,22 @@ public class BookTest extends AndroidTestCase
         book.setLenderAddress(lenderAddress);
         assertEquals(lenderAddress, book.getLenderAddress());
 
+    }
+
+    public void testInsertNewBook(){
+
+        assertNotNull(lecture.getId());
+
+
+        Book book = new Book("testbuch",lecture.getId());
+        book.setAuthorName("tanenbaum");
+        book.setDueDate(new Date(2013,12,12));
+
+        Integer lecId = null;
+
+        lecId = bookManager.insertNewBook(book);
+
+        assertNotNull(lecId);
     }
 
     @Override

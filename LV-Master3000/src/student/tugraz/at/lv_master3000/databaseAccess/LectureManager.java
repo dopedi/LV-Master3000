@@ -41,8 +41,14 @@ public class LectureManager extends LVMaster3000DBHelper{
         values.put("mandatory", lecture.getMandatory());
         values.put("location", lecture.getPlace());
         values.put("prof_name", lecture.getProfessorName());
-        //Date date = new Date(lecture.getDate().getTime());
-        //values.put("time",date);
+
+        java.util.Date date = lecture.getDate();
+        java.sql.Date sqlDate;
+        if(date != null){
+            sqlDate = new java.sql.Date(date.getTime());
+            values.put("exam_date", sqlDate.toString());
+        }
+
         db.insert(tableName, "null",values);
 
         rowCount++;
@@ -59,11 +65,29 @@ public class LectureManager extends LVMaster3000DBHelper{
         return result;
     }
 
-    public Lecture getLectureFromDBByName(String mobapp) {
+    public Lecture getLectureFromDBByName(String name) {
         Lecture result = null;
 
-        String selectStmt = "select * from " + tableName;
-        //Cursor cursor = db.query();
+        String[] columns = new String[]{"_id","name", "location", "day", "time", "prof_name", "mandatory"};
+        String selection = "name =?";
+
+
+        Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+
+        if(cursor.moveToFirst()){
+            result = new Lecture(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+            result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+            result.setMandatory(cursor.getInt(cursor.getColumnIndexOrThrow("mandatory"))>0);
+            result.setPlace(cursor.getString(cursor.getColumnIndexOrThrow("location")));
+            result.setProfessorName(cursor.getString(cursor.getColumnIndexOrThrow("prof_name")));
+            result.setDay(cursor.getString(cursor.getColumnIndexOrThrow("day")));
+            Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+            if(dateLong != null){
+                java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                java.util.Date date = new java.util.Date(sqlDate.getTime());
+                result.setDate(date);
+            }
+        }
 
         return result;
     }
