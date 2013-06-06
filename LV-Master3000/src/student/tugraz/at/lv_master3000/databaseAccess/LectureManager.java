@@ -30,8 +30,11 @@ public class LectureManager extends LVMaster3000DBHelper{
 
         db.execSQL(insertStmt);
 
+
         return null;
     }
+
+
 
     public Lecture getLectureFromDB(int id){
         Lecture result = null;
