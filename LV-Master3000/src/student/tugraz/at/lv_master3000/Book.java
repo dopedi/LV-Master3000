@@ -11,14 +11,15 @@ import java.util.Date;
  */
 public class Book
 {
+    private int id;
     private Date dueDate;
     private String bookName;
     private String authorName;
-    private Lecture lecture;
+    private int lecture;
     private String lenderName;
     private String lenderAddress;
 
-    public Book(String bookName, Lecture lecture)
+    public Book(String bookName, int lecture)
     {
         this.bookName = bookName;
         this.lecture = lecture;
@@ -48,11 +49,11 @@ public class Book
         this.authorName = authorName;
     }
 
-    public Lecture getLecture() {
+    public int getLecture() {
         return lecture;
     }
 
-    public void setLecture(Lecture lecture) {
+    public void setLecture(int lecture) {
         this.lecture = lecture;
     }
 
@@ -70,5 +71,13 @@ public class Book
 
     public void setLenderAddress(String lenderAddress) {
         this.lenderAddress = lenderAddress;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

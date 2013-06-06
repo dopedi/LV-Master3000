@@ -17,6 +17,7 @@ public class Lecture
     private String professorName;
     private Date date;
     private boolean isMandatory;
+    private int id;
 
     public Lecture(String name)
     {
@@ -69,5 +70,13 @@ public class Lecture
 
     public void setMandatory(Boolean mandatory) {
         isMandatory = mandatory;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

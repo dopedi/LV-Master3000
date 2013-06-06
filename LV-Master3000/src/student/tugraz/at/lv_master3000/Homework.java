@@ -7,6 +7,7 @@ public class Homework {
 	private Date dueDate;
     private String name;
     private int lecture;
+    private int id;
 
 	public Date getDueDate() {
 		return dueDate;
@@ -31,5 +32,13 @@ public class Homework {
 
     public void setLecture(int lecture) {
         this.lecture = lecture;
+    }
+
+    public int getIdd() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
