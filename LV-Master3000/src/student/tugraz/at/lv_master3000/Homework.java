@@ -6,6 +6,7 @@ public class Homework {
 
 	private Date dueDate;
     private String name;
+    private int lecture;
 
 	public Date getDueDate() {
 		return dueDate;
@@ -22,5 +23,13 @@ public class Homework {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getLecture() {
+        return lecture;
+    }
+
+    public void setLecture(int lecture) {
+        this.lecture = lecture;
     }
 }

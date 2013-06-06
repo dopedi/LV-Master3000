@@ -1,12 +1,7 @@
 package student.tugraz.at.lv_master3000.test;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
-import junit.framework.TestCase;
-import student.tugraz.at.lv_master3000.LVMaster3000DBHelper;
-import student.tugraz.at.lv_master3000.test.mocks_and_dummies.DBHelperMock;
+import student.tugraz.at.lv_master3000.databaseAccess.LVMaster3000DBHelper;
 
 public class DatabaseTest extends AndroidTestCase{
 
@@ -45,4 +40,5 @@ public class DatabaseTest extends AndroidTestCase{
     public void testDatabaseName(){
         assertEquals("LVMaster3000", dbHelper.getDatabaseName());
     }
+
 }
