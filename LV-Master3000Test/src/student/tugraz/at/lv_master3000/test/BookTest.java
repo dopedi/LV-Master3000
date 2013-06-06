@@ -30,9 +30,7 @@ public class BookTest extends AndroidTestCase
         String lenderName = "Lender Test";
         String lenderAddress = "Address Test";
 
-        Lecture lecture = new Lecture("Lecture Test");
-
-        Book book = new Book(bookName, lecture);
+        Book book = new Book(bookName, 1);
 
         book.setAuthorName(authorName);
         assertEquals(authorName, book.getAuthorName());

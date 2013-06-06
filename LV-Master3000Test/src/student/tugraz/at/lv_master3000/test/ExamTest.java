@@ -33,7 +33,11 @@ public class ExamTest extends AndroidTestCase
 
         Lecture lecture = new Lecture("Lecture Test");
 
+<<<<<<< HEAD
         Exam exam = new Exam(lectureId);
+=======
+        Book book = new Book(bookName, 1);
+>>>>>>> 10be1358f96563dd62f2b38b94649fe2099a5a33
 
         assertEquals(lectureId, exam.getLectureId());
 

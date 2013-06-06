@@ -3,6 +3,7 @@ package student.tugraz.at.lv_master3000.test;
 import android.test.AndroidTestCase;
 import student.tugraz.at.lv_master3000.Book;
 import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
 
@@ -15,10 +16,12 @@ import java.util.Date;
  */
 public class LectureTest extends AndroidTestCase
 {
+    private LectureManager dbManager;
     @Override
     public void setUp() throws Exception
     {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp();
+        dbManager = new LectureManager(this.getContext());
     }
 
 
@@ -51,6 +54,19 @@ public class LectureTest extends AndroidTestCase
         lecture.setMandatory(isMandatory);
         assertEquals(isMandatory, lecture.getMandatory());
 
+    }
+
+    public void testInsertNewLecture(){
+        Lecture lecture = new Lecture("mobapp");
+        lecture.setDay("Donnerstag");
+        lecture.setMandatory(true);
+        lecture.setPlace("i13");
+
+        Integer lecId = null;
+
+        lecId = dbManager.insertNewLecture(lecture);
+
+        assertNotNull(lecId);
     }
 
     @Override
