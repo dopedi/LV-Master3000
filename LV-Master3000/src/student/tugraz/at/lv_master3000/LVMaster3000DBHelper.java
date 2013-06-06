@@ -7,6 +7,7 @@ package student.tugraz.at.lv_master3000;
  * Time: 5:03 PM
  * To change this template use File | Settings | File Templates.
  */
+
 import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
