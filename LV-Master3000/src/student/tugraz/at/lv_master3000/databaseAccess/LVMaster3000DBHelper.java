@@ -11,6 +11,7 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import student.tugraz.at.lv_master3000.Homework;
+import student.tugraz.at.lv_master3000.Lecture;
 
 import java.io.*;
 
@@ -116,12 +117,12 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.execSQL(createExam);
         db.execSQL(createLearningMaterials);
         db.execSQL(createWorkmate);
-        db.execSQL(createExam2Workmate);
-        db.execSQL(createExam2LearningMaterials);
-        db.execSQL(createExam2Milestone);
-        db.execSQL(createHomework2LearningMaterials);
-        db.execSQL(createHomework2Milestone);
-        db.execSQL(createHomework2Workmate);
+       // db.execSQL(createExam2Workmate);
+       // db.execSQL(createExam2LearningMaterials);
+       // db.execSQL(createExam2Milestone);
+       // db.execSQL(createHomework2LearningMaterials);
+       // db.execSQL(createHomework2Milestone);
+       // db.execSQL(createHomework2Workmate);
     }
 
     @Override
@@ -152,5 +153,6 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         String name = super.getDatabaseName();
         return name;
     }
+
 
 }
