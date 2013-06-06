@@ -32,7 +32,7 @@ public class ExamTest extends AndroidTestCase
 
         Lecture lecture = new Lecture("Lecture Test");
 
-        Book book = new Book(bookName, lecture);
+        Book book = new Book(bookName, 1);
 
         book.setAuthorName(authorName);
         assertEquals(authorName, book.getAuthorName());
