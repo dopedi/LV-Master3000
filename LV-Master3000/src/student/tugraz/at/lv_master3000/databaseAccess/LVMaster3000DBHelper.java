@@ -60,12 +60,12 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String values = " VALUES ";
 
     protected SQLiteDatabase db = null;
-    private static final String goalLocation = "/data/data/LV-Master3000/databases/LVMaster3000.db";
+    private static final String goalLocation = "/data/data/student.tugraz.at.lv_master3000/databases/LVMaster3000.db";
     private boolean alreadySetup = false;
 
     public LVMaster3000DBHelper(Context context) {
         super(context, dbname, null, dbversion);
-        db = getReadableDatabase();
+        db = getWritableDatabase();
 
         alreadySetup = copyDatabaseToGoalLocation(context);
 
@@ -78,7 +78,7 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
             // Open the .db file in your assets directory
             InputStream is = null;
             try {
-                is = context.getAssets().open("LVMaster3000.db");
+                is = new FileInputStream("data/local/tmp/student.tugraz.at.lv_master3000/assets/LVMaster3000.db");
             } catch (IOException e) {
                 System.err.println("error copying database");
                 alreadySetup = false;
@@ -126,7 +126,8 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        db.execSQL("drop all tables");
+        onCreate(db);
     }
 
     public boolean isDBNull(){
