@@ -17,9 +17,9 @@ import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 2;
-    private static final String createHomework = "create table Homework "
-    +"( _id integer primary key,name text, lecture integer not null references lecture(_id), due_date date);";
+    private static int dbversion = 5;
+    private static final String createHomework = "create table homework "
+    +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
     private static final String createLecture = "create table lecture (_id integer primary key, name text, "
     +"location text, day text, time date, prof_name text, mandatory boolean);";
@@ -111,8 +111,8 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(createHomework);
         db.execSQL(createLecture);
+        db.execSQL(createHomework);
         db.execSQL(createBook);
         db.execSQL(createExam);
         db.execSQL(createLearningMaterials);
@@ -127,7 +127,13 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop all tables");
+
+        db.execSQL("drop table homework");
+        db.execSQL("drop table exam");
+        db.execSQL("drop table book");
+        db.execSQL("drop table lecture");
+        db.execSQL("drop table learning_materials");
+        db.execSQL("drop table workmate");
         onCreate(db);
     }
 

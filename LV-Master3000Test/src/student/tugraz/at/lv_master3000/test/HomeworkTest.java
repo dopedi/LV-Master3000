@@ -7,7 +7,9 @@ import junit.framework.TestCase;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import student.tugraz.at.lv_master3000.Homework;
+import student.tugraz.at.lv_master3000.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
+import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 //@RunWith(JUnit4.class)
 public class HomeworkTest extends AndroidTestCase {
@@ -15,13 +17,20 @@ public class HomeworkTest extends AndroidTestCase {
 	
 	private Homework hw;
 	private Date due;
-    private HomeworkManager dbManager;
+    private HomeworkManager homeworkManager;
+    private LectureManager lectureManager;
+    private Lecture lecture;
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		dbManager = new HomeworkManager(this.getContext());
+		lectureManager = new LectureManager(this.getContext());
+        lecture = new Lecture("ESP");
+        lecture.setProfessorName("Kappe");
+        int lecId = lectureManager.insertNewLecture(lecture);
 
-        hw = new Homework();
+        homeworkManager = new HomeworkManager(this.getContext());
+
+        hw = new Homework(lecId);
 		due = new Date(2012, 3, 12);
 		hw.setDueDate(due);
 		hw.setName("assignment 1");
@@ -40,11 +49,11 @@ public class HomeworkTest extends AndroidTestCase {
     public void testPersistHomework(){
 
         Integer hwId = null;
-        hwId = dbManager.insertNewHomework(hw);
+        hwId = homeworkManager.insertNewHomework(hw);
         assertNotNull(hwId);
 
 
-        Homework hwFromDB = dbManager.getHomeworkFromDB(hwId);
+        Homework hwFromDB = homeworkManager.getHomeworkFromDB(hwId);
         assertEquals("assignment 1", hwFromDB.getName());
     }
 

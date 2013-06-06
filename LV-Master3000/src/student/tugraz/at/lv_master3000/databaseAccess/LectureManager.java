@@ -16,24 +16,12 @@ import java.sql.Date;
  */
 public class LectureManager extends LVMaster3000DBHelper{
     private static String tableName = "lecture";
-    private int rowCount = 0;
 
     public LectureManager(Context context) {
         super(context);
     }
 
     public Integer insertNewLecture(Lecture lecture){
-        String insertStmt = insertInto + tableName;//+ dbname + "." + tableName;
-        //insertStmt += " ( name, location, day, time, prof_name, mandatory) " + values;
-        insertStmt += " (" + (rowCount+1) + ",";
-        insertStmt += lecture.getName() + ",";
-        insertStmt += lecture.getPlace() + ",";
-        insertStmt += lecture.getDay() + ",";
-        insertStmt += lecture.getDate() + ",";
-        insertStmt += lecture.getProfessorName() + ",";
-        insertStmt += lecture.getMandatory() +");";
-
-        //db.execSQL(insertStmt);
 
         ContentValues values = new ContentValues();
         values.put("name", lecture.getName());
@@ -51,16 +39,23 @@ public class LectureManager extends LVMaster3000DBHelper{
 
         db.insert(tableName, "null",values);
 
-        rowCount++;
+        Lecture res = getLectureFromDBByName(lecture.getName());
 
-        return rowCount-1;
+        return res.getId();
     }
 
 
 
     public Lecture getLectureFromDB(int id){
         Lecture result = null;
-        // TODO fetch from DB
+
+        String[] columns = new String[]{"_id","name", "location", "day", "time", "prof_name", "mandatory"};
+        String selection = "_id =?";
+
+
+        Cursor cursor = db.query("lecture", columns,selection,new String[]{String.valueOf(id)},null, null,null , null);
+
+        result = fillQueryResultInLecture(cursor);
 
         return result;
     }
@@ -73,6 +68,14 @@ public class LectureManager extends LVMaster3000DBHelper{
 
 
         Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+
+        result = fillQueryResultInLecture(cursor);
+
+        return result;
+    }
+
+    private Lecture fillQueryResultInLecture(Cursor cursor){
+        Lecture result = null;
 
         if(cursor.moveToFirst()){
             result = new Lecture(cursor.getString(cursor.getColumnIndexOrThrow("name")));

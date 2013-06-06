@@ -9,6 +9,10 @@ public class Homework {
     private int lecture;
     private int id;
 
+    public Homework(int lecture){
+        this.lecture = lecture;
+    }
+
 	public Date getDueDate() {
 		return dueDate;
 	}
@@ -34,7 +38,7 @@ public class Homework {
         this.lecture = lecture;
     }
 
-    public int getIdd() {
+    public int getId() {
         return id;
     }
 
