@@ -1,7 +1,8 @@
 package student.tugraz.at.lv_master3000.test.mocks_and_dummies;
 
 import android.content.Context;
-import student.tugraz.at.lv_master3000.databaseAccess.LVMaster3000DBHelper;
+import student.tugraz.at.lv_master3000.LVMaster3000DBHelper;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,7 +11,7 @@ import student.tugraz.at.lv_master3000.databaseAccess.LVMaster3000DBHelper;
  * Time: 6:33 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DBHelperMock extends LVMaster3000DBHelper{
+public class DBHelperMock extends LVMaster3000DBHelper {
 
     public DBHelperMock(Context context) {
         super(context);

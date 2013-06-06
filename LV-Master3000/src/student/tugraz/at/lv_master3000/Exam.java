@@ -17,6 +17,11 @@ public class Exam
     private String day;
     private String location;
 
+    public Exam(int lectureId)
+    {
+       this.lectureId = lectureId;
+    }
+
     public int getId() {
         return id;
     }
