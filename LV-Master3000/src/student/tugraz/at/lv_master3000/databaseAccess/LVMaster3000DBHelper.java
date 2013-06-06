@@ -12,9 +12,11 @@ import android.database.*;
 import android.database.sqlite.*;
 import student.tugraz.at.lv_master3000.Homework;
 
+import java.io.*;
+
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 1;
+    private static int dbversion = 2;
     private static final String createHomework = "create table Homework "
     +"( _id integer primary key,name text, lecture integer not null references lecture(_id), due_date date);";
 
@@ -58,10 +60,52 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String values = " VALUES ";
 
     protected SQLiteDatabase db = null;
+    private static final String goalLocation = "/data/data/LV-Master3000/databases/LVMaster3000.db";
+    private boolean alreadySetup = false;
 
     public LVMaster3000DBHelper(Context context) {
         super(context, dbname, null, dbversion);
         db = getReadableDatabase();
+
+        alreadySetup = copyDatabaseToGoalLocation(context);
+
+    }
+
+    private boolean copyDatabaseToGoalLocation(Context context){
+        alreadySetup = (new File(goalLocation)).exists();
+        if (alreadySetup == false) {
+
+            // Open the .db file in your assets directory
+            InputStream is = null;
+            try {
+                is = context.getAssets().open("LVMaster3000.db");
+            } catch (IOException e) {
+                System.err.println("error copying database");
+                alreadySetup = false;
+                return false;
+            }
+
+            // Copy the database into the destination
+            OutputStream os = null;
+            try {
+                os = new FileOutputStream(goalLocation);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = is.read(buffer)) > 0){
+                    os.write(buffer, 0, length);
+                }
+                os.flush();
+
+                os.close();
+                is.close();
+            } catch (FileNotFoundException e) {
+                return false;
+            } catch (IOException e) {
+                return false;
+
+            }
+        }
+        return true;
     }
 
     @Override
