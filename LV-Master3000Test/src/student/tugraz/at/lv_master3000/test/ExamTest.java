@@ -8,6 +8,7 @@ import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -68,15 +69,31 @@ public class ExamTest extends AndroidTestCase
 
 
         Exam exam = new Exam(lecture.getId());
-        lecture.setDay("Donnerstag");
-        lecture.setMandatory(true);
-        lecture.setPlace("i13");
+        exam.setLocation("i12");
 
-        Integer lecId = null;
+        Integer exId = examManager.insertNewExam(exam);
 
-        lecId = examManager.insertNewExam(exam);
+        assertNotSame(-1, exId);
+    }
 
-        assertNotNull(lecId);
+    public void testGetAllExams(){
+        assertNotNull(lecture.getId());
+
+        Exam exam1 = new Exam(lecture.getId());
+        exam1.setLocation("i12");
+
+        examManager.insertNewExam(exam1);
+
+        Exam exam2 = new Exam(lecture.getId());
+        exam2.setLocation("i9");
+
+        examManager.insertNewExam(exam2);
+
+        List<Exam> allExams = examManager.getAllExamsOfLecture(lecture.getId());
+
+        assertEquals(2, allExams.size());
+        assertEquals("i12", allExams.get(0).getLocation());
+        assertEquals("i9", allExams.get(1).getLocation());
     }
 
     @Override

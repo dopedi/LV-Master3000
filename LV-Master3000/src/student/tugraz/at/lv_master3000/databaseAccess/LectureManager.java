@@ -6,6 +6,8 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.Lecture;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,14 +36,10 @@ public class LectureManager extends LVMaster3000DBHelper{
         java.sql.Date sqlDate;
         if(date != null){
             sqlDate = new java.sql.Date(date.getTime());
-            values.put("exam_date", sqlDate.toString());
+            values.put("time", sqlDate.toString());
         }
 
-        db.insert(tableName, "null",values);
-
-        Lecture res = getLectureFromDBByName(lecture.getName());
-
-        return res.getId();
+        return (int)db.insert(tableName, "null",values);
     }
 
 
@@ -53,7 +51,7 @@ public class LectureManager extends LVMaster3000DBHelper{
         String selection = "_id =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{String.valueOf(id)},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(id)},null, null,null , null);
 
         result = fillQueryResultInLecture(cursor);
 
@@ -67,7 +65,7 @@ public class LectureManager extends LVMaster3000DBHelper{
         String selection = "name =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{name},null, null,null , null);
 
         result = fillQueryResultInLecture(cursor);
 
@@ -78,6 +76,7 @@ public class LectureManager extends LVMaster3000DBHelper{
         Lecture result = null;
 
         if(cursor.moveToFirst()){
+            //System.out.println("try reading from lecture");
             result = new Lecture(cursor.getString(cursor.getColumnIndexOrThrow("name")));
             result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
             result.setMandatory(cursor.getInt(cursor.getColumnIndexOrThrow("mandatory"))>0);
@@ -93,6 +92,41 @@ public class LectureManager extends LVMaster3000DBHelper{
         }
 
         return result;
+    }
+
+    public List<Lecture> getAllLectures(){
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoExamList(cursor);
+    }
+
+    public List<Lecture> fillQueryResultListIntoExamList(Cursor cursor){
+        List<Lecture> resultList = new ArrayList<Lecture>();
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Lecture lecture = new Lecture(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+                lecture.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                lecture.setProfessorName(cursor.getString(cursor.getColumnIndexOrThrow("prof_name")));
+                lecture.setDay(cursor.getString(cursor.getColumnIndexOrThrow("day")));
+                lecture.setMandatory(cursor.getInt(cursor.getColumnIndexOrThrow("mandatory"))>0);
+                lecture.setPlace(cursor.getString(cursor.getColumnIndexOrThrow("location")));
+
+                Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+                if(dateLong != null){
+                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                    java.util.Date date = new java.util.Date(sqlDate.getTime());
+                    lecture.setDate(date);
+                }
+
+                resultList.add(lecture);
+            } while (cursor.moveToNext());
+        }
+
+        return  resultList;
     }
 
 }

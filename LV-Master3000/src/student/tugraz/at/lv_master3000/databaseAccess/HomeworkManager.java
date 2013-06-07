@@ -34,11 +34,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             values.put("due_date", sqlDate.toString());
         }
 
-        db.insert(tableName, "null",values);
-
-        Homework res = getHomeworkFromDBByName(homework.getName());
-
-        return res.getId();
+        return (int)db.insert(tableName, "null",values);
     }
 
     public Homework getHomeworkFromDB(int hwId) {
@@ -48,7 +44,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         String selection = "_id =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{String.valueOf(hwId)},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(hwId)},null, null,null , null);
 
         result = fillQueryResultInHomework(cursor);
 
@@ -62,7 +58,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         String selection = "name =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{name},null, null,null , null);
 
         result = fillQueryResultInHomework(cursor);
 

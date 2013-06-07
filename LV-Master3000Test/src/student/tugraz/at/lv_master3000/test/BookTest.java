@@ -75,7 +75,7 @@ public class BookTest extends AndroidTestCase
 
         lecId = bookManager.insertNewBook(book);
 
-        assertNotNull(lecId);
+        assertNotSame(-1, lecId);
     }
 
     @Override

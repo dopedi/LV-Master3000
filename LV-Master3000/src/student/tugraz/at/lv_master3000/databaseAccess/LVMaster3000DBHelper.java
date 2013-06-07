@@ -17,7 +17,7 @@ import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 5;
+    private static int dbversion = 8;
     private static final String createHomework = "create table homework "
     +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
@@ -39,23 +39,23 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     private static final String createMilestone = "create table milestone (_id integer primary key, "
     +"milestone_date date, description text);";
 
-    private static final String createExam2Workmate = "create table exam2workmate (exam integer not null references exam(_id), "
-    +"workmate integer not null references workmate(_id), primary key (exam, workmate));";
+    private static final String createExam2Workmate = "create table exam2workmate (_id integer primary key, exam integer not null,foreign key(exam) references exam(_id), "
+    +"workmate integer not null,foreign key (workmate) references workmate(_id));";
 
-    private static final String createHomework2Workmate = "create table homework2workmate (homework integer not null "
-    +"references homework(_id), workmate integer not null references workmate(_id), primary key (homework, workmate));";
+    private static final String createHomework2Workmate = "create table homework2workmate (_id integer primary key,homework integer not null, "
+    +"foreign key (homework) references homework(_id), workmate integer not null,foreign key (workmate) references workmate(_id));";
 
-    private static final String createExam2LearningMaterials = "create table exam2LearningMaterials (exam integer not null"
-    +"references exam(_id), learning_materials integer not null references learning_materials(_id), primary key (exam, learning_materials));";
+    private static final String createExam2LearningMaterials = "create table exam2LearningMaterials (_id integer primary key,exam integer not null,"
+    +"foreign key (exam) references exam(_id), learning_materials integer not null,foreign key (learning_materials) references learning_materials(_id));";
 
-    private static final String createHomework2LearningMaterials = "create table homework2LearningMaterials (homework integer not null"
-            +"references homework(_id), learning_materials integer not null references learning_materials(_id), primary key (homework, learning_materials));";
+    private static final String createHomework2LearningMaterials = "create table homework2LearningMaterials (_id integer primary key,homework integer not null,"
+            +"foreign key (homework)references homework(_id), learning_materials integer not null, foreign key (learning_materials) references learning_materials(_id));";
 
-    private static final String createExam2Milestone = "create table exam2Milestone (exam integer not null references exam(_id), "
-            +"milestone integer not null references milestone(_id), primary key (exam, milestone));";
+    private static final String createExam2Milestone = "create table exam2Milestone (_id integer primary key,exam integer not null, foreign key (exam) references exam(_id), "
+            +"milestone integer not null,foreign key (milestone) references milestone(_id));";
 
-    private static final String createHomework2Milestone = "create table homework2Milestone (homework integer not null references homework(_id), "
-            +"milestone integer not null references milestone(_id), primary key (homework, milestone));";
+    private static final String createHomework2Milestone = "create table homework2Milestone (_id integer primary key,homework integer not null, foreign key (homework) references homework(_id), "
+            +"milestone integer not null, foreign key (milestone) references milestone(_id));";
 
     protected static final String insertInto = "insert into ";
     protected static final String values = " VALUES ";
@@ -117,12 +117,12 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.execSQL(createExam);
         db.execSQL(createLearningMaterials);
         db.execSQL(createWorkmate);
-       // db.execSQL(createExam2Workmate);
-       // db.execSQL(createExam2LearningMaterials);
-       // db.execSQL(createExam2Milestone);
-       // db.execSQL(createHomework2LearningMaterials);
-       // db.execSQL(createHomework2Milestone);
-       // db.execSQL(createHomework2Workmate);
+        //db.execSQL(createExam2Workmate);
+        //db.execSQL(createExam2LearningMaterials);
+        //db.execSQL(createExam2Milestone);
+        //db.execSQL(createHomework2LearningMaterials);
+        //db.execSQL(createHomework2Milestone);
+        //db.execSQL(createHomework2Workmate);
     }
 
     @Override

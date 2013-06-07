@@ -36,11 +36,8 @@ public class BookManager extends LVMaster3000DBHelper{
         values.put("lender_name", book.getLenderName());
         values.put("lender_address", book.getLenderAddress());
 
-        db.insert(tableName, "null", values);
+        return (int)db.insert(tableName, "null", values);
 
-        rowCount++;
-
-        return rowCount-1;
     }
 
 

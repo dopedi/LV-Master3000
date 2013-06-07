@@ -6,6 +6,7 @@ import student.tugraz.at.lv_master3000.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -66,23 +67,55 @@ public class LectureTest extends AndroidTestCase
 
         lecId = dbManager.insertNewLecture(lecture);
 
-        assertNotNull(lecId);
+        assertNotSame(-1, lecId);
     }
 
     public void testGetLectureFromDB(){
-        Lecture lecture = dbManager.getLectureFromDBByName("mobapp");
+
+        Lecture lecture = new Lecture("mobapp");
+        lecture.setDay("Donnerstag");
+        lecture.setMandatory(true);
+        lecture.setPlace("i13");
+
+        Integer lecId = null;
+
+        lecId = dbManager.insertNewLecture(lecture);
+
+        Lecture result = dbManager.getLectureFromDBByName("mobapp");
 
         String resultName = null;
-        if(lecture != null)
-            resultName = lecture.getName();
-
+        if(result != null)
+            resultName = result.getName();
 
         assertEquals("mobapp", resultName);
+    }
+
+    public void testGetAllLectures(){
+        Lecture lecture1 = new Lecture("mobapp");
+        lecture1.setDay("Donnerstag");
+        lecture1.setMandatory(true);
+        lecture1.setPlace("i13");
+        dbManager.insertNewLecture(lecture1);
+
+        Lecture lecture2 = new Lecture("ESP");
+        lecture2.setDay("Mittwoch");
+        lecture2.setMandatory(true);
+        lecture2.setPlace("i12");
+        dbManager.insertNewLecture(lecture2);
+
+        List<Lecture> allLectures = dbManager.getAllLectures();
+
+        assertEquals(2, allLectures.size());
+        assertEquals("i13", allLectures.get(0).getPlace());
+        assertEquals("i12", allLectures.get(1).getPlace());
+        assertEquals("Donnerstag", allLectures.get(0).getDay());
+        assertEquals("Mittwoch", allLectures.get(1).getDay());
+
     }
 
     @Override
     public void tearDown() throws Exception
     {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+        super.tearDown();
     }
 }
