@@ -3,9 +3,6 @@ package student.tugraz.at.lv_master3000.test;
 import java.util.Date;
 
 import android.test.AndroidTestCase;
-import junit.framework.TestCase;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import student.tugraz.at.lv_master3000.Homework;
 import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
 
