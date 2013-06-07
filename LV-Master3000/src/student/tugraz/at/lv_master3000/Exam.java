@@ -14,7 +14,6 @@ public class Exam
     private int id;
     private int lectureId;
     private Date date;  // we just fetch here the time
-    private String day;
     private String location;
 
     public Exam(int lectureId)
@@ -44,14 +43,6 @@ public class Exam
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
     }
 
     public String getLocation() {

@@ -69,6 +69,17 @@ public class LectureTest extends AndroidTestCase
         assertNotNull(lecId);
     }
 
+    public void testGetLectureFromDB(){
+        Lecture lecture = dbManager.getLectureFromDBByName("mobapp");
+
+        String resultName = null;
+        if(lecture != null)
+            resultName = lecture.getName();
+
+
+        assertEquals("mobapp", resultName);
+    }
+
     @Override
     public void tearDown() throws Exception
     {

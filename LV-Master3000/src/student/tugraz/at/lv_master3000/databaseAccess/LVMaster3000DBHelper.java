@@ -11,14 +11,15 @@ import android.content.*;
 import android.database.*;
 import android.database.sqlite.*;
 import student.tugraz.at.lv_master3000.Homework;
+import student.tugraz.at.lv_master3000.Lecture;
 
 import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 2;
-    private static final String createHomework = "create table Homework "
-    +"( _id integer primary key,name text, lecture integer not null references lecture(_id), due_date date);";
+    private static int dbversion = 5;
+    private static final String createHomework = "create table homework "
+    +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
     private static final String createLecture = "create table lecture (_id integer primary key, name text, "
     +"location text, day text, time date, prof_name text, mandatory boolean);";
@@ -60,12 +61,12 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String values = " VALUES ";
 
     protected SQLiteDatabase db = null;
-    private static final String goalLocation = "/data/data/LV-Master3000/databases/LVMaster3000.db";
+    private static final String goalLocation = "/data/data/student.tugraz.at.lv_master3000/databases/LVMaster3000.db";
     private boolean alreadySetup = false;
 
     public LVMaster3000DBHelper(Context context) {
         super(context, dbname, null, dbversion);
-        db = getReadableDatabase();
+        db = getWritableDatabase();
 
         alreadySetup = copyDatabaseToGoalLocation(context);
 
@@ -78,7 +79,7 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
             // Open the .db file in your assets directory
             InputStream is = null;
             try {
-                is = context.getAssets().open("LVMaster3000.db");
+                is = new FileInputStream("data/local/tmp/student.tugraz.at.lv_master3000/assets/LVMaster3000.db");
             } catch (IOException e) {
                 System.err.println("error copying database");
                 alreadySetup = false;
@@ -110,23 +111,30 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(createHomework);
         db.execSQL(createLecture);
+        db.execSQL(createHomework);
         db.execSQL(createBook);
         db.execSQL(createExam);
         db.execSQL(createLearningMaterials);
         db.execSQL(createWorkmate);
-        db.execSQL(createExam2Workmate);
-        db.execSQL(createExam2LearningMaterials);
-        db.execSQL(createExam2Milestone);
-        db.execSQL(createHomework2LearningMaterials);
-        db.execSQL(createHomework2Milestone);
-        db.execSQL(createHomework2Workmate);
+       // db.execSQL(createExam2Workmate);
+       // db.execSQL(createExam2LearningMaterials);
+       // db.execSQL(createExam2Milestone);
+       // db.execSQL(createHomework2LearningMaterials);
+       // db.execSQL(createHomework2Milestone);
+       // db.execSQL(createHomework2Workmate);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        db.execSQL("drop table homework");
+        db.execSQL("drop table exam");
+        db.execSQL("drop table book");
+        db.execSQL("drop table lecture");
+        db.execSQL("drop table learning_materials");
+        db.execSQL("drop table workmate");
+        onCreate(db);
     }
 
     public boolean isDBNull(){
@@ -151,5 +159,6 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         String name = super.getDatabaseName();
         return name;
     }
+
 
 }

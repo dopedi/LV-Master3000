@@ -1,7 +1,9 @@
 package student.tugraz.at.lv_master3000.databaseAccess;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import student.tugraz.at.lv_master3000.Homework;
 
 /**
@@ -21,14 +23,67 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public Integer insertNewHomework(Homework homework){
+        ContentValues values = new ContentValues();
+        values.put("name", homework.getName());
+        values.put("lecture", homework.getLecture());
 
-        // TODO insert into database
-        return null;
+        java.util.Date date = homework.getDueDate();
+        java.sql.Date sqlDate;
+        if(date != null){
+            sqlDate = new java.sql.Date(date.getTime());
+            values.put("due_date", sqlDate.toString());
+        }
+
+        db.insert(tableName, "null",values);
+
+        Homework res = getHomeworkFromDBByName(homework.getName());
+
+        return res.getId();
     }
 
     public Homework getHomeworkFromDB(int hwId) {
         Homework result = null;
-        // TODO fetch from database
+
+        String[] columns = new String[]{"_id","name", "due_date", "lecture"};
+        String selection = "_id =?";
+
+
+        Cursor cursor = db.query("lecture", columns,selection,new String[]{String.valueOf(hwId)},null, null,null , null);
+
+        result = fillQueryResultInHomework(cursor);
+
+        return result;
+    }
+
+    public Homework getHomeworkFromDBByName(String name) {
+        Homework result = null;
+
+        String[] columns = new String[]{"_id","name", "due_date", "lecture"};
+        String selection = "name =?";
+
+
+        Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+
+        result = fillQueryResultInHomework(cursor);
+
+        return result;
+    }
+
+    private Homework fillQueryResultInHomework(Cursor cursor){
+        Homework result = null;
+
+        if(cursor.moveToFirst()){
+            result = new Homework(cursor.getInt(cursor.getColumnIndexOrThrow("lecture")));
+            result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+            result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+
+            Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+            if(dateLong != null){
+                java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                java.util.Date date = new java.util.Date(sqlDate.getTime());
+                result.setDueDate(date);
+            }
+        }
 
         return result;
     }

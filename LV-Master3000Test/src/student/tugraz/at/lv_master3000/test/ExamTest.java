@@ -4,6 +4,8 @@ import android.test.AndroidTestCase;
 import student.tugraz.at.lv_master3000.Book;
 import student.tugraz.at.lv_master3000.Exam;
 import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
+import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
 
@@ -16,10 +18,22 @@ import java.util.Date;
  */
 public class ExamTest extends AndroidTestCase
 {
+    private Lecture lecture;
+    private LectureManager lectureManager;
+    private ExamManager examManager;
+
     @Override
     public void setUp() throws Exception
     {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp();
+        examManager = new ExamManager(this.getContext());
+        lectureManager = new LectureManager(this.getContext());
+        lecture = new Lecture("it-sec");
+        lecture.setDay("Montag");
+        lecture.setPlace("i9");
+        lecture.setMandatory(false);
+        lecture.setProfessorName("wenger");
+        lecture.setId(lectureManager.insertNewLecture(lecture));
     }
 
 
@@ -43,12 +57,26 @@ public class ExamTest extends AndroidTestCase
         exam.setDate(examDate);
         assertEquals(examDate, exam.getDate());
 
-        exam.setDay(examDay);
-        assertEquals(examDay, exam.getDay());
-
         exam.setLocation(examLocation);
         assertEquals(examLocation, exam.getLocation());
 
+    }
+
+    public void testInsertNewExam(){
+
+        assertNotNull(lecture.getId());
+
+
+        Exam exam = new Exam(lecture.getId());
+        lecture.setDay("Donnerstag");
+        lecture.setMandatory(true);
+        lecture.setPlace("i13");
+
+        Integer lecId = null;
+
+        lecId = examManager.insertNewExam(exam);
+
+        assertNotNull(lecId);
     }
 
     @Override
