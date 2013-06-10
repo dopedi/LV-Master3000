@@ -1,9 +1,8 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.Book;
-import student.tugraz.at.lv_master3000.Exam;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
@@ -37,6 +36,11 @@ public class ExamTest extends AndroidTestCase
         lecture.setId(lectureManager.insertNewLecture(lecture));
     }
 
+    @Override
+    public void tearDown() throws Exception
+    {
+        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     public void testGetterAndSetters() throws Exception
     {
@@ -96,9 +100,4 @@ public class ExamTest extends AndroidTestCase
         assertEquals("i9", allExams.get(1).getLocation());
     }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
-    }
 }

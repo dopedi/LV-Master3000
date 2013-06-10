@@ -3,11 +3,8 @@ package student.tugraz.at.lv_master3000.test;
 import java.util.Date;
 
 import android.test.AndroidTestCase;
-import junit.framework.TestCase;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import student.tugraz.at.lv_master3000.Homework;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Homework;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
@@ -46,7 +43,24 @@ public class HomeworkTest extends AndroidTestCase {
 		assertEquals(due, hw.getDueDate());
 	}
 
-    public void testPersistHomework(){
+    public void testGettersAndSetters(){
+        String name = "ass 1";
+        Date date = new Date(2014, 1, 1);
+        int id = 2001;
+        int lecId = 1;
+
+        Homework hw = new Homework(lecId);
+        hw.setName(name);
+        hw.setDueDate(date);
+        hw.setId(id);
+
+        assertEquals(id, hw.getId());
+        assertEquals(lecId, hw.getLecture());
+        assertEquals(date, hw.getDueDate());
+        assertEquals(name, hw.getName());
+    }
+
+    public void testInsertNewHomework(){
 
         Integer hwId = null;
         hwId = homeworkManager.insertNewHomework(hw);

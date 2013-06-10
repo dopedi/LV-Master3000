@@ -8,16 +8,13 @@ package student.tugraz.at.lv_master3000.databaseAccess;
  * To change this template use File | Settings | File Templates.
  */
 import android.content.*;
-import android.database.*;
 import android.database.sqlite.*;
-import student.tugraz.at.lv_master3000.Homework;
-import student.tugraz.at.lv_master3000.Lecture;
 
 import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 8;
+    private static int dbversion = 12;
     private static final String createHomework = "create table homework "
     +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
@@ -31,7 +28,7 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     +"references lecture(_id), location text, exam_date date);";
 
     private static final String createWorkmate = "create table workmate (_id integer primary key, name text, "
-    +"email text, mobile integer);";
+    +"email text, mobile text);";
 
     private static final String createLearningMaterials = "create table learning_materials (_id integer primary key, "
     +"link text, description text);";
@@ -39,23 +36,23 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     private static final String createMilestone = "create table milestone (_id integer primary key, "
     +"milestone_date date, description text);";
 
-    private static final String createExam2Workmate = "create table exam2workmate (_id integer primary key, exam integer not null,foreign key(exam) references exam(_id), "
-    +"workmate integer not null,foreign key (workmate) references workmate(_id));";
+    private static final String createExam2Workmate = "create table exam2workmate (_id integer primary key, exam integer not null, "
+    +"workmate integer not null);";
 
     private static final String createHomework2Workmate = "create table homework2workmate (_id integer primary key,homework integer not null, "
-    +"foreign key (homework) references homework(_id), workmate integer not null,foreign key (workmate) references workmate(_id));";
+    +"workmate integer not null);";
 
-    private static final String createExam2LearningMaterials = "create table exam2LearningMaterials (_id integer primary key,exam integer not null,"
-    +"foreign key (exam) references exam(_id), learning_materials integer not null,foreign key (learning_materials) references learning_materials(_id));";
+    private static final String createExam2LearningMaterials = "create table exam2learning_materials (_id integer primary key,exam integer not null,"
+    +" learning_materials integer not null);";
 
-    private static final String createHomework2LearningMaterials = "create table homework2LearningMaterials (_id integer primary key,homework integer not null,"
-            +"foreign key (homework)references homework(_id), learning_materials integer not null, foreign key (learning_materials) references learning_materials(_id));";
+    private static final String createHomework2LearningMaterials = "create table homework2learning_materials (_id integer primary key,homework integer not null,"
+            +"learning_materials integer not null);";
 
-    private static final String createExam2Milestone = "create table exam2Milestone (_id integer primary key,exam integer not null, foreign key (exam) references exam(_id), "
-            +"milestone integer not null,foreign key (milestone) references milestone(_id));";
+    private static final String createExam2Milestone = "create table exam2milestone (_id integer primary key,exam integer not null, "
+            +"milestone integer not null);";
 
-    private static final String createHomework2Milestone = "create table homework2Milestone (_id integer primary key,homework integer not null, foreign key (homework) references homework(_id), "
-            +"milestone integer not null, foreign key (milestone) references milestone(_id));";
+    private static final String createHomework2Milestone = "create table homework2milestone (_id integer primary key,homework integer not null, "
+            +"milestone integer not null);";
 
     protected static final String insertInto = "insert into ";
     protected static final String values = " VALUES ";
@@ -117,12 +114,13 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.execSQL(createExam);
         db.execSQL(createLearningMaterials);
         db.execSQL(createWorkmate);
-        //db.execSQL(createExam2Workmate);
-        //db.execSQL(createExam2LearningMaterials);
-        //db.execSQL(createExam2Milestone);
-        //db.execSQL(createHomework2LearningMaterials);
-        //db.execSQL(createHomework2Milestone);
-        //db.execSQL(createHomework2Workmate);
+        db.execSQL(createMilestone);
+        db.execSQL(createExam2Workmate);
+        db.execSQL(createExam2LearningMaterials);
+        db.execSQL(createExam2Milestone);
+        db.execSQL(createHomework2LearningMaterials);
+        db.execSQL(createHomework2Milestone);
+        db.execSQL(createHomework2Workmate);
     }
 
     @Override
@@ -134,6 +132,13 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.execSQL("drop table lecture");
         db.execSQL("drop table learning_materials");
         db.execSQL("drop table workmate");
+        db.execSQL("drop table milestone");
+        db.execSQL("drop table exam2workmate");
+        db.execSQL("drop table homework2workmate");
+        db.execSQL("drop table exam2milestone");
+        db.execSQL("drop table homework2milestone");
+        db.execSQL("drop table exam2learning_materials");
+        db.execSQL("drop table homework2learning_materials");
         onCreate(db);
     }
 

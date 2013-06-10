@@ -1,8 +1,8 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.Book;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Book;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 

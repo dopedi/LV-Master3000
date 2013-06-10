@@ -1,6 +1,10 @@
 package student.tugraz.at.lv_master3000.databaseAccess;
 
 import android.content.Context;
+import android.database.Cursor;
+import student.tugraz.at.lv_master3000.domain.Workmate;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,5 +21,35 @@ public class WorkmateManager extends LVMaster3000DBHelper{
         super(context);
     }
 
+    public Integer insertNewWorkmate(Workmate workmate){
+        return -1;
+    }
 
+    public Workmate getWorkmateFromDB(int wmId){
+        return null;
+    }
+
+    public List<Workmate> getAllWorkmates(){
+        return null;
+    }
+
+    public List<Workmate> getAllWorkmatesOfLecture(int lecId){
+        return null;
+    }
+
+    private Workmate fillQueryResultInWorkmate(Cursor cursor){
+        return null;
+    }
+
+    private List<Workmate> fillQueryResultListInWorkmateList(Cursor cursor){
+        return null;
+    }
+
+    public List<Workmate> getAllWorkmatesOfHomework(int hwId){
+        return null;
+    }
+
+    public List<Workmate> getAllWorkmatesOfExam(int exId){
+        return null;
+    }
 }

@@ -1,8 +1,7 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.Book;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
@@ -23,6 +22,12 @@ public class LectureTest extends AndroidTestCase
     {
         super.setUp();
         dbManager = new LectureManager(this.getContext());
+    }
+
+    @Override
+    public void tearDown() throws Exception
+    {
+        super.tearDown();
     }
 
 
@@ -113,9 +118,4 @@ public class LectureTest extends AndroidTestCase
 
     }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
 }

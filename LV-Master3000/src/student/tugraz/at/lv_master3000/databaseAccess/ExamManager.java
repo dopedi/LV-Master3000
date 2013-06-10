@@ -3,10 +3,8 @@ package student.tugraz.at.lv_master3000.databaseAccess;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import student.tugraz.at.lv_master3000.Exam;
-import student.tugraz.at.lv_master3000.Exam;
+import student.tugraz.at.lv_master3000.domain.Exam;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,6 +111,18 @@ public class ExamManager extends LVMaster3000DBHelper {
         }
 
         return  resultList;
+    }
+
+    public boolean addWorkmate(int wmId){
+        return true;
+    }
+
+    public boolean addMilestone(int msId){
+        return true;
+    }
+
+    public boolean addLearningMaterials(int lmId){
+        return true;
     }
 
 }

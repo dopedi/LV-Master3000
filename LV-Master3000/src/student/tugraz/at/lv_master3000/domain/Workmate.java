@@ -16,7 +16,7 @@ public class Workmate {
     private int id;
     private String name;
     private String email;
-    private int cellPhoneNr;
+    private String cellPhoneNr;
 
     public int getId() {
         return id;
@@ -34,11 +34,11 @@ public class Workmate {
         this.name = name;
     }
 
-    public int getCellPhoneNr() {
+    public String getCellPhoneNr() {
         return cellPhoneNr;
     }
 
-    public void setCellPhoneNr(int cellPhoneNr) {
+    public void setCellPhoneNr(String cellPhoneNr) {
         this.cellPhoneNr = cellPhoneNr;
     }
 

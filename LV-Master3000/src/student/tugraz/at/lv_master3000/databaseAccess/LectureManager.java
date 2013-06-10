@@ -3,9 +3,8 @@ package student.tugraz.at.lv_master3000.databaseAccess;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
