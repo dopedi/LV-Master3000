@@ -38,7 +38,10 @@ public class ExamManager extends LVMaster3000DBHelper {
             values.put("exam_date", sqlDate.toString());
         }
 
-        return (int)db.insert(tableName, "null",values);
+        int id = (int)db.insert(tableName, "null", values);
+        exam.setId(id);
+
+        return id;
     }
 
 

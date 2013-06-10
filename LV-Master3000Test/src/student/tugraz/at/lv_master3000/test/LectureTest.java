@@ -27,6 +27,7 @@ public class LectureTest extends AndroidTestCase
     @Override
     public void tearDown() throws Exception
     {
+        dbManager.cleanAllTables();
         super.tearDown();
     }
 

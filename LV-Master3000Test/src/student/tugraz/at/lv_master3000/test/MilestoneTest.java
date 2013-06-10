@@ -28,6 +28,7 @@ public class MilestoneTest extends AndroidTestCase{
     @Override
     public void tearDown() throws Exception
     {
+        milestoneManager.cleanAllTables();
         super.tearDown();
     }
 
@@ -55,5 +56,27 @@ public class MilestoneTest extends AndroidTestCase{
         int msId = milestoneManager.insertNewMilestone(ms);
 
         assertNotSame(-1, msId);
+    }
+
+    public void testGetMilestoneFromDB(){
+        String description = "alle testcases sollten grün laufen";
+        Date date = new Date(2013, 6, 6);
+
+        Milestone milestone = new Milestone(date);
+        milestone.setDescription(description);
+
+        int msId = milestoneManager.insertNewMilestone(milestone);
+        assertNotSame(-1, msId);
+
+        Milestone result = milestoneManager.getMilestoneFromDB(msId);
+
+        String resDesc;
+        if(result == null)
+            resDesc = "";
+        else
+            resDesc = result.getDescription();
+
+        assertEquals(description, resDesc);
+
     }
 }

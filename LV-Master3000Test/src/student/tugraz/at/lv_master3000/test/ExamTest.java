@@ -39,7 +39,8 @@ public class ExamTest extends AndroidTestCase
     @Override
     public void tearDown() throws Exception
     {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+        examManager.cleanAllTables();
+        super.tearDown();
     }
 
     public void testGetterAndSetters() throws Exception
@@ -78,6 +79,29 @@ public class ExamTest extends AndroidTestCase
         Integer exId = examManager.insertNewExam(exam);
 
         assertNotSame(-1, exId);
+    }
+
+    public void testGetExamFromDB(){
+        String location = "HSG";
+        Date date = new Date(2013, 6, 6);
+
+        Exam exam = new Exam(lecture.getId());
+        exam.setDate(date);
+        exam.setLocation(location);
+
+        int exId = examManager.insertNewExam(exam);
+        assertNotSame(-1, exId);
+
+        Exam result = examManager.getExamFromDB(exId);
+
+        String resLoc;
+        if(result == null)
+            resLoc = "";
+        else
+            resLoc = result.getLocation();
+
+        assertEquals(location, resLoc);
+
     }
 
     public void testGetAllExams(){

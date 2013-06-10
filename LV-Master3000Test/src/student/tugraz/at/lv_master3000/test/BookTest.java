@@ -36,6 +36,13 @@ public class BookTest extends AndroidTestCase
     }
 
 
+    @Override
+    public void tearDown() throws Exception
+    {
+        bookManager.cleanAllTables();
+        super.tearDown();
+    }
+
     public void testGetterAndSetters() throws Exception
     {
         String bookName = "Book Test";
@@ -71,16 +78,31 @@ public class BookTest extends AndroidTestCase
         book.setAuthorName("tanenbaum");
         book.setDueDate(new Date(2013,12,12));
 
-        Integer lecId = null;
+        Integer bookId = bookManager.insertNewBook(book);
 
-        lecId = bookManager.insertNewBook(book);
-
-        assertNotSame(-1, lecId);
+        assertNotSame(-1, bookId);
     }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+    public void testGetBookFromDB(){
+        String name = "zaubern für anfänger";
+        Date date = new Date(2013, 6, 6);
+
+        Book book = new Book(name, lecture.getId());
+        book.setDueDate(date);
+
+        int bookId = bookManager.insertNewBook(book);
+        assertNotSame(-1, bookId);
+
+        Book result = bookManager.getBookFromDB(bookId);
+
+        String resName;
+        if(result == null)
+            resName = "";
+        else
+            resName = result.getBookName();
+
+        assertEquals(name, resName);
+
     }
+
 }

@@ -35,8 +35,10 @@ public class HomeworkTest extends AndroidTestCase {
 	}
 
 	protected void tearDown() throws Exception {
+        hw = null;
+        homeworkManager.cleanAllTables();
 		super.tearDown();
-		hw = null;
+
 	}
 	
 	public void testDueDate(){
@@ -69,6 +71,27 @@ public class HomeworkTest extends AndroidTestCase {
 
         Homework hwFromDB = homeworkManager.getHomeworkFromDB(hwId);
         assertEquals("assignment 1", hwFromDB.getName());
+    }
+
+    public void testGetHomeworkFromDB(){
+        String name = "assignment 2";
+
+        Homework homework = new Homework(lecture.getId());
+        homework.setName(name);
+
+        int hwId = homeworkManager.insertNewHomework(homework);
+        assertNotSame(-1, hwId);
+
+        Homework result = homeworkManager.getHomeworkFromDB(hwId);
+
+        String resName;
+        if(result == null)
+            resName = "";
+        else
+            resName = result.getName();
+
+        assertEquals(name, resName);
+
     }
 
 }

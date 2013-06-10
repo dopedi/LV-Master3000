@@ -5,6 +5,8 @@ import student.tugraz.at.lv_master3000.databaseAccess.LearningMaterialsManager;
 import student.tugraz.at.lv_master3000.domain.LearningMaterials;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: doris
@@ -26,6 +28,7 @@ public class LearningMaterialsTest extends AndroidTestCase{
     @Override
     public void tearDown() throws Exception
     {
+        learningMaterialsManager.cleanAllTables();
         super.tearDown();
     }
 
@@ -53,5 +56,26 @@ public class LearningMaterialsTest extends AndroidTestCase{
         int lmId = learningMaterialsManager.insertNewLearningMaterials(lm);
 
         assertNotSame(-1, lmId);
+    }
+
+    public void testGetLearningMaterialsFromDB(){
+        String description = "website vom institut";
+
+        LearningMaterials learningMaterials = new LearningMaterials(description);
+
+        int lmId = learningMaterialsManager.insertNewLearningMaterials(learningMaterials);
+        learningMaterials.setDescription(description);
+        assertNotSame(-1, lmId);
+
+        LearningMaterials result = learningMaterialsManager.getLearningMaterialsFromDB(lmId);
+
+        String resDesc;
+        if(result == null)
+            resDesc = "";
+        else
+            resDesc = result.getDescription();
+
+        assertEquals(description, resDesc);
+
     }
 }

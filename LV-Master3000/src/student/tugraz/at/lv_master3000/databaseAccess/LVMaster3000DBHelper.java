@@ -14,7 +14,7 @@ import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 12;
+    private static int dbversion = 15;
     private static final String createHomework = "create table homework "
     +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
@@ -160,9 +160,23 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public String getDatabaseName(){
-        String name = super.getDatabaseName();
-        return name;
+    /**
+     * this is for cleaning database after test
+     */
+    public void cleanAllTables(){
+        db.execSQL("delete from homework");
+        db.execSQL("delete from exam");
+        db.execSQL("delete from book");
+        db.execSQL("delete from lecture");
+        db.execSQL("delete from learning_materials");
+        db.execSQL("delete from workmate");
+        db.execSQL("delete from milestone");
+        db.execSQL("delete from exam2workmate");
+        db.execSQL("delete from homework2workmate");
+        db.execSQL("delete from exam2milestone");
+        db.execSQL("delete from homework2milestone");
+        db.execSQL("delete from exam2learning_materials");
+        db.execSQL("delete from homework2learning_materials");
     }
 
 

@@ -38,7 +38,10 @@ public class LectureManager extends LVMaster3000DBHelper{
             values.put("time", sqlDate.toString());
         }
 
-        return (int)db.insert(tableName, "null",values);
+        int id = (int)db.insert(tableName, "null", values);
+        lecture.setId(id);
+
+        return id;
     }
 
 

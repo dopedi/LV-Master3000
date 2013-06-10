@@ -28,6 +28,7 @@ public class WorkmateTest extends AndroidTestCase{
     @Override
     public void tearDown() throws Exception
     {
+        workmateManager.cleanAllTables();
         super.tearDown();
     }
 
@@ -50,7 +51,7 @@ public class WorkmateTest extends AndroidTestCase{
 
     public void testInsertNewWorkmate(){
         String name = "Knecht Ruprecht";
-        String email = "littleHelpe@santa.com";
+        String email = "littleHelper@santa.com";
         String mobile = "06803456789";
 
         Workmate wm = new Workmate(name);
@@ -60,5 +61,29 @@ public class WorkmateTest extends AndroidTestCase{
         int wmId = workmateManager.insertNewWorkmate(wm);
 
         assertNotSame(-1, wmId); // -1 is errorcase
+    }
+
+    public void testGetWorkmateFromDB(){
+        String name = "Knecht Ruprecht";
+        String email = "littleHelper@santa.com";
+        String mobile = "06803456789";
+
+        Workmate wm = new Workmate(name);
+        wm.setCellPhoneNr(mobile);
+        wm.setEmail(email);
+
+        int wmId = workmateManager.insertNewWorkmate(wm);
+        assertNotSame(-1,wmId);
+
+        Workmate result = workmateManager.getWorkmateFromDB(wmId);
+
+        String resName;
+        if(result == null)
+            resName = "";
+        else
+            resName = result.getName();
+
+        assertEquals(name, resName);
+
     }
 }

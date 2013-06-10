@@ -36,7 +36,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             values.put("due_date", sqlDate.toString());
         }
 
-        return (int)db.insert(tableName, "null",values);
+        int id = (int)db.insert(tableName, "null", values);
+        homework.setId(id);
+
+        return id;
     }
 
     public Homework getHomeworkFromDB(int hwId) {
@@ -87,15 +90,41 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public List<Homework> getAllHomeworks(){
-        return new ArrayList<Homework>();
+        String selectQuery = "SELECT  * FROM " + tableName;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoHomeworkList(cursor);
     }
 
     public List<Homework> getAllHomeworksOfLecture(int lecId){
-        return new ArrayList<Homework>();
+        String selectQuery = "SELECT  * FROM " + tableName + "WHERE " + tableName + ".lecture = " +lecId;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoHomeworkList(cursor);
     }
 
     private List<Homework> fillQueryResultListIntoHomeworkList(Cursor cursor){
-        return new ArrayList<Homework>();
+        List<Homework> resultList = new ArrayList<Homework>();
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Homework result = new Homework(cursor.getInt(cursor.getColumnIndexOrThrow("lecture")));
+                result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+
+                Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+                if(dateLong != null){
+                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                    java.util.Date date = new java.util.Date(sqlDate.getTime());
+                    result.setDueDate(date);
+                }
+
+                resultList.add(result);
+            } while (cursor.moveToNext());
+        }
+
+        return  resultList;
     }
 
     public boolean addWorkmate(int wmId){
