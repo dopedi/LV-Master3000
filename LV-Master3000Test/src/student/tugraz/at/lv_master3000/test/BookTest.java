@@ -7,6 +7,7 @@ import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -103,6 +104,46 @@ public class BookTest extends AndroidTestCase
 
         assertEquals(name, resName);
 
+    }
+
+    public void testGetAllBooks(){
+        assertNotNull(lecture.getId());
+
+        Book b1 = new Book("Heimwerkeralarm", lecture.getId());
+
+        int id = bookManager.insertNewBook(b1);
+        assertNotSame(-1, id);
+
+        Book b2 = new Book("Kochen leicht gemacht", lecture.getId());
+
+        id = bookManager.insertNewBook(b2);
+        assertNotSame(-1, id);
+
+        List<Book> list = bookManager.getAllBooks();
+
+        assertEquals(2, list.size());
+    }
+
+    public void testGetAllBooksOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Book b1 = new Book("Deutsche Grammatik 1", lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Book b2 = new Book("Deutsche Grammatik 2", id);
+
+        id = bookManager.insertNewBook(b1);
+        assertNotSame(-1, id);
+
+        id = bookManager.insertNewBook(b2);
+        assertNotSame(-1, id);
+
+        List<Book> list = bookManager.getAllBooksOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
     }
 
 }

@@ -1,6 +1,12 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
+import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
+import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
+import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
+import student.tugraz.at.lv_master3000.domain.Book;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
@@ -119,4 +125,52 @@ public class LectureTest extends AndroidTestCase
 
     }
 
+    /*  THESE TESTS ARE MAYBE UNNECESSARY
+    public void testAddHomework(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Homework homework = new Homework(lecId);
+        HomeworkManager hwManager = new HomeworkManager(this.getContext());
+        int hwId = hwManager.insertNewHomework(homework);
+        assertNotSame(-1, hwId);
+
+        boolean worked = false;
+        worked = dbManager.addHomeworkToLecture(hwId, lecId);
+
+        assertTrue(worked);
+    }
+
+    public void testAddExam(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Exam exam = new Exam(lecId);
+        ExamManager examManager = new ExamManager(this.getContext());
+        int exId = examManager.insertNewExam(exam);
+        assertNotSame(-1, exId);
+
+        boolean worked = false;
+        worked = dbManager.addExamToLecture(exId, lecId);
+
+        assertTrue(worked);
+    }
+
+    public void testAddBook(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Book book = new Book("sql for dummies", lecId);
+        BookManager bookManager = new BookManager(this.getContext());
+        int bookId = bookManager.insertNewBook(book);
+        assertNotSame(-1, bookId);
+
+        boolean worked = false;
+        worked = dbManager.addBookToLecture(bookId, lecId);
+
+        assertTrue(worked);
+    }  */
 }

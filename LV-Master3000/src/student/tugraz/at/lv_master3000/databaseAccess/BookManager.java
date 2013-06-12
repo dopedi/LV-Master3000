@@ -17,8 +17,7 @@ import java.util.List;
  */
 public class BookManager extends LVMaster3000DBHelper{
     public static  final String tableName = "book";
-    private static final String[] columns = new String[]{"_id","lecure", "name", "author", "due_date", "lender_name", "lender_address"};
-    private int rowCount = 0;
+    private static final String[] columns = new String[]{"_id","lecture", "name", "author", "due_date", "lender_name", "lender_address"};
 
     public BookManager(Context context) {
         super(context);
@@ -26,7 +25,6 @@ public class BookManager extends LVMaster3000DBHelper{
     public Integer insertNewBook(Book book){
 
         ContentValues values = new ContentValues();
-        values.put("lectureId", book.getLecture());
 
         java.util.Date date = book.getDueDate();
         java.sql.Date sqlDate;

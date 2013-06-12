@@ -117,11 +117,44 @@ public class ExamTest extends AndroidTestCase
 
         examManager.insertNewExam(exam2);
 
-        List<Exam> allExams = examManager.getAllExamsOfLecture(lecture.getId());
+        List<Exam> allExams = examManager.getAllExams();
 
         assertEquals(2, allExams.size());
         assertEquals("i12", allExams.get(0).getLocation());
         assertEquals("i9", allExams.get(1).getLocation());
     }
 
+    public void testGetAllExamsOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Exam ex1 = new Exam(lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Exam ex2 = new Exam(id);
+
+        id = examManager.insertNewExam(ex1);
+        assertNotSame(-1, id);
+
+        id = examManager.insertNewExam(ex2);
+        assertNotSame(-1, id);
+
+        List<Exam> list = examManager.getAllExamsOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
+    }
+
+    public void testAddMilestoneToExam(){
+
+    }
+
+    public void testAddLearningMaterialsToExam(){
+
+    }
+
+    public void testAddWorkmateToExam(){
+
+    }
 }

@@ -6,6 +6,7 @@ import student.tugraz.at.lv_master3000.domain.LearningMaterials;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,12 +18,14 @@ import java.util.Date;
 public class LearningMaterialsTest extends AndroidTestCase{
     private LearningMaterialsManager learningMaterialsManager;
     private Lecture lecture;
+    private Lecture lecture2;
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
         learningMaterialsManager = new LearningMaterialsManager(this.getContext());
         lecture = new Lecture("NRLA");
+        lecture2 = new Lecture("Analysis T1");
     }
 
     @Override
@@ -77,5 +80,26 @@ public class LearningMaterialsTest extends AndroidTestCase{
 
         assertEquals(description, resDesc);
 
+    }
+
+    public void testGetAllLearningMaterials(){
+        String description1 = "taschenrechner tool";
+        String link1 = "www.taschenrechner.at";
+        String description2 = "cheatsheet";
+
+        LearningMaterials learningMaterials1 = new LearningMaterials(description1);
+
+        int lmId = learningMaterialsManager.insertNewLearningMaterials(learningMaterials1);
+        learningMaterials1.setDescription(description1);
+        learningMaterials1.setLink(link1);
+        assertNotSame(-1, lmId);
+
+        LearningMaterials learningMaterials2 = new LearningMaterials(description2);
+
+        lmId = learningMaterialsManager.insertNewLearningMaterials(learningMaterials2);
+        assertNotSame(-1, lmId);
+
+        List<LearningMaterials> list = learningMaterialsManager.getAllLearningMaterials();
+        assertEquals(2, list.size());
     }
 }

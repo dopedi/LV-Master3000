@@ -1,6 +1,7 @@
 package student.tugraz.at.lv_master3000.test;
 
 import java.util.Date;
+import java.util.List;
 
 import android.test.AndroidTestCase;
 import student.tugraz.at.lv_master3000.domain.Homework;
@@ -94,4 +95,54 @@ public class HomeworkTest extends AndroidTestCase {
 
     }
 
+    public void testGetAllHomeworks(){
+        assertNotNull(lecture.getId());
+
+        Homework h1 = new Homework(lecture.getId());
+        Homework h2 = new Homework(lecture.getId());
+
+        int id = homeworkManager.insertNewHomework(h1);
+        assertNotSame(-1, id);
+
+        id = homeworkManager.insertNewHomework(h2);
+        assertNotSame(-1, id);
+
+        List<Homework> list = homeworkManager.getAllHomeworks();
+
+        assertEquals(2, list.size());
+    }
+
+    public void testGetAllHomeworksOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Homework h1 = new Homework(lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Homework h2 = new Homework(id);
+
+        id = homeworkManager.insertNewHomework(h1);
+        assertNotSame(-1, id);
+
+        id = homeworkManager.insertNewHomework(h2);
+        assertNotSame(-1, id);
+
+        List<Homework> list = homeworkManager.getAllHomeworksOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
+    }
+
+    public void testAddMilestoneToExam(){
+
+    }
+
+    public void testAddLearningMaterialsToExam(){
+
+    }
+
+    public void testAddWorkmateToExam(){
+
+    }
 }

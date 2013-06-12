@@ -104,7 +104,7 @@ public class LectureManager extends LVMaster3000DBHelper{
         return  fillQueryResultListIntoExamList(cursor);
     }
 
-    public List<Lecture> fillQueryResultListIntoExamList(Cursor cursor){
+    private List<Lecture> fillQueryResultListIntoExamList(Cursor cursor){
         List<Lecture> resultList = new ArrayList<Lecture>();
 
         // looping through all rows and adding to list
@@ -131,4 +131,16 @@ public class LectureManager extends LVMaster3000DBHelper{
         return  resultList;
     }
 
+    /*   THESE METHODS ARE MAYBE UNNECESSARY
+    public boolean addExamToLecture(int examId, int lecId){
+        return false;
+    }
+
+    public boolean addHomeworkToLecture(int hwId, int lecId){
+        return false;
+    }
+
+    public boolean addBookToLecture(int bookId, int lecId){
+        return false;
+    } */
 }

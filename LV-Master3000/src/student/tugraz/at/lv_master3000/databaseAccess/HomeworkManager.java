@@ -97,7 +97,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public List<Homework> getAllHomeworksOfLecture(int lecId){
-        String selectQuery = "SELECT  * FROM " + tableName + "WHERE " + tableName + ".lecture = " +lecId;
+        String selectQuery = "SELECT  * FROM " + tableName + " WHERE " + tableName + ".lecture = " +lecId;
 
         Cursor cursor = db.rawQuery(selectQuery, null);
         return  fillQueryResultListIntoHomeworkList(cursor);
@@ -127,15 +127,15 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         return  resultList;
     }
 
-    public boolean addWorkmate(int wmId){
+    public boolean addWorkmateToHomework(int wmId, int hwId){
         return true;
     }
 
-    public boolean addMilestone(int msId){
+    public boolean addMilestoneToHomework(int msId, int hwId){
         return true;
     }
 
-    public boolean addLearningMaterials(int lmId){
+    public boolean addLearningMaterialsToHomework(int lmId, int hwId){
         return true;
     }
 

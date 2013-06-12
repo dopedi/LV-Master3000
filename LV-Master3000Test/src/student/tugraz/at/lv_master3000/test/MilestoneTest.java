@@ -6,6 +6,7 @@ import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.domain.Milestone;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,12 +18,14 @@ import java.util.Date;
 public class MilestoneTest extends AndroidTestCase{
     private MilestoneManager milestoneManager;
     private Lecture lecture;
+    private Lecture lecture2;
     @Override
     public void setUp() throws Exception
     {
         super.setUp();
         milestoneManager = new MilestoneManager(this.getContext());
         lecture = new Lecture("NRLA");
+        lecture2 = new Lecture("RNO");
     }
 
     @Override
@@ -78,5 +81,28 @@ public class MilestoneTest extends AndroidTestCase{
 
         assertEquals(description, resDesc);
 
+    }
+
+    public void testGetAllMilestones(){
+        String description = "datenbankanbindung";
+        Date date = new Date(2013, 6, 6);
+        String desc2 = "alles fertig";
+        Date date2 = new Date(2013, 7, 7);
+
+        Milestone milestone = new Milestone(date);
+        milestone.setDescription(description);
+
+        int msId = milestoneManager.insertNewMilestone(milestone);
+        assertNotSame(-1, msId);
+
+        Milestone milestone2 = new Milestone(date2);
+        milestone2.setDescription(desc2);
+
+        msId = milestoneManager.insertNewMilestone(milestone2);
+        assertNotSame(-1, msId);
+
+        List<Milestone> list = milestoneManager.getAllMilestones();
+
+        assertEquals(2, list.size());
     }
 }

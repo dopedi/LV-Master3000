@@ -116,15 +116,15 @@ public class ExamManager extends LVMaster3000DBHelper {
         return  resultList;
     }
 
-    public boolean addWorkmate(int wmId){
+    public boolean addWorkmateToExam(int wmId, int examId){
         return true;
     }
 
-    public boolean addMilestone(int msId){
+    public boolean addMilestoneToExam(int msId, int examId){
         return true;
     }
 
-    public boolean addLearningMaterials(int lmId){
+    public boolean addLearningMaterialsToExam(int lmId, int examId){
         return true;
     }
 

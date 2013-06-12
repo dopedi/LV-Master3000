@@ -6,6 +6,7 @@ import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.domain.Workmate;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -85,5 +86,19 @@ public class WorkmateTest extends AndroidTestCase{
 
         assertEquals(name, resName);
 
+    }
+
+    public void testGetAllWorkmates(){
+        Workmate w1 = new Workmate("Doris");
+        Workmate w2 = new Workmate("Amra");
+
+        int wmId = workmateManager.insertNewWorkmate(w1);
+        assertNotSame(-1, wmId);
+        wmId = workmateManager.insertNewWorkmate(w2);
+        assertNotSame(-1, wmId);
+
+        List<Workmate> list = workmateManager.getAllWorkmates();
+
+        assertEquals(2, list.size());
     }
 }
