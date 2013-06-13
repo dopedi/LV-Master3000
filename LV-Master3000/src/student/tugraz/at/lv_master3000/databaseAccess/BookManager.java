@@ -27,13 +27,10 @@ public class BookManager extends LVMaster3000DBHelper{
 
         ContentValues values = new ContentValues();
 
-        java.util.Date date = book.getDueDate();
-        java.sql.Date sqlDate;
-        if(date != null){
-            sqlDate = new java.sql.Date(date.getTime());
-            values.put("due_date", sqlDate.toString());
-        }
-
+        if(book.getDueDate() != null)
+            values.put("due_date",book.getDueDate().getTime());
+        else
+            values.put("due_date", 0l);
         values.put("name", book.getBookName());
         values.put("lecture", book.getLecture());
         values.put("author", book.getAuthorName());
@@ -77,11 +74,11 @@ public class BookManager extends LVMaster3000DBHelper{
             result.setLenderName(cursor.getString(cursor.getColumnIndexOrThrow("lender_name")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-            if(dateLong != null){
-                java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                java.util.Date date = new java.util.Date(sqlDate.getTime());
-                result.setDueDate(date);
-            }
+
+            if(dateLong == 0l)
+                result.setDueDate(null);
+            else
+                result.setDueDate(new Date(dateLong));
         }
 
         return result;
@@ -115,14 +112,11 @@ public class BookManager extends LVMaster3000DBHelper{
                 result.setLenderAddress(cursor.getString(cursor.getColumnIndexOrThrow("lender_address")));
                 result.setLenderName(cursor.getString(cursor.getColumnIndexOrThrow("lender_name")));
 
-               /* Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-                if(dateLong != null){
-                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                    java.util.Date date = new java.util.Date(sqlDate.getTime());
-                    result.setDueDate(date);
-                }*/
-
-
+                Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+                if(dateLong == 0l)
+                    result.setDueDate(null);
+                else
+                    result.setDueDate(new Date(dateLong));
 
                 resultList.add(result);
             } while (cursor.moveToNext());
@@ -132,7 +126,7 @@ public class BookManager extends LVMaster3000DBHelper{
     }
 
     public List<Book> getNextBooks(){
-        java.sql.Date today = new java.sql.Date(new java.util.Date().getTime());
+        long today = new Date().getTime();
 
         String selectQuery = "SELECT  * FROM " + tableName;
         selectQuery += " WHERE book.due_date >= " + today;

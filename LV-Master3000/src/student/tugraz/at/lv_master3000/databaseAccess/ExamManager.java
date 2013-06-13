@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Exam;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -31,12 +32,10 @@ public class ExamManager extends LVMaster3000DBHelper {
         values.put("lecture", exam.getLectureId());
         values.put("location", exam.getLocation());
 
-        java.util.Date date = exam.getDate();
-        java.sql.Date sqlDate;
-        if(date != null){
-            sqlDate = new java.sql.Date(date.getTime());
-            values.put("exam_date", sqlDate.toString());
-        }
+        long time = 0l;
+        if(exam.getDate() != null)
+            time = exam.getDate().getTime();
+        values.put("exam_date", time);
 
         int id = (int)db.insert(tableName, "null", values);
         exam.setId(id);
@@ -65,11 +64,7 @@ public class ExamManager extends LVMaster3000DBHelper {
             result.setLocation(cursor.getString(cursor.getColumnIndexOrThrow("location")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("exam_date"));
-            if(dateLong != null){
-                java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                java.util.Date date = new java.util.Date(sqlDate.getTime());
-                result.setDate(date);
-            }
+            result.setDate(new Date(dateLong));
         }
 
         return result;
@@ -103,11 +98,7 @@ public class ExamManager extends LVMaster3000DBHelper {
                 exam.setLocation(cursor.getString(cursor.getColumnIndexOrThrow("location")));
 
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("exam_date"));
-                if(dateLong != null){
-                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                    java.util.Date date = new java.util.Date(sqlDate.getTime());
-                    exam.setDate(date);
-                }
+                exam.setDate(new Date(dateLong));
 
                 resultList.add(exam);
             } while (cursor.moveToNext());
@@ -159,7 +150,14 @@ public class ExamManager extends LVMaster3000DBHelper {
     }
 
     public List<Exam> getNextExams(){
-        return null;
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+        selectQuery += " WHERE exam.exam_date >= " + today;
+        selectQuery += " ORDER BY exam.exam_date LIMIT " + MAX_ELEMENTS_FOR_QUERY;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoExamList(cursor);
     }
 
     public boolean validateExam(Exam exam){

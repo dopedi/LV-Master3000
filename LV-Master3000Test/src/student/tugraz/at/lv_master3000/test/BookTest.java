@@ -48,7 +48,7 @@ public class BookTest extends AndroidTestCase
     {
         String bookName = "Book Test";
         String authorName = "Testo Testic";
-        Date dueDate = new Date(2013, 6, 6);
+        Date dueDate = new Date(113, 6, 6);
         String lenderName = "Lender Test";
         String lenderAddress = "Address Test";
 
@@ -77,7 +77,7 @@ public class BookTest extends AndroidTestCase
 
         Book book = new Book("testbuch",lecture.getId());
         book.setAuthorName("tanenbaum");
-        book.setDueDate(new Date(2013,12,12));
+        book.setDueDate(new Date(113,12,12));
 
         Integer bookId = bookManager.insertNewBook(book);
 
@@ -86,7 +86,7 @@ public class BookTest extends AndroidTestCase
 
     public void testGetBookFromDB(){
         String name = "zaubern für anfänger";
-        Date date = new Date(2013, 6, 6);
+        Date date = new Date(113, 6, 6);
 
         Book book = new Book(name, lecture.getId());
         book.setDueDate(date);
@@ -148,11 +148,11 @@ public class BookTest extends AndroidTestCase
 
     public void testGetNextBooks(){
         Book expired = new Book("name expired", lecture.getId());
-        expired.setDueDate(new Date(2012, 1, 1));
+        expired.setDueDate(new Date(112, 1, 1));
         Book active1 = new Book("name act1", lecture.getId());
-        active1.setDueDate(new Date(2014, 2, 2));
+        active1.setDueDate(new Date(114, 2, 2));
         Book active2 = new Book("name act2", lecture.getId());
-        active2.setDueDate(new Date(2014, 3, 3));
+        active2.setDueDate(new Date(114, 3, 3));
 
         bookManager.insertNewBook(expired);
         bookManager.insertNewBook(active1);
