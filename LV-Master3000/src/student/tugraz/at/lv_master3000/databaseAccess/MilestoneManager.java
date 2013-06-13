@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Milestone;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -129,6 +130,40 @@ public class MilestoneManager extends LVMaster3000DBHelper{
 
     public List<Milestone> getNextMilestonesForHomework(int hwId){
         return null;
+    }
+
+    public Milestone getFirstMilestoneForExam(int exId){
+        return null;
+    }
+
+    public Milestone getFirstMilestoneForHomework(int hwId){
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM milestone ";
+        selectQuery += " INNER JOIN homework2milestone WHERE homework2milestone.homework = " + hwId;
+        selectQuery += " AND milestone._id = homework2milestone.milestone;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        List<Milestone> resultList = fillQueryResultListInMilestoneList(cursor);
+        if(resultList == null)
+            return null;
+
+        Milestone next = null;
+
+        for(int i = 0; i < resultList.size(); i++){
+            Milestone current = resultList.get(i);
+            if(next == null){
+               if(current.getDate().getTime() >= today)
+                   next = current;
+            }
+            else{
+                if(current.getDate().getTime() < next.getDate().getTime() && current.getDate().getTime() >= today)
+                    next= current;
+            }
+        }
+
+        return next;
     }
 
     public List<Milestone> getExpiredMilestonesForExam(int exId){

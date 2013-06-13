@@ -162,6 +162,39 @@ public class MilestoneTest extends AndroidTestCase{
 
     }
 
+    public void testGetFirstMilestoneOfHomework(){
+        String description = "this is the next milestone";
+
+        Milestone expired = new Milestone(new Date(112, 1, 1));
+        expired.setDescription("this is the expired milestone");
+        Milestone active = new Milestone(new Date(113,9,9));
+        active.setDescription(description);
+        Milestone late = new Milestone(new Date(114,3,3));
+        late.setDescription("this is the later milestone");
+
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+        int lateId = milestoneManager.insertNewMilestone(late);
+
+        Homework homework = new Homework(lecture.getId());
+        HomeworkManager hwMan = new HomeworkManager(this.getContext());
+        int hwId = hwMan.insertNewHomework(homework);
+
+        hwMan.addMilestoneToHomework(expiredId, hwId);
+        hwMan.addMilestoneToHomework(activeId, hwId);
+        hwMan.addMilestoneToHomework(lateId, hwId);
+
+        Milestone result = milestoneManager.getFirstMilestoneForHomework(hwId);
+
+        assertNotNull(result);
+        if(result != null)
+            assertEquals(description, result.getDescription());
+    }
+
+    public void testGetFirstMilestoneOfExam(){
+
+    }
+
     public void testGetExpiredMilestonesOfHomework(){
 
     }
