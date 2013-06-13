@@ -1,9 +1,16 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
+import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
+import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
+import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
+import student.tugraz.at.lv_master3000.domain.Book;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +34,7 @@ public class LectureTest extends AndroidTestCase
     @Override
     public void tearDown() throws Exception
     {
+        dbManager.cleanAllTables();
         super.tearDown();
     }
 
@@ -118,4 +126,94 @@ public class LectureTest extends AndroidTestCase
 
     }
 
+    public void testGetNextLectures(){
+        Lecture active1 = new Lecture("act1");
+        Lecture active2 = new Lecture("act2");
+
+        Calendar calendar = Calendar.getInstance();
+        String today = "";
+        String tomorrow = "";
+
+        switch(calendar.get(Calendar.DAY_OF_WEEK)){
+            case 0: today = "Sonntag"; tomorrow = "Montag";break;
+            case 1:today = "Montag"; tomorrow = "Dienstag";break;
+            case 2:today = "Dienstag";tomorrow = "Mittwoch";break;
+            case 3:today = "Mittwoch";tomorrow = "Donnerstag";break;
+            case 4:today = "Donnerstag";tomorrow = "Freitag";break;
+            case 5: today = "Freitag";tomorrow = "Samstag";break;
+            case 6:today = "Samstag";tomorrow = "Sonntag";break;
+        }
+
+        active2.setDay(today);
+
+        dbManager.insertNewLecture(active1);
+        dbManager.insertNewLecture(active2);
+
+        List<Lecture> resultList = dbManager.getNextLectures();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(today, resultList.get(0).getDay());
+    }
+
+    public void testValidateLecture(){
+
+    }
+
+    public void testUpdateLecture(){
+
+    }
+
+    public void testDeleteLecture(){
+
+    }
+
+    /*  THESE TESTS ARE MAYBE UNNECESSARY
+    public void testAddHomework(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Homework homework = new Homework(lecId);
+        HomeworkManager hwManager = new HomeworkManager(this.getContext());
+        int hwId = hwManager.insertNewHomework(homework);
+        assertNotSame(-1, hwId);
+
+        boolean worked = false;
+        worked = dbManager.addHomeworkToLecture(hwId, lecId);
+
+        assertTrue(worked);
+    }
+
+    public void testAddExam(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Exam exam = new Exam(lecId);
+        ExamManager examManager = new ExamManager(this.getContext());
+        int exId = examManager.insertNewExam(exam);
+        assertNotSame(-1, exId);
+
+        boolean worked = false;
+        worked = dbManager.addExamToLecture(exId, lecId);
+
+        assertTrue(worked);
+    }
+
+    public void testAddBook(){
+        Lecture lecture = new Lecture("RKN");
+        int lecId = dbManager.insertNewLecture(lecture);
+        assertNotSame(-1, lecId);
+
+        Book book = new Book("sql for dummies", lecId);
+        BookManager bookManager = new BookManager(this.getContext());
+        int bookId = bookManager.insertNewBook(book);
+        assertNotSame(-1, bookId);
+
+        boolean worked = false;
+        worked = dbManager.addBookToLecture(bookId, lecId);
+
+        assertTrue(worked);
+    }  */
 }

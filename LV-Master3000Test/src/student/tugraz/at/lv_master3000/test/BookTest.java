@@ -7,6 +7,7 @@ import student.tugraz.at.lv_master3000.databaseAccess.BookManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +36,13 @@ public class BookTest extends AndroidTestCase
         lecture.setId(lectureManager.insertNewLecture(lecture));
     }
 
+
+    @Override
+    public void tearDown() throws Exception
+    {
+        bookManager.cleanAllTables();
+        super.tearDown();
+    }
 
     public void testGetterAndSetters() throws Exception
     {
@@ -71,16 +79,102 @@ public class BookTest extends AndroidTestCase
         book.setAuthorName("tanenbaum");
         book.setDueDate(new Date(2013,12,12));
 
-        Integer lecId = null;
+        Integer bookId = bookManager.insertNewBook(book);
 
-        lecId = bookManager.insertNewBook(book);
-
-        assertNotSame(-1, lecId);
+        assertNotSame(-1, bookId);
     }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+    public void testGetBookFromDB(){
+        String name = "zaubern für anfänger";
+        Date date = new Date(2013, 6, 6);
+
+        Book book = new Book(name, lecture.getId());
+        book.setDueDate(date);
+
+        int bookId = bookManager.insertNewBook(book);
+        assertNotSame(-1, bookId);
+
+        Book result = bookManager.getBookFromDB(bookId);
+
+        String resName;
+        if(result == null)
+            resName = "";
+        else
+            resName = result.getBookName();
+
+        assertEquals(name, resName);
+
     }
+
+    public void testGetAllBooks(){
+        assertNotNull(lecture.getId());
+
+        Book b1 = new Book("Heimwerkeralarm", lecture.getId());
+
+        int id = bookManager.insertNewBook(b1);
+        assertNotSame(-1, id);
+
+        Book b2 = new Book("Kochen leicht gemacht", lecture.getId());
+
+        id = bookManager.insertNewBook(b2);
+        assertNotSame(-1, id);
+
+        List<Book> list = bookManager.getAllBooks();
+
+        assertEquals(2, list.size());
+    }
+
+    public void testGetAllBooksOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Book b1 = new Book("Deutsche Grammatik 1", lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Book b2 = new Book("Deutsche Grammatik 2", id);
+
+        id = bookManager.insertNewBook(b1);
+        assertNotSame(-1, id);
+
+        id = bookManager.insertNewBook(b2);
+        assertNotSame(-1, id);
+
+        List<Book> list = bookManager.getAllBooksOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
+    }
+
+    public void testGetNextBooks(){
+        Book expired = new Book("name expired", lecture.getId());
+        expired.setDueDate(new Date(2012, 1, 1));
+        Book active1 = new Book("name act1", lecture.getId());
+        active1.setDueDate(new Date(2014, 2, 2));
+        Book active2 = new Book("name act2", lecture.getId());
+        active2.setDueDate(new Date(2014, 3, 3));
+
+        bookManager.insertNewBook(expired);
+        bookManager.insertNewBook(active1);
+        bookManager.insertNewBook(active2);
+
+        List<Book> resultList = bookManager.getNextBooks();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateBook(){
+
+    }
+
+    public void testUpdateBook(){
+
+    }
+
+    public void testDeleteBook(){
+
+    }
+
 }

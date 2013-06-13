@@ -14,27 +14,28 @@ import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 12;
+    private static int dbversion = 16;
+    protected static int MAX_ELEMENTS_FOR_QUERY = 3;
     private static final String createHomework = "create table homework "
     +"( _id integer primary key,name text, due_date date, lecture integer not null );";//references lecture(_id));";
 
-    private static final String createLecture = "create table lecture (_id integer primary key, name text, "
+    private static final String createLecture = "create table lecture (_id integer primary key, name text not null, "
     +"location text, day text, time date, prof_name text, mandatory boolean);";
 
     private static final String createBook = "create table book (_id integer primary key, lecture integer not null, "
     +"name text not null, author text, due_date date, lender_name text, lender_address text);";
 
-    private static final String createExam = "create table exam (_id integer primary key, lecture integer not null "
-    +"references lecture(_id), location text, exam_date date);";
+    private static final String createExam = "create table exam (_id integer primary key, lecture integer not null, "
+    +"location text, exam_date date);";
 
-    private static final String createWorkmate = "create table workmate (_id integer primary key, name text, "
+    private static final String createWorkmate = "create table workmate (_id integer primary key, name text not null, "
     +"email text, mobile text);";
 
     private static final String createLearningMaterials = "create table learning_materials (_id integer primary key, "
     +"link text, description text);";
 
     private static final String createMilestone = "create table milestone (_id integer primary key, "
-    +"milestone_date date, description text);";
+    +"milestone_date date not null, description text);";
 
     private static final String createExam2Workmate = "create table exam2workmate (_id integer primary key, exam integer not null, "
     +"workmate integer not null);";
@@ -160,9 +161,23 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
         db.close();
     }
 
-    public String getDatabaseName(){
-        String name = super.getDatabaseName();
-        return name;
+    /**
+     * this is for cleaning database after test
+     */
+    public void cleanAllTables(){
+        db.execSQL("delete from homework");
+        db.execSQL("delete from exam");
+        db.execSQL("delete from book");
+        db.execSQL("delete from lecture");
+        db.execSQL("delete from learning_materials");
+        db.execSQL("delete from workmate");
+        db.execSQL("delete from milestone");
+        db.execSQL("delete from exam2workmate");
+        db.execSQL("delete from homework2workmate");
+        db.execSQL("delete from exam2milestone");
+        db.execSQL("delete from homework2milestone");
+        db.execSQL("delete from exam2learning_materials");
+        db.execSQL("delete from homework2learning_materials");
     }
 
 

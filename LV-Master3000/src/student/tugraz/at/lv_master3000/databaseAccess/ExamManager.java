@@ -38,7 +38,10 @@ public class ExamManager extends LVMaster3000DBHelper {
             values.put("exam_date", sqlDate.toString());
         }
 
-        return (int)db.insert(tableName, "null",values);
+        int id = (int)db.insert(tableName, "null", values);
+        exam.setId(id);
+
+        return id;
     }
 
 
@@ -113,16 +116,61 @@ public class ExamManager extends LVMaster3000DBHelper {
         return  resultList;
     }
 
-    public boolean addWorkmate(int wmId){
-        return true;
+    public boolean addWorkmateToExam(int wmId, int examId){
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("workmate", wmId);
+
+
+        int id = (int)db.insert("exam2workmate", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
-    public boolean addMilestone(int msId){
-        return true;
+    public boolean addMilestoneToExam(int msId, int examId){
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("milestone", msId);
+
+
+        int id = (int)db.insert("exam2milestone", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
-    public boolean addLearningMaterials(int lmId){
-        return true;
+    public boolean addLearningMaterialsToExam(int lmId, int examId){
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("learning_materials", lmId);
+
+
+        int id = (int)db.insert("exam2learning_materials", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
+    public List<Exam> getNextExams(){
+        return null;
+    }
+
+    public boolean validateExam(Exam exam){
+        return false;
+    }
+
+    public boolean updateExam(int exId, Exam newValues){
+        return false;
+    }
+
+    public boolean deleteExam(int exId){
+        return false;
+    }
 }

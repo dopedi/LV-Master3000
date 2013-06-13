@@ -1,12 +1,11 @@
 package student.tugraz.at.lv_master3000.test;
 
 import java.util.Date;
+import java.util.List;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.domain.Homework;
-import student.tugraz.at.lv_master3000.domain.Lecture;
-import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
-import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
+import student.tugraz.at.lv_master3000.databaseAccess.*;
+import student.tugraz.at.lv_master3000.domain.*;
 
 //@RunWith(JUnit4.class)
 public class HomeworkTest extends AndroidTestCase {
@@ -35,8 +34,10 @@ public class HomeworkTest extends AndroidTestCase {
 	}
 
 	protected void tearDown() throws Exception {
+        hw = null;
+        homeworkManager.cleanAllTables();
 		super.tearDown();
-		hw = null;
+
 	}
 	
 	public void testDueDate(){
@@ -69,6 +70,133 @@ public class HomeworkTest extends AndroidTestCase {
 
         Homework hwFromDB = homeworkManager.getHomeworkFromDB(hwId);
         assertEquals("assignment 1", hwFromDB.getName());
+    }
+
+    public void testGetHomeworkFromDB(){
+        String name = "assignment 2";
+
+        Homework homework = new Homework(lecture.getId());
+        homework.setName(name);
+
+        int hwId = homeworkManager.insertNewHomework(homework);
+        assertNotSame(-1, hwId);
+
+        Homework result = homeworkManager.getHomeworkFromDB(hwId);
+
+        String resName;
+        if(result == null)
+            resName = "";
+        else
+            resName = result.getName();
+
+        assertEquals(name, resName);
+
+    }
+
+    public void testGetAllHomeworks(){
+        assertNotNull(lecture.getId());
+
+        Homework h1 = new Homework(lecture.getId());
+        Homework h2 = new Homework(lecture.getId());
+
+        int id = homeworkManager.insertNewHomework(h1);
+        assertNotSame(-1, id);
+
+        id = homeworkManager.insertNewHomework(h2);
+        assertNotSame(-1, id);
+
+        List<Homework> list = homeworkManager.getAllHomeworks();
+
+        assertEquals(2, list.size());
+    }
+
+    public void testGetAllHomeworksOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Homework h1 = new Homework(lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Homework h2 = new Homework(id);
+
+        id = homeworkManager.insertNewHomework(h1);
+        assertNotSame(-1, id);
+
+        id = homeworkManager.insertNewHomework(h2);
+        assertNotSame(-1, id);
+
+        List<Homework> list = homeworkManager.getAllHomeworksOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
+    }
+
+    public void testAddMilestoneToHomework(){
+        Homework hw = new Homework(lecture.getId());
+        Milestone ms = new Milestone(new Date(2013, 7, 7));
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        int msId = new MilestoneManager(this.getContext()).insertNewMilestone(ms);
+
+        boolean hw2msWorked = homeworkManager.addMilestoneToHomework(msId, hwId);
+
+        assertTrue(hw2msWorked);
+    }
+
+    public void testAddLearningMaterialsToHomework(){
+        Homework hw = new Homework(lecture.getId());
+        LearningMaterials lm = new LearningMaterials("best practices");
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        int lmId = new LearningMaterialsManager(this.getContext()).insertNewLearningMaterials(lm);
+
+        boolean hw2msWorked = homeworkManager.addLearningMaterialsToHomework(lmId, hwId);
+
+        assertTrue(hw2msWorked);
+    }
+
+    public void testAddWorkmateToHomework(){
+        Homework hw = new Homework(lecture.getId());
+        Workmate wm = new Workmate("Peter");
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        int wmId = new WorkmateManager(this.getContext()).insertNewWorkmate(wm);
+
+        boolean hw2msWorked = homeworkManager.addWorkmateToHomework(wmId, hwId);
+
+        assertTrue(hw2msWorked);
+    }
+
+    public void testGetNextHomeworks(){
+        Homework expired = new Homework(lecture.getId());
+        expired.setDueDate(new Date(2012, 1, 1));
+        Homework active1 = new Homework(lecture.getId());
+        active1.setDueDate(new Date(2014, 1, 1));
+        Homework active2 = new Homework(lecture.getId());
+        active2.setDueDate(new Date(2014, 2, 2));
+
+        homeworkManager.insertNewHomework(expired);
+        homeworkManager.insertNewHomework(active1);
+        homeworkManager.insertNewHomework(active2);
+
+        List<Homework> resultList = homeworkManager.getNextHomeworks();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateHomework(){
+
+    }
+
+    public void testUpdateHomework(){
+
+    }
+
+    public void testDeleteHomework(){
+
     }
 
 }

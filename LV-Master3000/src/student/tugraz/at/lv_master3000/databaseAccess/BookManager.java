@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Book;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class BookManager extends LVMaster3000DBHelper{
     public static  final String tableName = "book";
-    private int rowCount = 0;
+    private static final String[] columns = new String[]{"_id","lecture", "name", "author", "due_date", "lender_name", "lender_address"};
 
     public BookManager(Context context) {
         super(context);
@@ -25,7 +26,6 @@ public class BookManager extends LVMaster3000DBHelper{
     public Integer insertNewBook(Book book){
 
         ContentValues values = new ContentValues();
-        values.put("lectureId", book.getLecture());
 
         java.util.Date date = book.getDueDate();
         java.sql.Date sqlDate;
@@ -40,17 +40,21 @@ public class BookManager extends LVMaster3000DBHelper{
         values.put("lender_name", book.getLenderName());
         values.put("lender_address", book.getLenderAddress());
 
-        return (int)db.insert(tableName, "null", values);
+        int id = (int)db.insert(tableName, "null", values);
+        book.setId(id);
+
+        return id;
 
     }
 
 
 
     public Book getBookFromDB(int id){
-        Book result = null;
-        // TODO fetch from DB
+        String selection = "_id =?";
 
-        return result;
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(id)},null, null,null , null);
+
+        return fillQueryResultInBook(cursor);
     }
 
     public Book getBookFromDBByName(String mobapp) {
@@ -63,18 +67,90 @@ public class BookManager extends LVMaster3000DBHelper{
     }
 
     private Book fillQueryResultInBook(Cursor cursor){
-        return null;
+        Book result = null;
+
+        if(cursor.moveToFirst()){
+            result = new Book(cursor.getString(cursor.getColumnIndexOrThrow("name")), cursor.getInt(cursor.getColumnIndexOrThrow("lecture")));
+            result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+            result.setAuthorName(cursor.getString(cursor.getColumnIndexOrThrow("author")));
+            result.setLenderAddress(cursor.getString(cursor.getColumnIndexOrThrow("lender_address")));
+            result.setLenderName(cursor.getString(cursor.getColumnIndexOrThrow("lender_name")));
+
+            Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+            if(dateLong != null){
+                java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                java.util.Date date = new java.util.Date(sqlDate.getTime());
+                result.setDueDate(date);
+            }
+        }
+
+        return result;
     }
 
     public List<Book> getAllBooks(){
-        return new ArrayList<Book>();
+        String selectQuery = "SELECT  * FROM " + tableName;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInBookList(cursor);
     }
 
     public List<Book> getAllBooksOfLecture(int lecId){
-        return new ArrayList<Book>();
+        List<Book> resultList = new ArrayList<Book>();
+
+        String selectQuery = "SELECT  * FROM " + tableName + " WHERE lecture = " + lecId;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInBookList(cursor);
     }
 
-    private List<Book> fillQueryResultListInBookList(){
-        return new ArrayList<Book>();
+    private List<Book> fillQueryResultListInBookList(Cursor cursor){
+        List<Book> resultList = new ArrayList<Book>();
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Book result = new Book(cursor.getString(cursor.getColumnIndexOrThrow("name")), cursor.getInt(cursor.getColumnIndexOrThrow("lecture")));
+                result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                result.setAuthorName(cursor.getString(cursor.getColumnIndexOrThrow("author")));
+                result.setLenderAddress(cursor.getString(cursor.getColumnIndexOrThrow("lender_address")));
+                result.setLenderName(cursor.getString(cursor.getColumnIndexOrThrow("lender_name")));
+
+               /* Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+                if(dateLong != null){
+                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
+                    java.util.Date date = new java.util.Date(sqlDate.getTime());
+                    result.setDueDate(date);
+                }*/
+
+
+
+                resultList.add(result);
+            } while (cursor.moveToNext());
+        }
+
+        return  resultList;
+    }
+
+    public List<Book> getNextBooks(){
+        java.sql.Date today = new java.sql.Date(new java.util.Date().getTime());
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+        selectQuery += " WHERE book.due_date >= " + today;
+        selectQuery += " ORDER BY book.due_date LIMIT " + MAX_ELEMENTS_FOR_QUERY + ";";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInBookList(cursor);
+    }
+
+    public boolean validateBook(Book book){
+        return false;
+    }
+
+    public boolean updateBook(int bookId, Book newValues){
+        return false;
+    }
+
+    public boolean deleteBook(int bookId){
+        return false;
     }
 }

@@ -1,10 +1,8 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.domain.Exam;
-import student.tugraz.at.lv_master3000.domain.Lecture;
-import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
-import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
+import student.tugraz.at.lv_master3000.databaseAccess.*;
+import student.tugraz.at.lv_master3000.domain.*;
 
 import java.util.Date;
 import java.util.List;
@@ -39,7 +37,8 @@ public class ExamTest extends AndroidTestCase
     @Override
     public void tearDown() throws Exception
     {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+        examManager.cleanAllTables();
+        super.tearDown();
     }
 
     public void testGetterAndSetters() throws Exception
@@ -80,6 +79,29 @@ public class ExamTest extends AndroidTestCase
         assertNotSame(-1, exId);
     }
 
+    public void testGetExamFromDB(){
+        String location = "HSG";
+        Date date = new Date(2013, 6, 6);
+
+        Exam exam = new Exam(lecture.getId());
+        exam.setDate(date);
+        exam.setLocation(location);
+
+        int exId = examManager.insertNewExam(exam);
+        assertNotSame(-1, exId);
+
+        Exam result = examManager.getExamFromDB(exId);
+
+        String resLoc;
+        if(result == null)
+            resLoc = "";
+        else
+            resLoc = result.getLocation();
+
+        assertEquals(location, resLoc);
+
+    }
+
     public void testGetAllExams(){
         assertNotNull(lecture.getId());
 
@@ -93,11 +115,99 @@ public class ExamTest extends AndroidTestCase
 
         examManager.insertNewExam(exam2);
 
-        List<Exam> allExams = examManager.getAllExamsOfLecture(lecture.getId());
+        List<Exam> allExams = examManager.getAllExams();
 
         assertEquals(2, allExams.size());
         assertEquals("i12", allExams.get(0).getLocation());
         assertEquals("i9", allExams.get(1).getLocation());
     }
 
+    public void testGetAllExamsOfLecture(){
+        assertNotNull(lecture.getId());
+
+        Exam ex1 = new Exam(lecture.getId());
+
+        Lecture lecture2 = new Lecture("HCI");
+        int id = lectureManager.insertNewLecture(lecture2);
+        assertNotSame(-1, id);
+
+        Exam ex2 = new Exam(id);
+
+        id = examManager.insertNewExam(ex1);
+        assertNotSame(-1, id);
+
+        id = examManager.insertNewExam(ex2);
+        assertNotSame(-1, id);
+
+        List<Exam> list = examManager.getAllExamsOfLecture(lecture.getId());
+
+        assertEquals(1, list.size());
+    }
+
+    public void testAddMilestoneToExam(){
+        Exam ex = new Exam(lecture.getId());
+        Milestone ms = new Milestone(new Date(2013, 7, 7));
+
+        int exId = examManager.insertNewExam(ex);
+        int msId = new MilestoneManager(this.getContext()).insertNewMilestone(ms);
+
+        boolean ex2msWorked = examManager.addMilestoneToExam(msId, exId);
+
+        assertTrue(ex2msWorked);
+    }
+
+    public void testAddLearningMaterialsToExam(){
+        Exam ex = new Exam(lecture.getId());
+        LearningMaterials lm = new LearningMaterials("linksammlung");
+
+        int exId = examManager.insertNewExam(ex);
+        int lmId = new LearningMaterialsManager(this.getContext()).insertNewLearningMaterials(lm);
+
+        boolean ex2lmWorked = examManager.addLearningMaterialsToExam(lmId, exId);
+
+        assertTrue(ex2lmWorked);
+    }
+
+    public void testAddWorkmateToExam(){
+        Exam ex = new Exam(lecture.getId());
+        Workmate wm = new Workmate("Heinzi");
+
+        int exId = examManager.insertNewExam(ex);
+        int wmId = new WorkmateManager(this.getContext()).insertNewWorkmate(wm);
+
+        boolean ex2msWorked = examManager.addWorkmateToExam(wmId, exId);
+
+        assertTrue(ex2msWorked);
+    }
+
+    public void testGetNextExams(){
+        Exam expired = new Exam(lecture.getId());
+        expired.setDate(new Date(2012, 1, 1));
+        Exam active1 = new Exam(lecture.getId());
+        active1.setDate(new Date(2014, 2, 2));
+        Exam active2 = new Exam(lecture.getId());
+        active2.setDate(new Date(2014, 3, 3));
+
+        examManager.insertNewExam(expired);
+        examManager.insertNewExam(active1);
+        examManager.insertNewExam(active2);
+
+        List<Exam> resultList = examManager.getNextExams();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateExam(){
+
+    }
+
+    public void testUpdateExam(){
+
+    }
+
+    public void testDeleteExam(){
+
+    }
 }
