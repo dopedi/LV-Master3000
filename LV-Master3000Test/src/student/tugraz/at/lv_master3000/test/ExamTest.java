@@ -1,10 +1,8 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.domain.Exam;
-import student.tugraz.at.lv_master3000.domain.Lecture;
-import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
-import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
+import student.tugraz.at.lv_master3000.databaseAccess.*;
+import student.tugraz.at.lv_master3000.domain.*;
 
 import java.util.Date;
 import java.util.List;
@@ -147,14 +145,38 @@ public class ExamTest extends AndroidTestCase
     }
 
     public void testAddMilestoneToExam(){
+        Exam ex = new Exam(lecture.getId());
+        Milestone ms = new Milestone(new Date(2013, 7, 7));
 
+        int exId = examManager.insertNewExam(ex);
+        int msId = new MilestoneManager(this.getContext()).insertNewMilestone(ms);
+
+        boolean ex2msWorked = examManager.addMilestoneToExam(msId, exId);
+
+        assertTrue(ex2msWorked);
     }
 
     public void testAddLearningMaterialsToExam(){
+        Exam ex = new Exam(lecture.getId());
+        LearningMaterials lm = new LearningMaterials("linksammlung");
 
+        int exId = examManager.insertNewExam(ex);
+        int lmId = new LearningMaterialsManager(this.getContext()).insertNewLearningMaterials(lm);
+
+        boolean ex2lmWorked = examManager.addLearningMaterialsToExam(lmId, exId);
+
+        assertTrue(ex2lmWorked);
     }
 
     public void testAddWorkmateToExam(){
+        Exam ex = new Exam(lecture.getId());
+        Workmate wm = new Workmate("Heinzi");
 
+        int exId = examManager.insertNewExam(ex);
+        int wmId = new WorkmateManager(this.getContext()).insertNewWorkmate(wm);
+
+        boolean ex2msWorked = examManager.addWorkmateToExam(wmId, exId);
+
+        assertTrue(ex2msWorked);
     }
 }

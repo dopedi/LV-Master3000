@@ -117,15 +117,45 @@ public class ExamManager extends LVMaster3000DBHelper {
     }
 
     public boolean addWorkmateToExam(int wmId, int examId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("workmate", wmId);
+
+
+        int id = (int)db.insert("exam2workmate", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
     public boolean addMilestoneToExam(int msId, int examId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("milestone", msId);
+
+
+        int id = (int)db.insert("exam2milestone", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
     public boolean addLearningMaterialsToExam(int lmId, int examId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("exam", examId);
+        values.put("learning_materials", lmId);
+
+
+        int id = (int)db.insert("exam2learning_materials", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
 }

@@ -1,7 +1,11 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
+import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
+import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
 import student.tugraz.at.lv_master3000.databaseAccess.WorkmateManager;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.domain.Workmate;
 
@@ -100,5 +104,49 @@ public class WorkmateTest extends AndroidTestCase{
         List<Workmate> list = workmateManager.getAllWorkmates();
 
         assertEquals(2, list.size());
+    }
+
+    public void testGetAllWorkmatesOfHomework(){
+        Workmate wm1 = new Workmate("julia");
+        Workmate wm2 = new Workmate("petra");
+
+        int id1 = workmateManager.insertNewWorkmate(wm1);
+        int id2 = workmateManager.insertNewWorkmate(wm2);
+
+        HomeworkManager hwMan = new HomeworkManager(this.getContext());
+
+        Homework hw = new Homework(lecture.getId());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        hwMan.addWorkmateToHomework(id1, hwId);
+        hwMan.addWorkmateToHomework(id2, hwId);
+
+        List<Workmate> wmList = workmateManager.getAllWorkmatesOfHomework(hwId);
+
+        assertNotNull(wmList);
+        if(wmList != null)
+            assertEquals(2, wmList.size());
+    }
+
+    public void testGetAllWorkmatesOfExam(){
+        Workmate wm1 = new Workmate("hansi");
+        Workmate wm2 = new Workmate("franzi");
+
+        int id1 = workmateManager.insertNewWorkmate(wm1);
+        int id2 = workmateManager.insertNewWorkmate(wm2);
+
+        ExamManager examManager = new ExamManager(this.getContext());
+
+        Exam exam = new Exam(lecture.getId());
+        int exId = examManager.insertNewExam(exam);
+
+        examManager.addWorkmateToExam(id1, exId);
+        examManager.addWorkmateToExam(id2, exId);
+
+        List<Workmate> wmList = workmateManager.getAllWorkmatesOfExam(exId);
+
+        assertNotNull(wmList);
+        if(wmList != null)
+            assertEquals(2, wmList.size());
     }
 }

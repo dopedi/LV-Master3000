@@ -128,15 +128,45 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public boolean addWorkmateToHomework(int wmId, int hwId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("homework", hwId);
+        values.put("workmate", wmId);
+
+
+        int id = (int)db.insert("homework2workmate", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
     public boolean addMilestoneToHomework(int msId, int hwId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("homework", hwId);
+        values.put("milestone", msId);
+
+
+        int id = (int)db.insert("homework2milestone", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
     public boolean addLearningMaterialsToHomework(int lmId, int hwId){
-        return true;
+        ContentValues values = new ContentValues();
+        values.put("homework", hwId);
+        values.put("learning_materials", lmId);
+
+
+        int id = (int)db.insert("homework2learning_materials", "null", values);
+
+        if(id != -1)
+            return true;
+        else
+            return false;
     }
 
 }

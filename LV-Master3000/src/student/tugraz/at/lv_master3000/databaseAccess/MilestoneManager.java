@@ -106,10 +106,20 @@ public class MilestoneManager extends LVMaster3000DBHelper{
     }
 
     public List<Milestone> getAllMilestonesOfHomework(int hwId){
-        return null;
+        String selectQuery = "SELECT  * FROM milestone ";
+        selectQuery += " INNER JOIN homework2milestone WHERE homework2milestone.homework = " + hwId;
+        selectQuery += " AND milestone._id = homework2milestone.milestone;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return fillQueryResultListInMilestoneList(cursor);
     }
 
     public List<Milestone> getAllMilestonesOfExam(int exId){
-        return null;
+        String selectQuery = "SELECT  * FROM milestone ";
+        selectQuery += " INNER JOIN exam2milestone WHERE exam2milestone.exam = " + exId;
+        selectQuery += " AND milestone._id = exam2milestone.milestone;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return fillQueryResultListInMilestoneList(cursor);
     }
 }

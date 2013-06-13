@@ -86,10 +86,20 @@ public class WorkmateManager extends LVMaster3000DBHelper{
     }
 
     public List<Workmate> getAllWorkmatesOfHomework(int hwId){
-        return null;
+        String selectQuery = "SELECT  * FROM workmate ";
+        selectQuery += " INNER JOIN homework2workmate WHERE homework2workmate.homework = " + hwId;
+        selectQuery += " AND workmate._id = homework2workmate.workmate;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInWorkmateList(cursor);
     }
 
     public List<Workmate> getAllWorkmatesOfExam(int exId){
-        return null;
+        String selectQuery = "SELECT  * FROM workmate ";
+        selectQuery += " INNER JOIN exam2workmate WHERE exam2workmate.exam = " + exId;
+        selectQuery += " AND workmate._id = exam2workmate.workmate;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInWorkmateList(cursor);
     }
 }

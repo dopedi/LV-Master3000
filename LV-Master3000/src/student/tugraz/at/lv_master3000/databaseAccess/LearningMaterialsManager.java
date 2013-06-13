@@ -83,10 +83,20 @@ public class LearningMaterialsManager extends LVMaster3000DBHelper{
     }
 
     public List<LearningMaterials> getAllLearningMaterialsOfHomework(int hwId){
-        return null;
+        String selectQuery = "SELECT  * FROM learning_materials ";
+        selectQuery += " INNER JOIN homework2learning_materials WHERE homework2learning_materials.homework = " + hwId;
+        selectQuery += " AND learning_materials._id = homework2learning_materials.learning_materials;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInLearningMaterialsList(cursor);
     }
 
     public List<LearningMaterials> getAllLearningMaterialsOfExam(int exId){
-        return null;
+        String selectQuery = "SELECT  * FROM learning_materials ";
+           selectQuery += " INNER JOIN exam2learning_materials WHERE exam2learning_materials.exam = " + exId;
+            selectQuery += " AND learning_materials._id = exam2learning_materials.learning_materials;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInLearningMaterialsList(cursor);
     }
 }

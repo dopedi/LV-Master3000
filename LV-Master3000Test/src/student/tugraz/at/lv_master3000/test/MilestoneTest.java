@@ -1,7 +1,11 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
+import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
+import student.tugraz.at.lv_master3000.databaseAccess.HomeworkManager;
 import student.tugraz.at.lv_master3000.databaseAccess.MilestoneManager;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.domain.Milestone;
 
@@ -104,5 +108,77 @@ public class MilestoneTest extends AndroidTestCase{
         List<Milestone> list = milestoneManager.getAllMilestones();
 
         assertEquals(2, list.size());
+    }
+
+    public void testGetAllMilestonesOfHomework(){
+        Milestone m1 = new Milestone(new Date(2013, 8, 8));
+        Milestone m2 = new Milestone(new Date(2013, 9, 9));
+
+        int id1 = milestoneManager.insertNewMilestone(m1);
+        int id2 = milestoneManager.insertNewMilestone(m2);
+
+        HomeworkManager hwMan = new HomeworkManager(this.getContext());
+
+        Homework hw = new Homework(lecture.getId());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        hwMan.addMilestoneToHomework(id1, hwId);
+        hwMan.addMilestoneToHomework(id2, hwId);
+
+        List<Milestone> msList = milestoneManager.getAllMilestonesOfHomework(hwId);
+
+        assertNotNull(msList);
+        if(msList != null)
+            assertEquals(2, msList.size());
+    }
+
+    public void testGetAllMilestonesOfExam(){
+        Milestone m1 = new Milestone(new Date(2013, 8, 8));
+        Milestone m2 = new Milestone(new Date(2013, 9, 9));
+
+        int id1 = milestoneManager.insertNewMilestone(m1);
+        int id2 = milestoneManager.insertNewMilestone(m2);
+
+        ExamManager examManager = new ExamManager(this.getContext());
+
+        Exam exam = new Exam(lecture.getId());
+        int exId = examManager.insertNewExam(exam);
+
+        examManager.addMilestoneToExam(id1, exId);
+        examManager.addMilestoneToExam(id2, exId);
+
+        List<Milestone> msList = milestoneManager.getAllMilestonesOfExam(exId);
+
+        assertNotNull(msList);
+        if(msList != null)
+            assertEquals(2, msList.size());
+    }
+
+    public void testGetNextMilestones(){
+
+    }
+
+    public void testGetExpiredMilestonesOfHomework(){
+
+    }
+
+    public void testGetExpiredMilestonesOfExam(){
+
+    }
+
+    public void testGetFinishedMilestonesOfHomework(){
+
+    }
+
+    public void testGetFinishedMilestonesOfExam(){
+
+    }
+
+    public void testGetActiveMilestonesOfHomework(){
+
+    }
+
+    public void testGetActiveMilestonesOfExam(){
+
     }
 }

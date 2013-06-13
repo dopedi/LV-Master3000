@@ -11,13 +11,31 @@ import java.util.Date;
  */
 public class Milestone {
 
-    public Milestone(Date date){
-       this.date = date;
-    }
-
     private int id;
     private Date date;
     private String description;
+    private boolean finished;
+    private boolean expired;
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    public Milestone(Date date){
+        this.date = date;
+    }
 
     public int getId() {
         return id;
