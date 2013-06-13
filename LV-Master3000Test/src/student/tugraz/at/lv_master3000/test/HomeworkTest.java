@@ -27,7 +27,7 @@ public class HomeworkTest extends AndroidTestCase {
         homeworkManager = new HomeworkManager(this.getContext());
 
         hw = new Homework(lecId);
-		due = new Date(2012, 3, 12);
+		due = new Date(112, 3, 12);
 		hw.setDueDate(due);
 		hw.setName("assignment 1");
         hw.setLecture(1);
@@ -46,7 +46,7 @@ public class HomeworkTest extends AndroidTestCase {
 
     public void testGettersAndSetters(){
         String name = "ass 1";
-        Date date = new Date(2014, 1, 1);
+        Date date = new Date(114, 1, 1);
         int id = 2001;
         int lecId = 1;
 
@@ -134,7 +134,7 @@ public class HomeworkTest extends AndroidTestCase {
 
     public void testAddMilestoneToHomework(){
         Homework hw = new Homework(lecture.getId());
-        Milestone ms = new Milestone(new Date(2013, 7, 7));
+        Milestone ms = new Milestone(new Date(113, 7, 7));
 
         int hwId = homeworkManager.insertNewHomework(hw);
         int msId = new MilestoneManager(this.getContext()).insertNewMilestone(ms);
@@ -170,11 +170,11 @@ public class HomeworkTest extends AndroidTestCase {
 
     public void testGetNextHomeworks(){
         Homework expired = new Homework(lecture.getId());
-        expired.setDueDate(new Date(2012, 1, 1));
+        expired.setDueDate(new Date(112, 1, 1));
         Homework active1 = new Homework(lecture.getId());
-        active1.setDueDate(new Date(2014, 1, 1));
+        active1.setDueDate(new Date(114, 1, 1));
         Homework active2 = new Homework(lecture.getId());
-        active2.setDueDate(new Date(2014, 2, 2));
+        active2.setDueDate(new Date(114, 2, 2));
 
         homeworkManager.insertNewHomework(expired);
         homeworkManager.insertNewHomework(active1);

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Homework;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,12 +30,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         values.put("name", homework.getName());
         values.put("lecture", homework.getLecture());
 
-        java.util.Date date = homework.getDueDate();
-        java.sql.Date sqlDate;
-        if(date != null){
-            sqlDate = new java.sql.Date(date.getTime());
-            values.put("due_date", sqlDate.toString());
-        }
+        long time = 0l;
+        if(homework.getDueDate() != null)
+            time = homework.getDueDate().getTime();
+        values.put("due_date", time);
 
         int id = (int)db.insert(tableName, "null", values);
         homework.setId(id);
@@ -79,11 +78,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-            if(dateLong != null){
-                java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                java.util.Date date = new java.util.Date(sqlDate.getTime());
-                result.setDueDate(date);
-            }
+            result.setDueDate(new Date(dateLong));
         }
 
         return result;
@@ -114,11 +109,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
                 result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-                if(dateLong != null){
-                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                    java.util.Date date = new java.util.Date(sqlDate.getTime());
-                    result.setDueDate(date);
-                }
+                result.setDueDate(new Date(dateLong));
 
                 resultList.add(result);
             } while (cursor.moveToNext());
@@ -170,7 +161,14 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public List<Homework> getNextHomeworks(){
-        return null;
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+        selectQuery += " WHERE homework.due_date >= " + today;
+        selectQuery += " ORDER BY homework.due_date LIMIT " + MAX_ELEMENTS_FOR_QUERY;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoHomeworkList(cursor);
     }
 
     public boolean validateHomework(Homework homework){

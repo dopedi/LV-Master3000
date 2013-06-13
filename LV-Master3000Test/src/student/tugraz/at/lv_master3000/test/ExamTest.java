@@ -43,7 +43,7 @@ public class ExamTest extends AndroidTestCase
 
     public void testGetterAndSetters() throws Exception
     {
-        Date examDate = new Date(2013, 6, 6);
+        Date examDate = new Date(113, 6, 6);
         String examDay = "SomeDay";
         String examLocation = "Address Test";
         int lectureId = 1;
@@ -81,7 +81,7 @@ public class ExamTest extends AndroidTestCase
 
     public void testGetExamFromDB(){
         String location = "HSG";
-        Date date = new Date(2013, 6, 6);
+        Date date = new Date(113, 6, 6);
 
         Exam exam = new Exam(lecture.getId());
         exam.setDate(date);
@@ -146,7 +146,7 @@ public class ExamTest extends AndroidTestCase
 
     public void testAddMilestoneToExam(){
         Exam ex = new Exam(lecture.getId());
-        Milestone ms = new Milestone(new Date(2013, 7, 7));
+        Milestone ms = new Milestone(new Date(113, 7, 7));
 
         int exId = examManager.insertNewExam(ex);
         int msId = new MilestoneManager(this.getContext()).insertNewMilestone(ms);
@@ -182,11 +182,11 @@ public class ExamTest extends AndroidTestCase
 
     public void testGetNextExams(){
         Exam expired = new Exam(lecture.getId());
-        expired.setDate(new Date(2012, 1, 1));
+        expired.setDate(new Date(112, 1, 1));
         Exam active1 = new Exam(lecture.getId());
-        active1.setDate(new Date(2014, 2, 2));
+        active1.setDate(new Date(114, 2, 2));
         Exam active2 = new Exam(lecture.getId());
-        active2.setDate(new Date(2014, 3, 3));
+        active2.setDate(new Date(114, 3, 3));
 
         examManager.insertNewExam(expired);
         examManager.insertNewExam(active1);
