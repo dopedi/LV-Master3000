@@ -122,4 +122,64 @@ public class MilestoneManager extends LVMaster3000DBHelper{
         Cursor cursor = db.rawQuery(selectQuery, null);
         return fillQueryResultListInMilestoneList(cursor);
     }
+
+    public List<Milestone> getNextMilestonesForExam(int exId){
+        return null;
+    }
+
+    public List<Milestone> getNextMilestonesForHomework(int hwId){
+        return null;
+    }
+
+    public List<Milestone> getExpiredMilestonesForExam(int exId){
+        return null;
+    }
+
+    public List<Milestone> getExpiredMilestonesForHomework(int hwId){
+        return null;
+    }
+
+    public List<Milestone> getFinishedMilestonesForExam(int exId){
+        return null;
+    }
+
+    public List<Milestone> getFinishedMilestonesForHomework(int hwId){
+        return null;
+    }
+
+    public List<Milestone> getActiveMilestonesForExam(int exId){
+        return null;
+    }
+
+    public List<Milestone> getActiveMilestonesForHomework(int hwId){
+        return null;
+    }
+
+    public List<Milestone> getAllNextMilestones(){
+        return null;
+    }
+
+    public List<Milestone> getAllExpiredMilestones(){
+        return null;
+    }
+
+    public List<Milestone> getAllFinishedMilestones(){
+        return null;
+    }
+
+    public List<Milestone> getAllActiveMilestones(){
+        return null;
+    }
+
+    public boolean validateMileStone(Milestone milestone){
+        return false;
+    }
+
+    public boolean updateMilestone(int msId, Milestone newValues){
+        return false;
+    }
+
+    public boolean deleteMilestone(int msId){
+        return false;
+    }
 }

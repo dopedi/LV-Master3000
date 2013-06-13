@@ -167,4 +167,36 @@ public class HomeworkTest extends AndroidTestCase {
 
         assertTrue(hw2msWorked);
     }
+
+    public void testGetNextHomeworks(){
+        Homework expired = new Homework(lecture.getId());
+        expired.setDueDate(new Date(2012, 1, 1));
+        Homework active1 = new Homework(lecture.getId());
+        active1.setDueDate(new Date(2014, 1, 1));
+        Homework active2 = new Homework(lecture.getId());
+        active2.setDueDate(new Date(2014, 2, 2));
+
+        homeworkManager.insertNewHomework(expired);
+        homeworkManager.insertNewHomework(active1);
+        homeworkManager.insertNewHomework(active2);
+
+        List<Homework> resultList = homeworkManager.getNextHomeworks();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateHomework(){
+
+    }
+
+    public void testUpdateHomework(){
+
+    }
+
+    public void testDeleteHomework(){
+
+    }
+
 }

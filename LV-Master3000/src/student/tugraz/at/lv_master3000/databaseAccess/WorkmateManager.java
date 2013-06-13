@@ -102,4 +102,16 @@ public class WorkmateManager extends LVMaster3000DBHelper{
         Cursor cursor = db.rawQuery(selectQuery, null);
         return  fillQueryResultListInWorkmateList(cursor);
     }
+
+    public boolean validateWorkmate(Workmate workmate){
+        return false;
+    }
+
+    public boolean updateWorkmate(int wmId, Workmate newValues){
+        return false;
+    }
+
+    public boolean deleteWorkmate(int wmId){
+        return false;
+    }
 }

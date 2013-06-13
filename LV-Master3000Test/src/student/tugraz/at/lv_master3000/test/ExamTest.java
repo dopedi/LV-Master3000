@@ -179,4 +179,35 @@ public class ExamTest extends AndroidTestCase
 
         assertTrue(ex2msWorked);
     }
+
+    public void testGetNextExams(){
+        Exam expired = new Exam(lecture.getId());
+        expired.setDate(new Date(2012, 1, 1));
+        Exam active1 = new Exam(lecture.getId());
+        active1.setDate(new Date(2014, 2, 2));
+        Exam active2 = new Exam(lecture.getId());
+        active2.setDate(new Date(2014, 3, 3));
+
+        examManager.insertNewExam(expired);
+        examManager.insertNewExam(active1);
+        examManager.insertNewExam(active2);
+
+        List<Exam> resultList = examManager.getNextExams();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateExam(){
+
+    }
+
+    public void testUpdateExam(){
+
+    }
+
+    public void testDeleteExam(){
+
+    }
 }

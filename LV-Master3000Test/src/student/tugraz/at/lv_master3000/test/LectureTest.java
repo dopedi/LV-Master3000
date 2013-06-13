@@ -10,6 +10,7 @@ import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -122,6 +123,48 @@ public class LectureTest extends AndroidTestCase
         assertEquals("i12", allLectures.get(1).getPlace());
         assertEquals("Donnerstag", allLectures.get(0).getDay());
         assertEquals("Mittwoch", allLectures.get(1).getDay());
+
+    }
+
+    public void testGetNextLectures(){
+        Lecture active1 = new Lecture("act1");
+        Lecture active2 = new Lecture("act2");
+
+        Calendar calendar = Calendar.getInstance();
+        String today = "";
+        String tomorrow = "";
+
+        switch(calendar.get(Calendar.DAY_OF_WEEK)){
+            case 0: today = "Sonntag"; tomorrow = "Montag";break;
+            case 1:today = "Montag"; tomorrow = "Dienstag";break;
+            case 2:today = "Dienstag";tomorrow = "Mittwoch";break;
+            case 3:today = "Mittwoch";tomorrow = "Donnerstag";break;
+            case 4:today = "Donnerstag";tomorrow = "Freitag";break;
+            case 5: today = "Freitag";tomorrow = "Samstag";break;
+            case 6:today = "Samstag";tomorrow = "Sonntag";break;
+        }
+
+        active2.setDay(today);
+
+        dbManager.insertNewLecture(active1);
+        dbManager.insertNewLecture(active2);
+
+        List<Lecture> resultList = dbManager.getNextLectures();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(today, resultList.get(0).getDay());
+    }
+
+    public void testValidateLecture(){
+
+    }
+
+    public void testUpdateLecture(){
+
+    }
+
+    public void testDeleteLecture(){
 
     }
 

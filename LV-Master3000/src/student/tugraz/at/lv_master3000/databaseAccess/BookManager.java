@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Book;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -114,17 +115,42 @@ public class BookManager extends LVMaster3000DBHelper{
                 result.setLenderAddress(cursor.getString(cursor.getColumnIndexOrThrow("lender_address")));
                 result.setLenderName(cursor.getString(cursor.getColumnIndexOrThrow("lender_name")));
 
-                Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
+               /* Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
                 if(dateLong != null){
                     java.sql.Date sqlDate = new java.sql.Date(dateLong);
                     java.util.Date date = new java.util.Date(sqlDate.getTime());
                     result.setDueDate(date);
-                }
+                }*/
+
+
 
                 resultList.add(result);
             } while (cursor.moveToNext());
         }
 
         return  resultList;
+    }
+
+    public List<Book> getNextBooks(){
+        java.sql.Date today = new java.sql.Date(new java.util.Date().getTime());
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+        selectQuery += " WHERE book.due_date >= " + today;
+        selectQuery += " ORDER BY book.due_date LIMIT " + MAX_ELEMENTS_FOR_QUERY + ";";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListInBookList(cursor);
+    }
+
+    public boolean validateBook(Book book){
+        return false;
+    }
+
+    public boolean updateBook(int bookId, Book newValues){
+        return false;
+    }
+
+    public boolean deleteBook(int bookId){
+        return false;
     }
 }

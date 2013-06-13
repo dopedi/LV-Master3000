@@ -146,4 +146,35 @@ public class BookTest extends AndroidTestCase
         assertEquals(1, list.size());
     }
 
+    public void testGetNextBooks(){
+        Book expired = new Book("name expired", lecture.getId());
+        expired.setDueDate(new Date(2012, 1, 1));
+        Book active1 = new Book("name act1", lecture.getId());
+        active1.setDueDate(new Date(2014, 2, 2));
+        Book active2 = new Book("name act2", lecture.getId());
+        active2.setDueDate(new Date(2014, 3, 3));
+
+        bookManager.insertNewBook(expired);
+        bookManager.insertNewBook(active1);
+        bookManager.insertNewBook(active2);
+
+        List<Book> resultList = bookManager.getNextBooks();
+
+        assertNotNull(resultList);
+        if(resultList != null)
+            assertEquals(2, resultList.size());
+    }
+
+    public void testValidateBook(){
+
+    }
+
+    public void testUpdateBook(){
+
+    }
+
+    public void testDeleteBook(){
+
+    }
+
 }

@@ -1,6 +1,6 @@
 package student.tugraz.at.lv_master3000.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created with IntelliJ IDEA.

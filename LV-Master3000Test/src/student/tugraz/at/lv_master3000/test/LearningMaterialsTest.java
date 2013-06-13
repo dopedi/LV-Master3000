@@ -150,4 +150,16 @@ public class LearningMaterialsTest extends AndroidTestCase{
         if(lmList != null)
             assertEquals(2, lmList.size());
     }
+
+    public void testValidateLearningMaterials(){
+
+    }
+
+    public void testUpdateLearningMaterials(){
+
+    }
+
+    public void testDeleteLearningMaterials(){
+
+    }
 }

@@ -149,4 +149,16 @@ public class WorkmateTest extends AndroidTestCase{
         if(wmList != null)
             assertEquals(2, wmList.size());
     }
+
+    public void testValidateWorkmate(){
+
+    }
+
+    public void testUpdateWorkmate(){
+
+    }
+
+    public void testDeleteWorkmate(){
+
+    }
 }

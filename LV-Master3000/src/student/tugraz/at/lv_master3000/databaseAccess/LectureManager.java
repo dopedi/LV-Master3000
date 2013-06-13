@@ -3,9 +3,12 @@ package student.tugraz.at.lv_master3000.databaseAccess;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import student.tugraz.at.lv_master3000.R;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -129,6 +132,40 @@ public class LectureManager extends LVMaster3000DBHelper{
         }
 
         return  resultList;
+    }
+
+    public List<Lecture> getNextLectures(){
+        Calendar calendar = Calendar.getInstance();
+        String today = "";
+
+        switch(calendar.get(Calendar.DAY_OF_WEEK)){
+            case 0: today = "Sonntag";break;
+            case 1:today = "Montag";break;
+            case 2:today = "Dienstag"; break;
+            case 3:today = "Mittwoch";break;
+            case 4:today = "Donnerstag";break;
+            case 5:today = "Freitag"; break;
+            case 6:today = "Samstag";break;
+        }
+
+        String selectQuery = "SELECT  * FROM " + tableName;
+        selectQuery += " WHERE lecture.day = \"" + today +"\"";
+        selectQuery += " LIMIT " + MAX_ELEMENTS_FOR_QUERY;
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        return  fillQueryResultListIntoExamList(cursor);
+    }
+
+    public boolean validateLecture(Lecture lecture){
+        return false;
+    }
+
+    public boolean updateLecture(int lecId, Lecture newValues){
+        return false;
+    }
+
+    public boolean deleteLecture(int lecId){
+        return false;
     }
 
     /*   THESE METHODS ARE MAYBE UNNECESSARY

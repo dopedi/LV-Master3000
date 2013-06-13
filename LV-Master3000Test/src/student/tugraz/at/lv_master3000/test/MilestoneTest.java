@@ -154,6 +154,10 @@ public class MilestoneTest extends AndroidTestCase{
             assertEquals(2, msList.size());
     }
 
+    public void testValidateMilestone(){
+
+    }
+
     public void testGetNextMilestones(){
 
     }
@@ -179,6 +183,30 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testGetActiveMilestonesOfExam(){
+
+    }
+
+    public void testUpdateMilestone(){
+
+    }
+
+    public void testDeleteMilestone(){
+
+    }
+
+    public void testGetAllExpiredMilestones(){
+
+    }
+
+    public void testGetAllActiveMilestones(){
+
+    }
+
+    public void testGetAllFinishedMilestones(){
+
+    }
+
+    public void testGetAllNextMilestones(){
 
     }
 }

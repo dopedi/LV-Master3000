@@ -99,4 +99,16 @@ public class LearningMaterialsManager extends LVMaster3000DBHelper{
         Cursor cursor = db.rawQuery(selectQuery, null);
         return  fillQueryResultListInLearningMaterialsList(cursor);
     }
+
+    public boolean validateLearningMaterials(LearningMaterials lm){
+        return false;
+    }
+
+    public boolean updateLearningMaterials(int lmId, LearningMaterials newValues){
+        return false;
+    }
+
+    public boolean deleteLearningMaterials(int lmId){
+        return false;
+    }
 }

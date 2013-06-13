@@ -169,4 +169,20 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             return false;
     }
 
+    public List<Homework> getNextHomeworks(){
+        return null;
+    }
+
+    public boolean validateHomework(Homework homework){
+        return false;
+    }
+
+    public boolean updateHomework(int hwId, Homework newValues){
+        return false;
+    }
+
+    public boolean deleteHomework(int hwId){
+        return false;
+    }
+
 }

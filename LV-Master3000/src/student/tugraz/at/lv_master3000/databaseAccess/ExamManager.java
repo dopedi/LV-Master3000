@@ -158,4 +158,19 @@ public class ExamManager extends LVMaster3000DBHelper {
             return false;
     }
 
+    public List<Exam> getNextExams(){
+        return null;
+    }
+
+    public boolean validateExam(Exam exam){
+        return false;
+    }
+
+    public boolean updateExam(int exId, Exam newValues){
+        return false;
+    }
+
+    public boolean deleteExam(int exId){
+        return false;
+    }
 }
