@@ -1,10 +1,12 @@
 package student.tugraz.at.lv_master3000.databaseAccess;
 
-import android.accessibilityservice.AccessibilityService;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import student.tugraz.at.lv_master3000.Homework;
+import student.tugraz.at.lv_master3000.domain.Homework;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,11 +36,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             values.put("due_date", sqlDate.toString());
         }
 
-        db.insert(tableName, "null",values);
-
-        Homework res = getHomeworkFromDBByName(homework.getName());
-
-        return res.getId();
+        return (int)db.insert(tableName, "null",values);
     }
 
     public Homework getHomeworkFromDB(int hwId) {
@@ -48,7 +46,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         String selection = "_id =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{String.valueOf(hwId)},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(hwId)},null, null,null , null);
 
         result = fillQueryResultInHomework(cursor);
 
@@ -62,7 +60,7 @@ public class HomeworkManager extends LVMaster3000DBHelper{
         String selection = "name =?";
 
 
-        Cursor cursor = db.query("lecture", columns,selection,new String[]{name},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{name},null, null,null , null);
 
         result = fillQueryResultInHomework(cursor);
 
@@ -87,4 +85,29 @@ public class HomeworkManager extends LVMaster3000DBHelper{
 
         return result;
     }
+
+    public List<Homework> getAllHomeworks(){
+        return new ArrayList<Homework>();
+    }
+
+    public List<Homework> getAllHomeworksOfLecture(int lecId){
+        return new ArrayList<Homework>();
+    }
+
+    private List<Homework> fillQueryResultListIntoHomeworkList(Cursor cursor){
+        return new ArrayList<Homework>();
+    }
+
+    public boolean addWorkmate(int wmId){
+        return true;
+    }
+
+    public boolean addMilestone(int msId){
+        return true;
+    }
+
+    public boolean addLearningMaterials(int lmId){
+        return true;
+    }
+
 }

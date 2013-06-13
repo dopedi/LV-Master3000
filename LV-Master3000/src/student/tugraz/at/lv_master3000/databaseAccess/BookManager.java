@@ -2,7 +2,11 @@ package student.tugraz.at.lv_master3000.databaseAccess;
 
 import android.content.ContentValues;
 import android.content.Context;
-import student.tugraz.at.lv_master3000.Book;
+import android.database.Cursor;
+import student.tugraz.at.lv_master3000.domain.Book;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,11 +40,8 @@ public class BookManager extends LVMaster3000DBHelper{
         values.put("lender_name", book.getLenderName());
         values.put("lender_address", book.getLenderAddress());
 
-        db.insert(tableName, "null", values);
+        return (int)db.insert(tableName, "null", values);
 
-        rowCount++;
-
-        return rowCount-1;
     }
 
 
@@ -59,5 +60,21 @@ public class BookManager extends LVMaster3000DBHelper{
         //Cursor cursor = db.query();
 
         return result;
+    }
+
+    private Book fillQueryResultInBook(Cursor cursor){
+        return null;
+    }
+
+    public List<Book> getAllBooks(){
+        return new ArrayList<Book>();
+    }
+
+    public List<Book> getAllBooksOfLecture(int lecId){
+        return new ArrayList<Book>();
+    }
+
+    private List<Book> fillQueryResultListInBookList(){
+        return new ArrayList<Book>();
     }
 }

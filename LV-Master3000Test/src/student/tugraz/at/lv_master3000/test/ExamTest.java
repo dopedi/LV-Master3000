@@ -1,13 +1,13 @@
 package student.tugraz.at.lv_master3000.test;
 
 import android.test.AndroidTestCase;
-import student.tugraz.at.lv_master3000.Book;
-import student.tugraz.at.lv_master3000.Exam;
-import student.tugraz.at.lv_master3000.Lecture;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Lecture;
 import student.tugraz.at.lv_master3000.databaseAccess.ExamManager;
 import student.tugraz.at.lv_master3000.databaseAccess.LectureManager;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,6 +36,11 @@ public class ExamTest extends AndroidTestCase
         lecture.setId(lectureManager.insertNewLecture(lecture));
     }
 
+    @Override
+    public void tearDown() throws Exception
+    {
+        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     public void testGetterAndSetters() throws Exception
     {
@@ -68,20 +73,31 @@ public class ExamTest extends AndroidTestCase
 
 
         Exam exam = new Exam(lecture.getId());
-        lecture.setDay("Donnerstag");
-        lecture.setMandatory(true);
-        lecture.setPlace("i13");
+        exam.setLocation("i12");
 
-        Integer lecId = null;
+        Integer exId = examManager.insertNewExam(exam);
 
-        lecId = examManager.insertNewExam(exam);
-
-        assertNotNull(lecId);
+        assertNotSame(-1, exId);
     }
 
-    @Override
-    public void tearDown() throws Exception
-    {
-        super.tearDown();    //To change body of overridden methods use File | Settings | File Templates.
+    public void testGetAllExams(){
+        assertNotNull(lecture.getId());
+
+        Exam exam1 = new Exam(lecture.getId());
+        exam1.setLocation("i12");
+
+        examManager.insertNewExam(exam1);
+
+        Exam exam2 = new Exam(lecture.getId());
+        exam2.setLocation("i9");
+
+        examManager.insertNewExam(exam2);
+
+        List<Exam> allExams = examManager.getAllExamsOfLecture(lecture.getId());
+
+        assertEquals(2, allExams.size());
+        assertEquals("i12", allExams.get(0).getLocation());
+        assertEquals("i9", allExams.get(1).getLocation());
     }
+
 }

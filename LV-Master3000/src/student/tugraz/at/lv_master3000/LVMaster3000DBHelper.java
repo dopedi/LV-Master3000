@@ -9,8 +9,8 @@ package student.tugraz.at.lv_master3000;
  */
 
 import android.content.*;
-import android.database.*;
 import android.database.sqlite.*;
+import student.tugraz.at.lv_master3000.domain.Homework;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     private static final String dbname = "LVMaster3000";
