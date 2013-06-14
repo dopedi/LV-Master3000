@@ -112,6 +112,17 @@ public class WorkmateManager extends LVMaster3000DBHelper{
     }
 
     public boolean deleteWorkmate(int wmId){
-        return false;
+        String whereHw2WM = "homework2workmate.workmate = " + wmId;
+        String whereEx2Wm = "exam2workmate.workmate = " + wmId;
+        db.delete("homework2workmate", whereHw2WM, null);
+        db.delete("exam2workmate", whereEx2Wm, null);
+
+        String where =  "workmate._id = " + wmId;
+        int affectedRows = db.delete("workmate",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 }

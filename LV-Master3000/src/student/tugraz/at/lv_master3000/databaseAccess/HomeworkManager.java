@@ -78,7 +78,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-            result.setDueDate(new Date(dateLong));
+            if(dateLong == 0l)
+                result.setDueDate(null);
+            else
+                result.setDueDate(new Date(dateLong));
         }
 
         return result;
@@ -109,7 +112,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
                 result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-                result.setDueDate(new Date(dateLong));
+                if(dateLong == 0)
+                    result.setDueDate(null);
+                else
+                    result.setDueDate(new Date(dateLong));
 
                 resultList.add(result);
             } while (cursor.moveToNext());

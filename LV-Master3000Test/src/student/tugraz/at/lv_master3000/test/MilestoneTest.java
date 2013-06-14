@@ -192,7 +192,32 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testGetFirstMilestoneOfExam(){
+        String description = "this is the next milestone";
 
+        Milestone expired = new Milestone(new Date(112, 1, 1));
+        expired.setDescription("this is the expired milestone");
+        Milestone active = new Milestone(new Date(113,9,9));
+        active.setDescription(description);
+        Milestone late = new Milestone(new Date(114,3,3));
+        late.setDescription("this is the later milestone");
+
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+        int lateId = milestoneManager.insertNewMilestone(late);
+
+        Exam exam = new Exam(lecture.getId());
+        ExamManager exMan = new ExamManager(this.getContext());
+        int exId = exMan.insertNewExam(exam);
+
+        exMan.addMilestoneToExam(expiredId, exId);
+        exMan.addMilestoneToExam(activeId, exId);
+        exMan.addMilestoneToExam(lateId, exId);
+
+        Milestone result = milestoneManager.getFirstMilestoneForExam(exId);
+
+        assertNotNull(result);
+        if(result != null)
+            assertEquals(description, result.getDescription());
     }
 
     public void testGetExpiredMilestonesOfHomework(){
@@ -220,11 +245,37 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testUpdateMilestone(){
+        Milestone ms = new Milestone(new Date(114, 2, 3));
+        Homework hw = new Homework(lecture.getId());
 
+        String desc1 = "number one";
+        String desc2 = "number two";
+
+        ms.setDescription(desc1);
+
+        int msId = milestoneManager.insertNewMilestone(ms);
+
+        ms.setDescription(desc2);
+        boolean worked = milestoneManager.updateMilestone(msId, ms);
+
+        Milestone resultMs = milestoneManager.getMilestoneFromDB(msId);
+
+        assertTrue(worked);
+        assertNotNull(resultMs);
+        if(resultMs != null)
+            assertEquals(desc2, resultMs.getDescription());
     }
 
     public void testDeleteMilestone(){
+        Milestone ms = new Milestone(new Date(113,8,8));
+        int id = milestoneManager.insertNewMilestone(ms);
 
+        boolean worked = milestoneManager.deleteMilestone(id);
+        assertTrue(worked);
+
+        Milestone resultMs = milestoneManager.getMilestoneFromDB(id);
+
+        assertNull(resultMs);
     }
 
     public void testGetAllExpiredMilestones(){
@@ -240,6 +291,10 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testGetAllNextMilestones(){
+
+    }
+
+    public void testUpdateExpiredForAllMilestones(){
 
     }
 }

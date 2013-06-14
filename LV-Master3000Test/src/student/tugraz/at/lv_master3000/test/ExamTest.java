@@ -199,6 +199,30 @@ public class ExamTest extends AndroidTestCase
             assertEquals(2, resultList.size());
     }
 
+    public void testDeleteExam2Milestone(){
+
+    }
+
+    public void testUpdateExam2Milestone(){
+
+    }
+
+    public void testDeleteExam2LearningMaterials(){
+
+    }
+
+    public void testUpdateExam2LearningMaterials(){
+
+    }
+
+    public void testDeleteExam2Workmate(){
+
+    }
+
+    public void testUpdateExam2Workmate(){
+
+    }
+
     public void testValidateExam(){
 
     }

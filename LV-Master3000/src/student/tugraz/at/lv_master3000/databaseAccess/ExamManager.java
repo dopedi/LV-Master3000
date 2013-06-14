@@ -64,7 +64,10 @@ public class ExamManager extends LVMaster3000DBHelper {
             result.setLocation(cursor.getString(cursor.getColumnIndexOrThrow("location")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("exam_date"));
-            result.setDate(new Date(dateLong));
+            if(dateLong == 0l)
+                result.setDate(null);
+            else
+                result.setDate(new Date(dateLong));
         }
 
         return result;
@@ -98,7 +101,10 @@ public class ExamManager extends LVMaster3000DBHelper {
                 exam.setLocation(cursor.getString(cursor.getColumnIndexOrThrow("location")));
 
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("exam_date"));
-                exam.setDate(new Date(dateLong));
+                if(dateLong == 0l)
+                    exam.setDate(null);
+                else
+                    exam.setDate(new Date(dateLong));
 
                 resultList.add(exam);
             } while (cursor.moveToNext());

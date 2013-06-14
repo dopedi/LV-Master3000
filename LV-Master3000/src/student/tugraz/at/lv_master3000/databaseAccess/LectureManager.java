@@ -33,13 +33,7 @@ public class LectureManager extends LVMaster3000DBHelper{
         values.put("mandatory", lecture.getMandatory());
         values.put("location", lecture.getPlace());
         values.put("prof_name", lecture.getProfessorName());
-
-        java.util.Date date = lecture.getDate();
-        java.sql.Date sqlDate;
-        if(date != null){
-            sqlDate = new java.sql.Date(date.getTime());
-            values.put("time", sqlDate.toString());
-        }
+        values.put("time", lecture.getDate());
 
         int id = (int)db.insert(tableName, "null", values);
         lecture.setId(id);
@@ -88,12 +82,7 @@ public class LectureManager extends LVMaster3000DBHelper{
             result.setPlace(cursor.getString(cursor.getColumnIndexOrThrow("location")));
             result.setProfessorName(cursor.getString(cursor.getColumnIndexOrThrow("prof_name")));
             result.setDay(cursor.getString(cursor.getColumnIndexOrThrow("day")));
-            Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
-            if(dateLong != null){
-                java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                java.util.Date date = new java.util.Date(sqlDate.getTime());
-                result.setDate(date);
-            }
+            result.setDate(cursor.getString(cursor.getColumnIndexOrThrow("time")));
         }
 
         return result;
@@ -119,13 +108,7 @@ public class LectureManager extends LVMaster3000DBHelper{
                 lecture.setDay(cursor.getString(cursor.getColumnIndexOrThrow("day")));
                 lecture.setMandatory(cursor.getInt(cursor.getColumnIndexOrThrow("mandatory"))>0);
                 lecture.setPlace(cursor.getString(cursor.getColumnIndexOrThrow("location")));
-
-                Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
-                if(dateLong != null){
-                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                    java.util.Date date = new java.util.Date(sqlDate.getTime());
-                    lecture.setDate(date);
-                }
+                lecture.setDate(cursor.getString(cursor.getColumnIndexOrThrow("time")));
 
                 resultList.add(lecture);
             } while (cursor.moveToNext());
@@ -139,13 +122,13 @@ public class LectureManager extends LVMaster3000DBHelper{
         String today = "";
 
         switch(calendar.get(Calendar.DAY_OF_WEEK)){
-            case 0: today = "Sonntag";break;
-            case 1:today = "Montag";break;
-            case 2:today = "Dienstag"; break;
-            case 3:today = "Mittwoch";break;
-            case 4:today = "Donnerstag";break;
-            case 5:today = "Freitag"; break;
-            case 6:today = "Samstag";break;
+            case 0: today = "sunday";break;
+            case 1:today = "monday";break;
+            case 2:today = "tuesday"; break;
+            case 3:today = "wednesday";break;
+            case 4:today = "thursday";break;
+            case 5:today = "friday"; break;
+            case 6:today = "saturday";break;
         }
 
         String selectQuery = "SELECT  * FROM " + tableName;

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.test.AndroidTestCase;
+import org.apache.http.HttpHost;
 import student.tugraz.at.lv_master3000.databaseAccess.*;
 import student.tugraz.at.lv_master3000.domain.*;
 
@@ -185,6 +186,73 @@ public class HomeworkTest extends AndroidTestCase {
         assertNotNull(resultList);
         if(resultList != null)
             assertEquals(2, resultList.size());
+    }
+
+    public void testDeleteHomework2Milestone(){
+        Milestone ms = new Milestone(new Date(114,3,3));
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        MilestoneManager msMan = new MilestoneManager(this.getContext());
+        int msId = msMan.insertNewMilestone(ms);
+
+        boolean worked = homeworkManager.addMilestoneToHomework(msId, hwId);
+
+        assertTrue(worked);
+
+        msMan.deleteMilestone(msId);
+        List<Milestone> resultList = msMan.getAllMilestonesOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+
+    }
+
+    public void testUpdateHomework2Milestone(){
+
+    }
+
+    public void testDeleteHomework2LearningMaterials(){
+        LearningMaterials lm = new LearningMaterials("test");
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        LearningMaterialsManager lmMan = new LearningMaterialsManager(this.getContext());
+        int lmId = lmMan.insertNewLearningMaterials(lm);
+
+        boolean worked = homeworkManager.addLearningMaterialsToHomework(lmId, hwId);
+
+        assertTrue(worked);
+
+        lmMan.deleteLearningMaterials(lmId);
+        List<LearningMaterials> resultList = lmMan.getAllLearningMaterialsOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateHomework2LearningMaterials(){
+
+    }
+
+    public void testDeleteHomework2Workmate(){
+        Workmate workmate = new Workmate("hansi");
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        WorkmateManager wmMan = new WorkmateManager(this.getContext());
+        int wmId = wmMan.insertNewWorkmate(workmate);
+
+        boolean worked = homeworkManager.addWorkmateToHomework(wmId, hwId);
+
+        assertTrue(worked);
+
+        wmMan.deleteWorkmate(wmId);
+        List<Workmate> resultList = wmMan.getAllWorkmatesOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateHomework2Workmate(){
+
     }
 
     public void testValidateHomework(){

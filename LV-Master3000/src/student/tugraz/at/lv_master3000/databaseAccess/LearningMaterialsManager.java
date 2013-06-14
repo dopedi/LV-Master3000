@@ -109,6 +109,17 @@ public class LearningMaterialsManager extends LVMaster3000DBHelper{
     }
 
     public boolean deleteLearningMaterials(int lmId){
-        return false;
+        String whereHw2Lm = "homework2learning_materials.learning_materials = " + lmId;
+        String whereEx2Lm = "exam2learning_materials.learning_materials = " + lmId;
+        db.delete("homework2learning_materials", whereHw2Lm, null);
+        db.delete("exam2learning_materials", whereEx2Lm, null);
+
+        String where =  "learning_materials._id = " + lmId;
+        int affectedRows = db.delete("learning_materials",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 }

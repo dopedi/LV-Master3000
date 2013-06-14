@@ -15,7 +15,7 @@ public class Lecture
     private String place;
     private String day;
     private String professorName;
-    private Date date;
+    private String date;
     private boolean isMandatory;
     private int id;
 
@@ -56,11 +56,11 @@ public class Lecture
         this.professorName = professorName;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
