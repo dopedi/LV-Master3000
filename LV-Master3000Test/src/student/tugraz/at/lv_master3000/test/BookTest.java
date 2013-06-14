@@ -170,11 +170,30 @@ public class BookTest extends AndroidTestCase
     }
 
     public void testUpdateBook(){
+        String name1 = "herr der ringe";
+        String name2 = "hänschen klein";
 
+        Book book = new Book(name1, lecture.getId());
+        int id = bookManager.insertNewBook(book);
+        book.setBookName(name2);
+
+        boolean worked = bookManager.updateBook(id, book);
+        assertTrue(worked);
+
+        Book result = bookManager.getBookFromDB(id);
+        assertEquals(name2, result.getBookName());
     }
 
     public void testDeleteBook(){
+        Book book = new Book("1", lecture.getId());
 
+        int bookId = bookManager.insertNewBook(book);
+
+        boolean worked = bookManager.deleteBook(bookId);
+        assertTrue(worked);
+
+        Book result = bookManager.getBookFromDB(bookId);
+        assertNull(result);
     }
 
 }

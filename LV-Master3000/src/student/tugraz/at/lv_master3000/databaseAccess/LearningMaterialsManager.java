@@ -105,7 +105,20 @@ public class LearningMaterialsManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateLearningMaterials(int lmId, LearningMaterials newValues){
-        return false;
+        newValues.setId(lmId);
+
+        String updateStmt = " learning_materials._id = " + lmId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("description", newValues.getDescription());
+        values.put("link", newValues.getLink());
+
+        int affectedRows = db.update("learning_materials", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteLearningMaterials(int lmId){

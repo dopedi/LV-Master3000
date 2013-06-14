@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import student.tugraz.at.lv_master3000.R;
+import student.tugraz.at.lv_master3000.domain.Book;
+import student.tugraz.at.lv_master3000.domain.Exam;
+import student.tugraz.at.lv_master3000.domain.Homework;
 import student.tugraz.at.lv_master3000.domain.Lecture;
 
 import java.util.ArrayList;
@@ -20,9 +23,11 @@ import java.util.List;
  */
 public class LectureManager extends LVMaster3000DBHelper{
     private static String tableName = "lecture";
+    private Context ownContext = null;
 
     public LectureManager(Context context) {
         super(context);
+        ownContext = context;
     }
 
     public Integer insertNewLecture(Lecture lecture){
@@ -144,11 +149,53 @@ public class LectureManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateLecture(int lecId, Lecture newValues){
-        return false;
+        newValues.setId(lecId);
+
+        String updateStmt = " lecture._id = " + lecId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("time", newValues.getDate());
+        values.put("name", newValues.getName());
+        values.put("location", newValues.getPlace());
+        values.put("mandatory", newValues.getMandatory());
+        values.put("day", newValues.getDay());
+        values.put("prof_name", newValues.getProfessorName());
+
+        int affectedRows = db.update("lecture", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteLecture(int lecId){
-        return false;
+        HomeworkManager hwMan = new HomeworkManager(ownContext);
+        List<Homework> hwToDelete = hwMan.getAllHomeworksOfLecture(lecId);
+        ExamManager exMan = new ExamManager(ownContext);
+        List<Exam> examsToDelete = exMan.getAllExamsOfLecture(lecId);
+        BookManager bookMan = new BookManager(ownContext);
+        List<Book> booksToDelete = bookMan.getAllBooksOfLecture(lecId);
+
+        for(Homework hw: hwToDelete){
+            hwMan.deleteHomework(hw.getId());
+        }
+
+        for(Exam exam:examsToDelete){
+            exMan.deleteExam(exam.getId());
+        }
+
+        for(Book book: booksToDelete){
+            bookMan.deleteBook(book.getId());
+        }
+
+        String where =  "lecture._id = " + lecId;
+        int affectedRows = db.delete("lecture",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     /*   THESE METHODS ARE MAYBE UNNECESSARY

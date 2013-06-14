@@ -171,10 +171,40 @@ public class ExamManager extends LVMaster3000DBHelper {
     }
 
     public boolean updateExam(int exId, Exam newValues){
-        return false;
+        newValues.setId(exId);
+
+        String updateStmt = " exam._id = " + exId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("location", newValues.getLocation());
+        if(newValues.getDate() != null)
+            values.put("exam_date", newValues.getDate().getTime());
+        else
+            values.put("exam_date", 0l);
+        values.put("lecture", newValues.getLectureId());
+
+        int affectedRows = db.update("exam", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteExam(int exId){
-        return false;
+        String whereEx2Ms = "exam2milestone.exam = " + exId;
+        String whereEx2Wm = "exam2workmate.exam = " + exId;
+        String whereEx2Lm = "exam2learning_materials.exam = " + exId;
+        db.delete("exam2milestone", whereEx2Ms, null);
+        db.delete("exam2workmate", whereEx2Wm, null);
+        db.delete("exam2learning_materials", whereEx2Lm, null);
+
+        String where =  "exam._id = " + exId;
+        int affectedRows = db.delete("exam",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 }

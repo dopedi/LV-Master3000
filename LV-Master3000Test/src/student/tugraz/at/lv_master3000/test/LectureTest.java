@@ -162,11 +162,55 @@ public class LectureTest extends AndroidTestCase
     }
 
     public void testUpdateLecture(){
+        String name1  = "russisch";
+        String name2 = "spanisch";
 
+        Lecture lecture = new Lecture(name1);
+
+        int id = dbManager.insertNewLecture(lecture);
+        lecture.setName(name2);
+        boolean worked = dbManager.updateLecture(id, lecture);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(id);
+        assertEquals(name2, result.getName());
     }
 
     public void testDeleteLecture(){
+        Lecture lecture = new Lecture("robot vision");
+        int id = dbManager.insertNewLecture(lecture);
 
+        boolean worked = dbManager.deleteLecture(id);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(id);
+
+        assertNull(result);
+    }
+
+    public void testReferentialIntegrityForDelete(){
+        Lecture lecture = new Lecture("robot vision");
+        int lecId = dbManager.insertNewLecture(lecture);
+
+        Homework hw = new Homework(lecId);
+        HomeworkManager hwMan =  new HomeworkManager(this.getContext());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        Exam ex = new Exam(lecId);
+        ExamManager exMan = new ExamManager(this.getContext());
+        int exId = exMan.insertNewExam(ex);
+
+        boolean worked = dbManager.deleteLecture(lecId);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(lecId);
+        assertNull(result);
+
+        Exam resultEx = exMan.getExamFromDB(exId);
+        assertNull(resultEx);
+
+        Homework resultHw = hwMan.getHomeworkFromDB(hwId);
+        assertNull(resultHw);
     }
 
     /*  THESE TESTS ARE MAYBE UNNECESSARY

@@ -108,7 +108,21 @@ public class WorkmateManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateWorkmate(int wmId, Workmate newValues){
-        return false;
+        newValues.setId(wmId);
+
+        String updateStmt = " workmate._id = " + wmId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("mobile", newValues.getCellPhoneNr());
+        values.put("email", newValues.getEmail());
+        values.put("name", newValues.getName());
+
+        int affectedRows = db.update("workmate", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteWorkmate(int wmId){

@@ -141,10 +141,37 @@ public class BookManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateBook(int bookId, Book newValues){
-        return false;
+        newValues.setId(bookId);
+
+        String updateStmt = " book._id = " + bookId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("lender_address", newValues.getLenderAddress());
+        if(newValues.getDueDate() != null)
+            values.put("due_date", newValues.getDueDate().getTime());
+        else
+            values.put("due_date", 0l);
+        values.put("name", newValues.getBookName());
+        values.put("lender_name", newValues.getLenderName());
+        values.put("author", newValues.getAuthorName());
+        values.put("lecture", newValues.getLecture());
+
+        int affectedRows = db.update("book", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteBook(int bookId){
-        return false;
+
+        String where =  "book._id = " + bookId;
+        int affectedRows = db.delete("book",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 }
