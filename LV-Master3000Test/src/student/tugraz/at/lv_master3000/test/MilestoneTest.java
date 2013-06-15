@@ -59,6 +59,7 @@ public class MilestoneTest extends AndroidTestCase{
 
         Milestone ms = new Milestone(date);
         ms.setDescription(description);
+        ms.setFinished(true);
 
         int msId = milestoneManager.insertNewMilestone(ms);
 
@@ -71,6 +72,7 @@ public class MilestoneTest extends AndroidTestCase{
 
         Milestone milestone = new Milestone(date);
         milestone.setDescription(description);
+        milestone.setFinished(true);
 
         int msId = milestoneManager.insertNewMilestone(milestone);
         assertNotSame(-1, msId);
@@ -84,6 +86,7 @@ public class MilestoneTest extends AndroidTestCase{
             resDesc = result.getDescription();
 
         assertEquals(description, resDesc);
+        assertTrue(result.isFinished());
 
     }
 
@@ -256,6 +259,7 @@ public class MilestoneTest extends AndroidTestCase{
         int msId = milestoneManager.insertNewMilestone(ms);
 
         ms.setDescription(desc2);
+        ms.setExpired(true);
         boolean worked = milestoneManager.updateMilestone(msId, ms);
 
         Milestone resultMs = milestoneManager.getMilestoneFromDB(msId);
@@ -264,6 +268,7 @@ public class MilestoneTest extends AndroidTestCase{
         assertNotNull(resultMs);
         if(resultMs != null)
             assertEquals(desc2, resultMs.getDescription());
+        assertTrue(resultMs.isExpired());
     }
 
     public void testDeleteMilestone(){
@@ -295,6 +300,19 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testUpdateExpiredForAllMilestones(){
+        Milestone expired = new Milestone(new Date(111,2,2));
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        Milestone farAway = new Milestone(new Date(120, 3, 3));
+        int farAwayId = milestoneManager.insertNewMilestone(farAway);
+
+        int affected = milestoneManager.updateExpiredForAllMilestones();
+
+        Milestone resultExpired = milestoneManager.getMilestoneFromDB(expiredId);
+        Milestone resultFarAway = milestoneManager.getMilestoneFromDB(farAwayId);
+
+        assertEquals(1, affected);
+        assertEquals(true, resultExpired.isExpired());
+        assertEquals(false, resultFarAway.isExpired());
 
     }
 }

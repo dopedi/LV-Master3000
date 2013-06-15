@@ -101,6 +101,7 @@ public class LectureTest extends AndroidTestCase
             resultName = result.getName();
 
         assertEquals("mobapp", resultName);
+        assertTrue(result.getMandatory());
     }
 
     public void testGetAllLectures(){
@@ -169,11 +170,13 @@ public class LectureTest extends AndroidTestCase
 
         int id = dbManager.insertNewLecture(lecture);
         lecture.setName(name2);
+        lecture.setMandatory(true);
         boolean worked = dbManager.updateLecture(id, lecture);
         assertTrue(worked);
 
         Lecture result = dbManager.getLectureFromDB(id);
         assertEquals(name2, result.getName());
+        assertTrue(result.getMandatory());
     }
 
     public void testDeleteLecture(){

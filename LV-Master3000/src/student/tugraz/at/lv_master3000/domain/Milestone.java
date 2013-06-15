@@ -17,6 +17,12 @@ public class Milestone {
     private boolean finished;
     private boolean expired;
 
+    public Milestone(Date date){
+        this.date = date;
+        this.expired = false;
+        this.finished = false;
+    }
+
     public boolean isFinished() {
         return finished;
     }
@@ -31,10 +37,6 @@ public class Milestone {
 
     public void setExpired(boolean expired) {
         this.expired = expired;
-    }
-
-    public Milestone(Date date){
-        this.date = date;
     }
 
     public int getId() {

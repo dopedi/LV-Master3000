@@ -24,6 +24,7 @@ import java.util.List;
 public class LectureManager extends LVMaster3000DBHelper{
     private static String tableName = "lecture";
     private Context ownContext = null;
+    private String[] columns = new String[]{"_id","name", "location", "day", "time", "prof_name", "mandatory"};
 
     public LectureManager(Context context) {
         super(context);
@@ -51,9 +52,8 @@ public class LectureManager extends LVMaster3000DBHelper{
     public Lecture getLectureFromDB(int id){
         Lecture result = null;
 
-        String[] columns = new String[]{"_id","name", "location", "day", "time", "prof_name", "mandatory"};
-        String selection = "_id =?";
 
+        String selection = "_id =?";
 
         Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(id)},null, null,null , null);
 
@@ -63,17 +63,11 @@ public class LectureManager extends LVMaster3000DBHelper{
     }
 
     public Lecture getLectureFromDBByName(String name) {
-        Lecture result = null;
-
-        String[] columns = new String[]{"_id","name", "location", "day", "time", "prof_name", "mandatory"};
         String selection = "name =?";
-
 
         Cursor cursor = db.query(tableName, columns,selection,new String[]{name},null, null,null , null);
 
-        result = fillQueryResultInLecture(cursor);
-
-        return result;
+        return fillQueryResultInLecture(cursor);
     }
 
     private Lecture fillQueryResultInLecture(Cursor cursor){

@@ -169,8 +169,14 @@ public class MilestoneManager extends LVMaster3000DBHelper{
         return resultList.get(0);
     }
 
-    public void updateExpiredForAllMilestones(){
+    public int updateExpiredForAllMilestones(){
+        long today = new Date().getTime();
+        String where = "milestone.milestone_date < " + today;
 
+        ContentValues values = new ContentValues();
+        values.put("expired", true);
+
+        return db.update("milestone", values,where,  null);
     }
 
     public List<Milestone> getExpiredMilestonesForExam(int exId){
@@ -225,6 +231,8 @@ public class MilestoneManager extends LVMaster3000DBHelper{
         values.put("_id", newValues.getId());
         values.put("description", newValues.getDescription());
         values.put("milestone_date", newValues.getDate().getTime());
+        values.put("expired", newValues.isExpired());
+        values.put("finished", newValues.isFinished());
 
         int affectedRows = db.update("milestone", values,updateStmt , null);
 

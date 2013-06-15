@@ -22,6 +22,7 @@ public class Lecture
     public Lecture(String name)
     {
         this.name = name;
+        this.isMandatory = false;
     }
 
     public String getName() {
