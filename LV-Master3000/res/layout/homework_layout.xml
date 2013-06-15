@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:gravity="fill_vertical">
+
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@id/row01" android:showDividers="middle"
+            >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/lecture"
+                android:id="@id/lecture_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold" android:layout_margin="7dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/lecture_name_fill_text"
+                android:id="@id/lecture_field" android:layout_weight="0.7" android:layout_margin="7dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row01"
+            android:id="@id/row02" android:showDividers="middle" android:padding="7dp"
+            >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:id="@id/day_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/homework_name_fill_text"
+                android:id="@id/name_field" android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row02"
+            android:id="@id/row03" android:showDividers="middle" android:padding="7dp"
+            >
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:id="@id/time_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date_fill_text"
+                android:id="@id/date_field" android:layout_weight="0.7" android:clickable="true"
+                android:editable="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row03"
+            android:id="@id/row04"
+            android:showDividers="none">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@id/place_field_label" android:enabled="false" android:visibility="invisible"
+                android:layout_weight="0.1"/>
+        <CheckBox
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/milestone"
+                android:id="@id/checkbox_field" android:checked="false" android:textStyle="bold"
+                android:layout_gravity="center" android:layout_weight="0.9"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_alignLeft="@id/row01" android:layout_below="@id/row04"
+            android:id="@id/row05" android:showDividers="none" android:paddingLeft="20dp" android:paddingRight="20dp"
+            android:paddingTop="20dp">
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/milestones"
+                android:id="@id/milestone_btn" android:layout_gravity="center"
+                />
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/comrades"
+                android:id="@id/comrades_btn" android:layout_gravity="center"
+                />
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/learning_materials"
+                android:id="@id/learning_materials_btn" android:layout_gravity="center"
+                />
+    </LinearLayout>
+</RelativeLayout>

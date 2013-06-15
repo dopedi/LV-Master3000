@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-
-    <ExpandableListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/top3ExpandableList" android:layout_gravity="center|top"
-            android:footerDividersEnabled="true"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal|bottom">
-        <Button
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:text="Top 3"
-                android:id="@+id/top3Button"/>
-        <Button
-                android:layout_width="160dp"
-                android:layout_height="wrap_content"
-                android:text="All"
-                android:id="@+id/allButton"/>
-    </LinearLayout>
-</LinearLayout>
+	    <ExpandableListView
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:id="@+id/top3ExpandableList" 
+	            android:layout_gravity="center|top"
+	            android:footerDividersEnabled="true"/>
+</RelativeLayout>

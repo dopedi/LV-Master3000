@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@id/row01" android:padding="7dp">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:id="@id/date_field_label" android:layout_weight="0.3" android:textStyle="bold"
+                android:gravity="center_horizontal"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/date_fill_text"
+                android:id="@id/date_field" android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row01"
+            android:id="@id/row02" android:padding="7dp">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:id="@+id/textView" android:layout_weight="0.3" android:textStyle="bold"
+                android:gravity="center_horizontal"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView1" android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row02"
+            android:id="@+id/linearLayout">
+        <EditText
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/description_fill_text"
+                android:id="@+id/editText" android:layout_gravity="center" android:lines="10"/>
+    </LinearLayout>
+</RelativeLayout>

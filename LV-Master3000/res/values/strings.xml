@@ -2,15 +2,77 @@
 <resources>
 
     <string name="app_name">LV-Master3000</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="back">zurück</string>
-    <string name="sunday">Sonntag</string>
-    <string name="monday">Montag</string>
-    <string name="tuesday">Dienstag</string>
-    <string name="wednesday">Mittwoch</string>
-    <string name="thursday">Donnerstag</string>
-    <string name="friday">Freitag</string>
-    <string name="saturday">Samstag</string>
+    <string name="back">back</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
+
+    <string name="day_prompt">Choose a day</string>
+
+    <string-array name="day_of_week">
+        <item>back</item>
+        <item>Sunday</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
+
+    <string name="lectures">Lectures</string>
+    <string name="homework">Homework</string>
+    <string name="exams">Exams</string>
+    <string name="books">Books</string>
+    <string name="milestones">Milestones</string>
+    <string name="comrades">Comrades</string>
+    <string name="learning_materials">Learning Materials</string>
+    <string name="add_new">Add New</string>
+    <string name="okay">OK</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="top_3">Top 3</string>
+    <string name="all">All</string>
+
+    <string name="lecture">Lecture</string>
+    <string name="name">Name</string>
+    <string name="day">Day</string>
+    <string name="time">Time</string>
+    <string name="mandatory_lecture">Mandatory Lecture</string>
+
+    <string name="date">Date</string>
+    <string name="place">Place</string>
+    <string name="milestone">Milestone</string>
+
+    <string name="book_name">Book Name</string>
+    <string name="author">Author</string>
+    <string name="lender">Lender</string>
+    <string name="due_date">Due Date</string>
+    <string name="address">Address</string>
+
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="url">URL</string>
+    <string name="description">Description</string>
+
+    <string name="lecture_name_fill_text">Lecture Name...</string>
+    <string name="time_fill_text">Choose Time...</string>
+    <string name="date_fill_text">Choose Date...</string>
+    <string name="place_name_fill_text">Place...</string>
+    <string name="homework_name_fill_text">Homework Name...</string>
+    <string name="author_name_fill_text">Author Name...</string>
+    <string name="book_name_fill_text">Book Name...</string>
+    <string name="lender_name_fill_text">Lender Name...</string>
+    <string name="comrade_name_fill_text">Comrade Name...</string>
+    <string name="address_fill_text">Address...</string>
+    <string name="email_fill_text">Email...</string>
+    <string name="phone_fill_text">Phone...</string>
+    <string name="description_fill_text">Description...</string>
+    <string name="link_fill_text">Where on the web...</string>
+
 
 </resources>

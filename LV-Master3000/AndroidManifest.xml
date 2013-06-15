@@ -12,7 +12,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:uiOptions="splitActionBarWhenNarrow">
 
         <activity android:name=".Activities.MainActivity" android:label="LV-Master 3000">
             <intent-filter>
@@ -22,6 +23,7 @@
         </activity>
         <!-- <uses-library android:name="android.database.sqlite" /> -->
         <activity android:name=".Activities.AllActivity" android:label="LV-Master 3000"/>
+        <activity android:name=".Activities.BaseActivity"/>
     </application>  
 
 </manifest>

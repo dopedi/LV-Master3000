@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="menu_all"/>
+    <item type="id" name="menu_top_3"/>
+
+    <item type="id" name="lecture_btn"/>
+    <item type="id" name="homework_btn"/>
+    <item type="id" name="exams_btn"/>
+    <item type="id" name="books_btn"/>
+    <item type="id" name="milestone_btn"/>
+    <item type="id" name="comrades_btn"/>
+    <item type="id" name="learning_materials_btn"/>
+    <item type="id" name="okay_btn"/>
+    <item type="id" name="cancel_btn"/>
+
+    <item type="id" name="add_new_btn"/>
+
+    <item type="id" name="checkbox_field"/>
+
+    <item type="id" name="comrade_name_field"/>
+
+    <item type="id" name="name_field"/>
+    <item type="id" name="name_field_label"/>
+
+    <item type="id" name="day_field"/>
+    <item type="id" name="day_field_label"/>
+
+    <item type="id" name="time_field"/>
+    <item type="id" name="time_field_label"/>
+
+    <item type="id" name="lecture_field"/>
+    <item type="id" name="lecture_field_label"/>
+
+    <item type="id" name="date_field"/>
+    <item type="id" name="date_field_label"/>
+
+    <item type="id" name="place_field"/>
+    <item type="id" name="place_field_label"/>
+
+    <item type="id" name="author_field"/>
+    <item type="id" name="author_field_label"/>
+
+    <item type="id" name="book_field"/>
+    <item type="id" name="book_field_label"/>
+
+    <item type="id" name="address_field"/>
+    <item type="id" name="address_field_label"/>
+
+    <item type="id" name="lender_name_field"/>
+    <item type="id" name="lender_name_field_label"/>
+
+    <item type="id" name="description_field"/>
+    <item type="id" name="description_field_label"/>
+
+    <item type="id" name="email_field"/>
+    <item type="id" name="email_field_label"/>
+
+    <item type="id" name="phone_field"/>
+    <item type="id" name="phone_field_label"/>
+
+    <item type="id" name="link_field"/>
+    <item type="id" name="link_field_label"/>
+
+
+    <item type="id" name="row01"/>
+    <item type="id" name="row02"/>
+    <item type="id" name="row03"/>
+    <item type="id" name="row04"/>
+    <item type="id" name="row05"/>
+    <item type="id" name="row06"/>
+    <item type="id" name="row07"/>
+
+
+</resources>

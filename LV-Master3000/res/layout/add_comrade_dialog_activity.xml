@@ -1,0 +1,55 @@
+<RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@id/row01" android:showDividers="middle">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:id="@id/name_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold" android:layout_margin="7dp"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/comrade_name_fill_text"
+                android:id="@id/comrade_name_field" android:layout_weight="0.7" android:layout_margin="7dp"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row01"
+            android:id="@id/row02" android:showDividers="middle" android:padding="7dp">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:id="@id/email_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/email_fill_text"
+                android:id="@id/email_field" android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_alignLeft="@id/row01" android:layout_below="@id/row02"
+            android:id="@id/row03" android:showDividers="middle" android:padding="7dp">
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/phone"
+                android:id="@id/phone_field_label" android:layout_weight="0.3" android:gravity="center_horizontal"
+                android:textStyle="bold"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/phone_fill_text"
+                android:id="@id/phone_field" android:layout_weight="0.7" android:clickable="true"
+                android:editable="true"/>
+    </LinearLayout>
+</RelativeLayout>
