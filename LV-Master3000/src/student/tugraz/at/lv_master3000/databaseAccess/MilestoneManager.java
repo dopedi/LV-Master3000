@@ -227,7 +227,17 @@ public class MilestoneManager extends LVMaster3000DBHelper{
     }
 
     public List<Milestone> getActiveMilestonesForHomework(int hwId){
-        return null;
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM milestone";
+        selectQuery += " INNER JOIN homework2milestone WHERE homework2milestone.homework = " + hwId;
+        selectQuery += " AND milestone._id = homework2milestone.milestone AND milestone.milestone_date >= " + today;
+        selectQuery += " ORDER BY milestone.milestone_date ASC;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        return fillQueryResultListInMilestoneList(cursor);
     }
 
     public List<Milestone> getAllNextMilestones(){
