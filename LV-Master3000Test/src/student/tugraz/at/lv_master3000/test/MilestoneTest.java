@@ -224,11 +224,45 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testGetExpiredMilestonesOfHomework(){
+        Milestone expired = new Milestone(new Date(112,2,2));
+        Milestone active = new Milestone(new Date(144,3,3));
 
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+
+        Homework hw = new Homework(lecture.getId());
+        HomeworkManager hwMan = new HomeworkManager(this.getContext());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        hwMan.addMilestoneToHomework(expiredId, hwId);
+        hwMan.addMilestoneToHomework(activeId, hwId);
+
+        List<Milestone> expiredList = milestoneManager.getExpiredMilestonesForHomework(hwId);
+
+        assertNotNull(expiredList);
+        assertEquals(1, expiredList.size());
+        assertEquals(expiredId, expiredList.get(0).getId());
     }
 
     public void testGetExpiredMilestonesOfExam(){
+        Milestone expired = new Milestone(new Date(112,2,2));
+        Milestone active = new Milestone(new Date(144,3,3));
 
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+
+        Exam exam = new Exam(lecture.getId());
+        ExamManager exMan = new ExamManager(this.getContext());
+        int exId = exMan.insertNewExam(exam);
+
+        exMan.addMilestoneToExam(expiredId, exId);
+        exMan.addMilestoneToExam(activeId, exId);
+
+        List<Milestone> expiredList = milestoneManager.getExpiredMilestonesForExam(exId);
+
+        assertNotNull(expiredList);
+        assertEquals(1, expiredList.size());
+        assertEquals(expiredId, expiredList.get(0).getId());
     }
 
     public void testGetFinishedMilestonesOfHomework(){
@@ -240,11 +274,71 @@ public class MilestoneTest extends AndroidTestCase{
     }
 
     public void testGetActiveMilestonesOfHomework(){
+        String description1 = "this is the next milestone";
+        String desc2 = "this is also active";
 
+        Milestone expired = new Milestone(new Date(112, 1, 1));
+        expired.setDescription("this is the expired milestone");
+        Milestone active = new Milestone(new Date(113,9,9));
+        active.setDescription(description1);
+        Milestone late = new Milestone(new Date(114,3,3));
+        late.setDescription(desc2);
+
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+        int lateId = milestoneManager.insertNewMilestone(late);
+
+        Homework hw = new Homework(lecture.getId());
+        HomeworkManager hwMan = new HomeworkManager(this.getContext());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        hwMan.addMilestoneToHomework(expiredId, hwId);
+        hwMan.addMilestoneToHomework(activeId, hwId);
+        hwMan.addMilestoneToHomework(lateId, hwId);
+
+        List<Milestone> resultList = milestoneManager.getActiveMilestonesForHomework(hwId);
+
+        assertNotNull(resultList);
+        assertEquals(2, resultList.size());
+        boolean twoCorrectOnes = false;
+        if(resultList.get(0).getDescription().equals(description1) || resultList.get(0).getDescription().equals(desc2))
+            if(resultList.get(1).getDescription().equals(description1) || resultList.get(1).getDescription().equals(desc2))
+                twoCorrectOnes = true;
+        assertTrue(twoCorrectOnes);
     }
 
     public void testGetActiveMilestonesOfExam(){
+        String description1 = "this is the next milestone";
+        String desc2 = "this is also active";
 
+        Milestone expired = new Milestone(new Date(112, 1, 1));
+        expired.setDescription("this is the expired milestone");
+        Milestone active = new Milestone(new Date(113,9,9));
+        active.setDescription(description1);
+        Milestone late = new Milestone(new Date(114,3,3));
+        late.setDescription(desc2);
+
+        int expiredId = milestoneManager.insertNewMilestone(expired);
+        int activeId = milestoneManager.insertNewMilestone(active);
+        int lateId = milestoneManager.insertNewMilestone(late);
+
+        Exam exam = new Exam(lecture.getId());
+        ExamManager exMan = new ExamManager(this.getContext());
+        int exId = exMan.insertNewExam(exam);
+
+        exMan.addMilestoneToExam(expiredId, exId);
+        exMan.addMilestoneToExam(activeId, exId);
+        exMan.addMilestoneToExam(lateId, exId);
+
+        List<Milestone> resultList = milestoneManager.getActiveMilestonesForExam(exId);
+
+        assertNotNull(resultList);
+        assertEquals(2, resultList.size());
+        boolean twoCorrectOnes = false;
+        if(resultList.get(0).getDescription().equals(description1) || resultList.get(0).getDescription().equals(desc2))
+            if(resultList.get(1).getDescription().equals(description1) || resultList.get(1).getDescription().equals(desc2))
+                twoCorrectOnes = true;
+        assertTrue(twoCorrectOnes);
     }
 
     public void testUpdateMilestone(){
