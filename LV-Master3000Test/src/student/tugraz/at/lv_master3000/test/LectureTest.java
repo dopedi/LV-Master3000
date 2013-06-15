@@ -45,7 +45,7 @@ public class LectureTest extends AndroidTestCase
         String professorName = "Testo Testic";
         String lecturePlace = "Somewhere";
         String lectureDay = "MTWTFSS";
-        Date lectureDate = new Date(2013, 6, 6);
+        String lectureDate = "13:30";
         boolean isMandatory = false;
 
 
@@ -135,13 +135,13 @@ public class LectureTest extends AndroidTestCase
         String tomorrow = "";
 
         switch(calendar.get(Calendar.DAY_OF_WEEK)){
-            case 0: today = "Sonntag"; tomorrow = "Montag";break;
-            case 1:today = "Montag"; tomorrow = "Dienstag";break;
-            case 2:today = "Dienstag";tomorrow = "Mittwoch";break;
-            case 3:today = "Mittwoch";tomorrow = "Donnerstag";break;
-            case 4:today = "Donnerstag";tomorrow = "Freitag";break;
-            case 5: today = "Freitag";tomorrow = "Samstag";break;
-            case 6:today = "Samstag";tomorrow = "Sonntag";break;
+            case 0: today = "sunday"; tomorrow = "monday";break;
+            case 1:today = "monday"; tomorrow = "tuesday";break;
+            case 2:today = "tuesday";tomorrow = "wednesday";break;
+            case 3:today = "wednesday";tomorrow = "thursday";break;
+            case 4:today = "thursday";tomorrow = "friday";break;
+            case 5: today = "friday";tomorrow = "saturday";break;
+            case 6:today = "saturday";tomorrow = "sunday";break;
         }
 
         active2.setDay(today);
@@ -152,7 +152,8 @@ public class LectureTest extends AndroidTestCase
         List<Lecture> resultList = dbManager.getNextLectures();
 
         assertNotNull(resultList);
-        if(resultList != null)
+        assertNotSame(0, resultList.size());
+        if(resultList != null && resultList.size() != 0)
             assertEquals(today, resultList.get(0).getDay());
     }
 
@@ -161,11 +162,55 @@ public class LectureTest extends AndroidTestCase
     }
 
     public void testUpdateLecture(){
+        String name1  = "russisch";
+        String name2 = "spanisch";
 
+        Lecture lecture = new Lecture(name1);
+
+        int id = dbManager.insertNewLecture(lecture);
+        lecture.setName(name2);
+        boolean worked = dbManager.updateLecture(id, lecture);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(id);
+        assertEquals(name2, result.getName());
     }
 
     public void testDeleteLecture(){
+        Lecture lecture = new Lecture("robot vision");
+        int id = dbManager.insertNewLecture(lecture);
 
+        boolean worked = dbManager.deleteLecture(id);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(id);
+
+        assertNull(result);
+    }
+
+    public void testReferentialIntegrityForDelete(){
+        Lecture lecture = new Lecture("robot vision");
+        int lecId = dbManager.insertNewLecture(lecture);
+
+        Homework hw = new Homework(lecId);
+        HomeworkManager hwMan =  new HomeworkManager(this.getContext());
+        int hwId = hwMan.insertNewHomework(hw);
+
+        Exam ex = new Exam(lecId);
+        ExamManager exMan = new ExamManager(this.getContext());
+        int exId = exMan.insertNewExam(ex);
+
+        boolean worked = dbManager.deleteLecture(lecId);
+        assertTrue(worked);
+
+        Lecture result = dbManager.getLectureFromDB(lecId);
+        assertNull(result);
+
+        Exam resultEx = exMan.getExamFromDB(exId);
+        assertNull(resultEx);
+
+        Homework resultHw = hwMan.getHomeworkFromDB(hwId);
+        assertNull(resultHw);
     }
 
     /*  THESE TESTS ARE MAYBE UNNECESSARY

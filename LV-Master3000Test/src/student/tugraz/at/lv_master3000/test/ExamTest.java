@@ -199,15 +199,104 @@ public class ExamTest extends AndroidTestCase
             assertEquals(2, resultList.size());
     }
 
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteExam2Milestone(){
+        Milestone ms = new Milestone(new Date(114,3,3));
+        Exam ex = new Exam(lecture.getId());
+
+        int exId = examManager.insertNewExam(ex);
+        MilestoneManager msMan = new MilestoneManager(this.getContext());
+        int msId = msMan.insertNewMilestone(ms);
+
+        boolean worked = examManager.addMilestoneToExam(msId, exId);
+
+        assertTrue(worked);
+
+        msMan.deleteMilestone(msId);
+        List<Milestone> resultList = msMan.getAllMilestonesOfExam(exId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateExam2Milestone(){
+
+    }
+
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteExam2LearningMaterials(){
+        LearningMaterials lm = new LearningMaterials("faq");
+        Exam ex = new Exam(lecture.getId());
+
+        int exId = examManager.insertNewExam(ex);
+        LearningMaterialsManager lmMan = new LearningMaterialsManager(this.getContext());
+        int lmId  = lmMan.insertNewLearningMaterials(lm);
+
+        boolean worked = examManager.addLearningMaterialsToExam(lmId, exId);
+
+        assertTrue(worked);
+
+        lmMan.deleteLearningMaterials(lmId);
+        List<LearningMaterials> resultList = lmMan.getAllLearningMaterialsOfExam(exId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateExam2LearningMaterials(){
+
+    }
+
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteExam2Workmate(){
+        Workmate wm = new Workmate("sepp");
+        Exam ex = new Exam(lecture.getId());
+
+        int exId = examManager.insertNewExam(ex);
+        WorkmateManager wmMan = new WorkmateManager(this.getContext());
+        int wmId = wmMan.insertNewWorkmate(wm);
+
+        boolean worked = examManager.addWorkmateToExam(wmId, exId);
+
+        assertTrue(worked);
+
+        wmMan.deleteWorkmate(wmId);
+        List<Workmate> resultList = wmMan.getAllWorkmatesOfExam(exId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateExam2Workmate(){
+
+    }
+
     public void testValidateExam(){
 
     }
 
     public void testUpdateExam(){
+        String loc1 = "i12";
+        String loc2 = "i13";
 
+        Exam exam = new Exam(lecture.getId());
+        exam.setLocation(loc1);
+        int id = examManager.insertNewExam(exam);
+        exam.setLocation(loc2);
+
+        boolean worked = examManager.updateExam(id, exam);
+        assertTrue(worked);
+
+        Exam result = examManager.getExamFromDB(id);
+        assertEquals(loc2, result.getLocation());
     }
 
     public void testDeleteExam(){
+        Exam ex = new Exam(lecture.getId());
 
+        int exId = examManager.insertNewExam(ex);
+
+        boolean worked = examManager.deleteExam(exId);
+        assertTrue(worked);
+
+        Exam result = examManager.getExamFromDB(exId);
+        assertNull(result);
     }
 }

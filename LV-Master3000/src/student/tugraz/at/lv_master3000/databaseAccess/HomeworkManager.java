@@ -78,7 +78,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
             result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-            result.setDueDate(new Date(dateLong));
+            if(dateLong == 0l)
+                result.setDueDate(null);
+            else
+                result.setDueDate(new Date(dateLong));
         }
 
         return result;
@@ -109,7 +112,10 @@ public class HomeworkManager extends LVMaster3000DBHelper{
                 result.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("due_date"));
-                result.setDueDate(new Date(dateLong));
+                if(dateLong == 0)
+                    result.setDueDate(null);
+                else
+                    result.setDueDate(new Date(dateLong));
 
                 resultList.add(result);
             } while (cursor.moveToNext());
@@ -176,11 +182,41 @@ public class HomeworkManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateHomework(int hwId, Homework newValues){
-        return false;
+        newValues.setId(hwId);
+
+        String updateStmt = " homework._id = " + hwId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("lecture", newValues.getLecture());
+        if(newValues.getDueDate() != null)
+            values.put("due_date", newValues.getDueDate().getTime());
+        else
+            values.put("due_date", 0l);
+        values.put("name", newValues.getName());
+
+        int affectedRows = db.update("homework", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteHomework(int hwId){
-        return false;
+        String whereHw2Ms = "homework2milestone.homework = " + hwId;
+        String whereHw2Wm = "homework2workmate.homework = " + hwId;
+        String whereHw2Lm = "homework2learning_materials.homework = " + hwId;
+        db.delete("homework2milestone", whereHw2Ms, null);
+        db.delete("homework2workmate", whereHw2Wm, null);
+        db.delete("homework2learning_materials", whereHw2Lm, null);
+
+        String where =  "homework._id = " + hwId;
+        int affectedRows = db.delete("homework",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import android.test.AndroidTestCase;
+import org.apache.http.HttpHost;
 import student.tugraz.at.lv_master3000.databaseAccess.*;
 import student.tugraz.at.lv_master3000.domain.*;
 
@@ -187,16 +188,106 @@ public class HomeworkTest extends AndroidTestCase {
             assertEquals(2, resultList.size());
     }
 
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteHomework2Milestone(){
+        Milestone ms = new Milestone(new Date(114,3,3));
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        MilestoneManager msMan = new MilestoneManager(this.getContext());
+        int msId = msMan.insertNewMilestone(ms);
+
+        boolean worked = homeworkManager.addMilestoneToHomework(msId, hwId);
+
+        assertTrue(worked);
+
+        msMan.deleteMilestone(msId);
+        List<Milestone> resultList = msMan.getAllMilestonesOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+
+    }
+
+    public void testUpdateHomework2Milestone(){
+
+    }
+
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteHomework2LearningMaterials(){
+        LearningMaterials lm = new LearningMaterials("test");
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        LearningMaterialsManager lmMan = new LearningMaterialsManager(this.getContext());
+        int lmId = lmMan.insertNewLearningMaterials(lm);
+
+        boolean worked = homeworkManager.addLearningMaterialsToHomework(lmId, hwId);
+
+        assertTrue(worked);
+
+        lmMan.deleteLearningMaterials(lmId);
+        List<LearningMaterials> resultList = lmMan.getAllLearningMaterialsOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateHomework2LearningMaterials(){
+
+    }
+
+    // tests the referential integrity: if reference is deleted, then also the referee
+    public void testDeleteHomework2Workmate(){
+        Workmate workmate = new Workmate("hansi");
+        Homework hw = new Homework(lecture.getId());
+
+        int hwId = homeworkManager.insertNewHomework(hw);
+        WorkmateManager wmMan = new WorkmateManager(this.getContext());
+        int wmId = wmMan.insertNewWorkmate(workmate);
+
+        boolean worked = homeworkManager.addWorkmateToHomework(wmId, hwId);
+
+        assertTrue(worked);
+
+        wmMan.deleteWorkmate(wmId);
+        List<Workmate> resultList = wmMan.getAllWorkmatesOfHomework(hwId);
+
+        assertEquals(0, resultList.size());
+    }
+
+    public void testUpdateHomework2Workmate(){
+
+    }
+
     public void testValidateHomework(){
 
     }
 
     public void testUpdateHomework(){
+        String desc1 = "assignment 1";
+        String desc2 = "assignment 2";
 
+        Homework homework = new Homework(lecture.getId());
+        homework.setName(desc1);
+        int id = homeworkManager.insertNewHomework(homework);
+        homework.setName(desc2);
+
+        boolean worked = homeworkManager.updateHomework(id, homework);
+        assertTrue(worked);
+
+        Homework result = homeworkManager.getHomeworkFromDB(id);
+        assertEquals(desc2, result.getName());
     }
 
     public void testDeleteHomework(){
+        Homework hw = new Homework(lecture.getId());
 
+        int hwId = homeworkManager.insertNewHomework(hw);
+
+        boolean worked = homeworkManager.deleteHomework(hwId);
+        assertTrue(worked);
+
+        Homework result = homeworkManager.getHomeworkFromDB(hwId);
+        assertNull(result);
     }
 
 }

@@ -156,9 +156,32 @@ public class WorkmateTest extends AndroidTestCase{
 
     public void testUpdateWorkmate(){
 
+        String name1 = "number one";
+        String name2 = "number two";
+        Workmate wm = new Workmate(name1);
+
+        int wmId = workmateManager.insertNewWorkmate(wm);
+
+        wm.setName(name2);
+        boolean worked = workmateManager.updateWorkmate(wmId, wm);
+
+        Workmate resultWm = workmateManager.getWorkmateFromDB(wmId);
+
+        assertTrue(worked);
+        assertNotNull(resultWm);
+        if(resultWm != null)
+            assertEquals(name2, resultWm.getName());
     }
 
     public void testDeleteWorkmate(){
+        Workmate wm = new Workmate("hubert");
+        int id = workmateManager.insertNewWorkmate(wm);
 
+        boolean worked = workmateManager.deleteWorkmate(id);
+        assertTrue(worked);
+
+        Workmate resultWm = workmateManager.getWorkmateFromDB(id);
+
+        assertNull(resultWm);
     }
 }

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import student.tugraz.at.lv_master3000.domain.Milestone;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
  */
 public class MilestoneManager extends LVMaster3000DBHelper{
     private static final String tableName = "milestone";
-    private static final String[] columns = new String[]{"_id","milestone_date", "description"};
+    private static final String[] columns = new String[]{"_id","milestone_date", "description", "expired", "finished"};
 
     public MilestoneManager(Context context) {
         super(context);
@@ -26,13 +27,12 @@ public class MilestoneManager extends LVMaster3000DBHelper{
     public Integer insertNewMilestone(Milestone milestone){
         ContentValues values = new ContentValues();
         values.put("description", milestone.getDescription());
-
-        java.util.Date date = milestone.getDate();
-        java.sql.Date sqlDate;
-        if(date != null){
-            sqlDate = new java.sql.Date(date.getTime());
-            values.put("milestone_date", sqlDate.toString());
-        }
+        values.put("expired", milestone.isExpired());
+        values.put("finished", milestone.isFinished());
+        if(milestone.getDate() == null)
+            values.put("milestone_date", 0l);
+        else
+            values.put("milestone_date", milestone.getDate().getTime());
 
         int id = (int)db.insert(tableName, "null", values);
         milestone.setId(id);
@@ -40,10 +40,10 @@ public class MilestoneManager extends LVMaster3000DBHelper{
         return id;
     }
 
-    public Milestone getMilestoneFromDB(int wmId){
+    public Milestone getMilestoneFromDB(int msId){
         String selection = "_id =?";
 
-        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(wmId)},null, null,null , null);
+        Cursor cursor = db.query(tableName, columns,selection,new String[]{String.valueOf(msId)},null, null,null , null);
 
         return fillQueryResultInMilestone(cursor);
     }
@@ -65,14 +65,15 @@ public class MilestoneManager extends LVMaster3000DBHelper{
         if(cursor.moveToFirst()){
 
             Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("milestone_date"));
-            if(dateLong != null){
-                java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                java.util.Date date = new java.util.Date(sqlDate.getTime());
-                result = new Milestone(date);
-            }
+            if(dateLong == 0l)
+                return null;
+            else
+                result = new Milestone(new Date(dateLong));
 
             result.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
             result.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+            result.setExpired(cursor.getInt(cursor.getColumnIndexOrThrow("expired")) > 0);
+            result.setExpired(cursor.getInt(cursor.getColumnIndexOrThrow("finished")) > 0);
         }
 
         return result;
@@ -86,17 +87,18 @@ public class MilestoneManager extends LVMaster3000DBHelper{
             do {
                 Milestone milestone = null;
                 Long dateLong = cursor.getLong(cursor.getColumnIndexOrThrow("milestone_date"));
-                if(dateLong != null){
-                    java.sql.Date sqlDate = new java.sql.Date(dateLong);
-                    java.util.Date date = new java.util.Date(sqlDate.getTime());
-                    milestone = new Milestone(date);
-                }
+                if(dateLong == 0l)
+                    return null;
+                else
+                    milestone = new Milestone(new Date(dateLong));
 
                 if(milestone == null)
                     continue;
 
                 milestone.setDescription(cursor.getString(cursor.getColumnIndexOrThrow("description")));
                 milestone.setId(cursor.getInt(cursor.getColumnIndexOrThrow("_id")));
+                milestone.setExpired(cursor.getInt(cursor.getColumnIndexOrThrow("expired")) > 0);
+                milestone.setExpired(cursor.getInt(cursor.getColumnIndexOrThrow("finished")) > 0);
 
                 resultList.add(milestone);
             } while (cursor.moveToNext());
@@ -129,6 +131,46 @@ public class MilestoneManager extends LVMaster3000DBHelper{
 
     public List<Milestone> getNextMilestonesForHomework(int hwId){
         return null;
+    }
+
+    public Milestone getFirstMilestoneForExam(int exId){
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM milestone";
+        selectQuery += " INNER JOIN exam2milestone WHERE exam2milestone.exam = " + exId;
+        selectQuery += " AND milestone._id = exam2milestone.milestone AND milestone.milestone_date >= " + today;
+        selectQuery += " ORDER BY milestone.milestone_date ASC;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        List<Milestone> resultList = fillQueryResultListInMilestoneList(cursor);
+        if(resultList == null || resultList.size() == 0)
+            return null;
+
+        return resultList.get(0);
+    }
+
+    public Milestone getFirstMilestoneForHomework(int hwId){
+        long today = new Date().getTime();
+
+        String selectQuery = "SELECT  * FROM milestone";
+        selectQuery += " INNER JOIN homework2milestone WHERE homework2milestone.homework = " + hwId;
+        selectQuery += " AND milestone._id = homework2milestone.milestone AND milestone.milestone_date >= " + today;
+        selectQuery += " ORDER BY milestone.milestone_date ASC;";
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        List<Milestone> resultList = fillQueryResultListInMilestoneList(cursor);
+        if(resultList == null || resultList.size() == 0)
+            return null;
+
+        return resultList.get(0);
+    }
+
+    public void updateExpiredForAllMilestones(){
+
     }
 
     public List<Milestone> getExpiredMilestonesForExam(int exId){
@@ -176,10 +218,35 @@ public class MilestoneManager extends LVMaster3000DBHelper{
     }
 
     public boolean updateMilestone(int msId, Milestone newValues){
-        return false;
+        newValues.setId(msId);
+
+        String updateStmt = " milestone._id = " + msId;
+        ContentValues values = new ContentValues();
+        values.put("_id", newValues.getId());
+        values.put("description", newValues.getDescription());
+        values.put("milestone_date", newValues.getDate().getTime());
+
+        int affectedRows = db.update("milestone", values,updateStmt , null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 
     public boolean deleteMilestone(int msId){
-        return false;
+
+        String whereHw2Ms = "homework2milestone.milestone = " + msId;
+        String whereEx2Ms = "exam2milestone.milestone = " + msId;
+        db.delete("homework2milestone", whereHw2Ms, null);
+        db.delete("exam2milestone", whereEx2Ms, null);
+
+        String where =  "milestone._id = " + msId;
+        int affectedRows = db.delete("milestone",where, null);
+
+        if(affectedRows == 1)
+            return true;
+        else
+            return false;
     }
 }

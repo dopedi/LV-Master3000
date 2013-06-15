@@ -14,7 +14,7 @@ import java.io.*;
 
 public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     protected static final String dbname = "LVMaster3000";
-    private static int dbversion = 17;
+    private static int dbversion = 18;
     protected static int MAX_ELEMENTS_FOR_QUERY = 3;
     private static final String createHomework = "create table homework "
     +"( _id integer primary key,name text, due_date long, lecture integer not null );";//references lecture(_id));";
@@ -35,7 +35,7 @@ public class LVMaster3000DBHelper extends SQLiteOpenHelper{
     +"link text, description text);";
 
     private static final String createMilestone = "create table milestone (_id integer primary key, "
-    +"milestone_date long not null, description text);";
+    +"milestone_date long not null, description text, expired boolean, finished boolean);";
 
     private static final String createExam2Workmate = "create table exam2workmate (_id integer primary key, exam integer not null, "
     +"workmate integer not null);";

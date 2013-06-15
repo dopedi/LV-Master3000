@@ -157,9 +157,32 @@ public class LearningMaterialsTest extends AndroidTestCase{
 
     public void testUpdateLearningMaterials(){
 
+        String desc1 = "number one";
+        String desc2 = "number two";
+        LearningMaterials lm = new LearningMaterials(desc1);
+
+        int lmId = learningMaterialsManager.insertNewLearningMaterials(lm);
+
+        lm.setDescription(desc2);
+        boolean worked = learningMaterialsManager.updateLearningMaterials(lmId, lm);
+
+        LearningMaterials resultLm = learningMaterialsManager.getLearningMaterialsFromDB(lmId);
+
+        assertTrue(worked);
+        assertNotNull(resultLm);
+        if(resultLm != null)
+            assertEquals(desc2, resultLm.getDescription());
     }
 
     public void testDeleteLearningMaterials(){
+        LearningMaterials lm = new LearningMaterials("lies mich");
+        int id = learningMaterialsManager.insertNewLearningMaterials(lm);
 
+        boolean worked = learningMaterialsManager.deleteLearningMaterials(id);
+        assertTrue(worked);
+
+        LearningMaterials resultLm = learningMaterialsManager.getLearningMaterialsFromDB(id);
+
+        assertNull(resultLm);
     }
 }
