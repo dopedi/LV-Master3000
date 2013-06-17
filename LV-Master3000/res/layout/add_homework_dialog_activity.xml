@@ -19,7 +19,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/link_fill_text"
-                android:id="@id/link_field" android:layout_weight="0.7"/>
+                android:id="@id/link_field" android:layout_weight="0.7" android:editable="true"
+                android:clickable="true"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="horizontal"
@@ -35,7 +36,7 @@
         <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView1" android:layout_weight="0.7"/>
+                android:id="@+id/textView1" android:layout_weight="0.7" android:visibility="invisible"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
@@ -46,6 +47,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/description_fill_text"
-                android:id="@+id/editText" android:layout_gravity="center" android:lines="10"/>
+                android:id="@+id/editText" android:layout_gravity="center" android:lines="10" android:editable="true"
+                android:clickable="true"/>
     </LinearLayout>
 </RelativeLayout>

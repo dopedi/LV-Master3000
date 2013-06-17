@@ -24,6 +24,10 @@
         <!-- <uses-library android:name="android.database.sqlite" /> -->
         <activity android:name=".Activities.AllActivity" android:label="LV-Master 3000"/>
         <activity android:name=".Activities.BaseActivity"/>
+        <activity android:name=".Activities.BookActivity"/>
+        <activity android:name=".Activities.HomeworkActivity"/>
+        <activity android:name=".Activities.ExamActivity"/>
+        <activity android:name=".Activities.LectureActivity"/>
     </application>  
 
 </manifest>
